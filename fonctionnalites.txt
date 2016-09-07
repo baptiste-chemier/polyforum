@@ -1,1 +1,19 @@
-Fonctionnalités que doit comporter l'appli PolyForum 
+FonctionnalitÃ©s que doit comporter l'appli PolyForum 
+
+Enregistrement d'une entreprise / Import d'une liste excel
+Enregistrement d'un candidat/ Import d'une liste excel
+Enregistrement d'une salle/ Import d'une liste excel
+
+Pour une entreprise : - modifier son profil ( nom, contact, plage horaire disponible..)
+                      - choix des voeux
+                      - supprimer
+                      
+Pour un  candidat : - modifier son profil ( nom, contact, ..)
+                    - choix des voeux 
+                    - supprimer
+                    
+Pour une salle :  - modifier les nombre d'entreprise qu'elle peut accuellir
+                  - supprimer
+                  
+Faire l'emploi du temps automatique
+Editer l'emploi du temps
