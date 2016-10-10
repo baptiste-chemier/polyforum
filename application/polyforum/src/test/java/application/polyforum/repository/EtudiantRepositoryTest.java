@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -11,27 +12,40 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import application.polyforum.config.ContextConfig;
 import application.polyforum.model.Etudiant;
-import org.junit.Assert;
 
+/**
+ * The Class EtudiantRepositoryTest.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={ContextConfig.class})
+@ContextConfiguration(classes = { ContextConfig.class })
 public class EtudiantRepositoryTest {
 
-	@Resource
-	private EtudiantRepository etudiantRepository;
-	
-	@Test
-	public void getEtudiant() {
-		Long id = 1L;
-		Etudiant etudiant = etudiantRepository.getEtudiant(id);
-		Assert.assertNotNull(etudiant);
-		Assert.assertEquals(id, etudiant.getEtudiantId());
-	}
-	
-	@Test
-	public void getAll() {
-		List<Etudiant> listEtudiants = etudiantRepository.getAll();
-		Assert.assertNotNull(listEtudiants);
-		Assert.assertTrue(listEtudiants.size() > 0);
-	}
+    /** The etudiant repository. */
+    @Resource
+    private EtudiantRepository etudiantRepository;
+
+    /**
+     * Gets the etudiant.
+     *
+     * @return the etudiant
+     */
+    @Test
+    public void getEtudiant() {
+        final Long id = 1L;
+        final Etudiant etudiant = this.etudiantRepository.getEtudiant(id);
+        Assert.assertNotNull(etudiant);
+        Assert.assertEquals(id, etudiant.getEtudiantId());
+    }
+
+    /**
+     * Gets the all.
+     *
+     * @return the all
+     */
+    @Test
+    public void getAll() {
+        final List<Etudiant> listEtudiants = this.etudiantRepository.getAll();
+        Assert.assertNotNull(listEtudiants);
+        Assert.assertTrue(listEtudiants.size() > 0);
+    }
 }

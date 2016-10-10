@@ -9,20 +9,27 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 
+/**
+ * The Class WebAppInitializer.
+ */
 public class WebAppInitializer implements WebApplicationInitializer {
 
-	@Override
-	public void onStartup(ServletContext servletContext) throws ServletException {
-		AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-		rootContext.register(ContextConfig.class);
-		servletContext.addListener(new ContextLoaderListener(rootContext));
-  
-		AnnotationConfigWebApplicationContext dispatcherServlet = new AnnotationConfigWebApplicationContext();
-		dispatcherServlet.register(WebMvcConfig.class);
+    /*
+     * (non-Javadoc)
+     * @see org.springframework.web.WebApplicationInitializer#onStartup(javax.servlet.ServletContext)
+     */
+    @Override
+    public void onStartup(final ServletContext servletContext) throws ServletException {
+        final AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+        rootContext.register(ContextConfig.class);
+        servletContext.addListener(new ContextLoaderListener(rootContext));
 
-		ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherServlet));
-		dispatcher.setLoadOnStartup(1);
-		dispatcher.addMapping("/");
-	}
-	
+        final AnnotationConfigWebApplicationContext dispatcherServlet = new AnnotationConfigWebApplicationContext();
+        dispatcherServlet.register(WebMvcConfig.class);
+
+        final ServletRegistration.Dynamic dispatcher = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherServlet));
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping("/");
+    }
+
 }

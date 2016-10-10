@@ -12,20 +12,35 @@ import org.springframework.web.bind.annotation.RestController;
 import application.polyforum.model.Etudiant;
 import application.polyforum.repository.EtudiantRepository;
 
+/**
+ * The Class EtudiantController.
+ */
 @RestController
 @RequestMapping(value = "/api")
 public class EtudiantController {
 
-	@Resource
-	private EtudiantRepository etudiantRepository;
-	
-	@RequestMapping(value = "/etudiant/{etudiantId}", method = RequestMethod.GET)
-	public Etudiant getEtudiant(@PathVariable Long etudiantId) {
-		return etudiantRepository.getEtudiant(etudiantId);
-	}
-	
-	@RequestMapping(value = "/listEtudiants", method = RequestMethod.GET)
-	public List<Etudiant> getListEtudiants() {
-		return etudiantRepository.getAll();
-	}
+    /** The etudiant repository. */
+    @Resource
+    private EtudiantRepository etudiantRepository;
+
+    /**
+     * Gets the etudiant.
+     *
+     * @param etudiantId the etudiant id
+     * @return the etudiant
+     */
+    @RequestMapping(value = "/etudiant/{etudiantId}", method = RequestMethod.GET)
+    public Etudiant getEtudiant(@PathVariable final Long etudiantId) {
+        return this.etudiantRepository.getEtudiant(etudiantId);
+    }
+
+    /**
+     * Gets the list etudiants.
+     *
+     * @return the list etudiants
+     */
+    @RequestMapping(value = "/listEtudiants", method = RequestMethod.GET)
+    public List<Etudiant> getListEtudiants() {
+        return this.etudiantRepository.getAll();
+    }
 }

@@ -19,36 +19,62 @@ import application.polyforum.config.ContextConfig;
 import application.polyforum.config.WebMvcConfig;
 import application.polyforum.repository.EtudiantRepository;
 
+/**
+ * The Class EtudiantControllerTest.
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {ContextConfig.class, WebMvcConfig.class})
+@ContextConfiguration(classes = { ContextConfig.class, WebMvcConfig.class })
 @WebAppConfiguration
 public class EtudiantControllerTest {
 
-    @Resource 
+    /** The wac. */
+    @Resource
     private WebApplicationContext wac;
-    
+
+    /** The etudiant repository mock. */
     @Resource
     private EtudiantRepository etudiantRepositoryMock;
-    
+
+    /** The mock mvc. */
     private MockMvc mockMvc;
-    
+
+    /**
+     * Inits the.
+     */
     @Before
     public void init() {
-    	this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
-   }
-    
-   @Test
-   public void checkGetEtudiantByIdUrl() throws Exception {
-	   mockMvc.perform(MockMvcRequestBuilders.get("/api/etudiant/1")).andExpect(MockMvcResultMatchers.status().isOk());
+        this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+    }
 
-   }
-   @Test
-   public void checkGetListEtudiantsUrl() throws Exception{
-       mockMvc.perform(MockMvcRequestBuilders.get("/api/listEtudiants")).andExpect(MockMvcResultMatchers.status().isOk());
-   }
-   
-   @Test
-   public void getListEtudiants() throws Exception{
-       mockMvc.perform(MockMvcRequestBuilders.get("/api/listEtudiants")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(11)));
-   }
+    /**
+     * Check get etudiant by id url.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void checkGetEtudiantByIdUrl() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/etudiant/1")).andExpect(MockMvcResultMatchers.status().isOk());
+
+    }
+
+    /**
+     * Check get list etudiants url.
+     *
+     * @throws Exception the exception
+     */
+    @Test
+    public void checkGetListEtudiantsUrl() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/listEtudiants")).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    /**
+     * Gets the list etudiants.
+     *
+     * @return the list etudiants
+     * @throws Exception the exception
+     */
+    @Test
+    public void getListEtudiants() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/listEtudiants")).andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(11)));
+    }
 }
