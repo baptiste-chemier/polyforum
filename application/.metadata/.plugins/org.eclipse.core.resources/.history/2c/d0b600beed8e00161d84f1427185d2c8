@@ -1,0 +1,7 @@
+package application.polyforum.config;
+
+@Configuration
+@ComponentScan(value = ("application.polyforum.repository"))
+public class ContextConfig {
+
+}

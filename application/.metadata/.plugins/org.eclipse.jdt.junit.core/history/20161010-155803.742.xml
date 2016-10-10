@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="EtudiantRepositoryTest" project="polyforum" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="application.polyforum.repository.EtudiantRepositoryTest" time="0.373">
+    <testcase name="getAll" classname="application.polyforum.repository.EtudiantRepositoryTest" time="0.195"/>
+    <testcase name="getEtudiant" classname="application.polyforum.repository.EtudiantRepositoryTest" time="0.177"/>
+  </testsuite>
+</testrun>

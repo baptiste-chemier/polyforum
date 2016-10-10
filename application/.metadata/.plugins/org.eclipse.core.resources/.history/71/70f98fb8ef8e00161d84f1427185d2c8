@@ -1,0 +1,6 @@
+package application.polyforum.repository;
+
+@Repository
+public class EtudiantRepositoryImpl implements EtudiantRepository {
+
+}

@@ -1,0 +1,14 @@
+package application.polyforum.repository;
+
+public interface EtudiantRepository {
+
+	List<Etudiant> getAll();
+	
+	Etudiant getEtudiant(Long etudiantId);
+	
+	void ajouterEtudiant(Etudiant etudiant);
+	
+	void supprimerEtudiant(Long etudiantId);
+	
+	void modifierEtudiant(Long etudiantId);
+}

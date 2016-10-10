@@ -1,0 +1,19 @@
+package application.polyforum.config;
+
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+
+@Configuration
+@ComponentScan(value = ("application.polyforum.repository"))
+public class ContextConfig {
+
+	@Bean
+	public DataSource dataSource() {
+		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
+		builder.addScript();
+		builder.addScript(script);
+		
+		return builder.build();
+	}
+}

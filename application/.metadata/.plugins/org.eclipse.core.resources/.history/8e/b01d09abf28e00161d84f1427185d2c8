@@ -1,0 +1,16 @@
+package application.polyforum.controller;
+
+import application.polyforum.repository.EtudiantRepository;
+
+@RestController
+@RequestMapping(value = "/api")
+public class EtudiantController {
+
+	@Resource
+	private EtudiantRepository etudiantRepository;
+	
+	@RequestMapping(value = "/etudiant/{etudiantId}", method = RequestMethod.GET)
+	public Etudiant getEtudiant(@PathVariable Long etudiantId) {
+		return etudiantRepository.getEtudiant(etudiantId);
+	}
+}

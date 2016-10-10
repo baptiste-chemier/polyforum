@@ -1,0 +1,8 @@
+package application.polyforum.controller;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {ContextConfig.class, WebMvcConfig.class})
+@WebAppConfiguration
+public class EtudiantControllerTest {
+
+}
