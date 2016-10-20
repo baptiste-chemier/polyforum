@@ -1,0 +1,8 @@
+package application.polyforum.config;
+
+@EnableWebMvc
+@Configuration
+@ComponentScan(basePackages={"application.polyforum.web"})
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
+
+}

@@ -1,0 +1,5 @@
+package application.polyforum.config;
+
+public class WebAppInitializer {
+
+}
