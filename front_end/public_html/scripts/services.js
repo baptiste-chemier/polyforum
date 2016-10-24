@@ -28,7 +28,7 @@ services.factory('UsersRest', ['$http', 'Config',
         return userRest;
 
         function getUsers() {
-            var url = Config.urlServer + Config.urlGetUser;
+            var url = Config.urlServer + Config.urlGetUsers;
 
             return $http.get(url);
         }
