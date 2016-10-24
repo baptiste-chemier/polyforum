@@ -33,3 +33,24 @@ controllers.controller('Apropos', ['$rootScope', '$location',
 
         $rootScope.title = "A propos";
     }]);
+
+controllers.controller('UsersCtrl', ['UsersRest',
+    function (UsersRest) {
+        var UsersCtrl = this;
+
+        //Récupère une promise
+        var usersPromise = UsersRest.getUsers();
+
+        /* Si la requête aboutit (code 200) on affecte le jSon retourné
+         * à la variable employeesCtrl.employees qui sera affichée
+         * par la vue employees.html
+         */
+        usersPromise.success(function (data) {
+            if (data.length > 0) { //si la liste n'est pas vide
+                usersPromise.users = data;
+            }
+        }).error(function (data) { //Si la requête a provoqué une erreur (code 404)
+            UsersCtrl.error = data //On affiche l'erreur brute     
+            alert(UsersCtrl.error);
+        })
+    }]);

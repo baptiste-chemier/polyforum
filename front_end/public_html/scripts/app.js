@@ -7,5 +7,9 @@ app.config(['$routeProvider',
                     templateUrl: 'partials/apropos.html',
                     controller: 'Apropos as apropos'
                 })
+                .when('/users', {
+                    templateUrl: 'partials/users.html',
+                    controller: 'UsersCtrl as usersCtrl'
+                }) 
     }]);
 
