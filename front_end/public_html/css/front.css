@@ -27,15 +27,16 @@
     text-align: center;
     font-size: 14px;
     padding:15px 0px;
-    .picture {
-        border-radius: 45px;
-        height: 64px;
-        width: 64px;
-    }
 }
-.disconnect{
+.nav-side-menu .user-block  .disconnect{
     padding: 0px;
     margin-left: -15px;
+}
+.nav-side-menu .user-block .picture {
+    border-radius: 45px;
+    height: 64px;
+    width: 64px;
+    margin-left: 10px;
 }
 .nav-side-menu .toggle-btn {
     display: none;
