@@ -1,8 +1,0 @@
-package application.polyforum.model;
-
-public class Etudiant {
-	private Long etudiantId;
-	private String nom;
-	private String prenom;
-	private String email;
-}
