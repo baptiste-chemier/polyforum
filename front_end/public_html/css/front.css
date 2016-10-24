@@ -28,7 +28,7 @@
     font-size: 14px;
     padding:15px 0px;
     .picture {
-        border-radius: 10px;
+        border-radius: 45px;
         height: 64px;
         width: 64px;
     }
@@ -193,4 +193,68 @@ body {
     .main-content {
         padding-left: 300px;
     }
+}
+
+/*******************************************************************
+********************************************************************
+***************************** A Propos *****************************
+/*******************************************************************
+********************************************************************/
+
+.aPropos {
+    margin: 0;
+    padding: 0px 5px;
+}
+.aPropos h1 {
+    color:#009bdc;
+    font-weight: bold;
+}
+.aPropos .infos, 
+.aPropos .team, 
+.aPropos .contact{
+    margin: 10px 0px;
+    padding: 10px 0px 10px 20px;
+    background-color: #eeeeee;
+    box-shadow: 4px 4px #bbbbbb;
+    line-height: 30px;
+}
+.aPropos .infos a {
+    color:#009bdc;
+    font-weight: bold;
+}
+.aPropos .team span {
+    font-weight: bold;
+}
+.aPropos .team .members {
+    margin-top:20px;
+}
+.aPropos .team .members .picture {
+    border-radius: 45px;
+    height: 64px;
+    width: 64px;
+}
+.aPropos .team .members .rowName {
+    margin-top: 15px;
+}
+.aPropos .team .members .name {
+    text-align: center;
+    text-decoration: none;
+    font-size: 25px;
+    font-weight: bold;
+    color: #009bdc;
+}
+.aPropos .team .members .linkedin {
+    color: #23282e;
+}
+.aPropos .team .members .linkedin:hover, 
+.aPropos .team .members .name:hover{
+    color: #0177B5;
+}
+
+.aPropos .contact span {
+    font-weight: bold;
+}
+.aPropos .contact a {
+    color: #009bdc;
+    font-weight: bold;
 }
