@@ -17,6 +17,13 @@ public interface UtilisateurDao {
     public void addUtilisateur(Utilisateur utilisateur);
 
     /**
+     * Update utilisateur.
+     *
+     * @param utilisateur the utilisateur
+     */
+    public void updateUtilisateur(Utilisateur utilisateur);
+
+    /**
      * Gets the utilisateur by id.
      *
      * @param id the id

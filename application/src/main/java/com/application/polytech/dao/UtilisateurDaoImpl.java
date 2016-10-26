@@ -2,27 +2,18 @@ package com.application.polytech.dao;
 
 import java.util.List;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.hibernate.Criteria;
+import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.stereotype.Repository;
 
 import com.application.polytech.model.Utilisateur;
 
 /**
  * The Class UtilisateurDaoImpl.
  */
-public class UtilisateurDaoImpl implements UtilisateurDao {
-
-    /** The session factory. */
-    @Autowired
-    SessionFactory sessionFactory;
-
-    /** The session. */
-    Session session = null;
-
-    /** The tx. */
-    Transaction tx = null;
+@Repository("utilisateurDao")
+public class UtilisateurDaoImpl extends AbstractDao implements UtilisateurDao {
 
     /*
      * (non-Javadoc)
@@ -30,12 +21,16 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
      */
     @Override
     public void addUtilisateur(final Utilisateur utilisateur) {
-        this.session = this.sessionFactory.openSession();
-        this.tx = this.session.beginTransaction();
-        this.session.save(utilisateur);
-        this.tx.commit();
-        this.session.close();
+        this.persist(utilisateur);
+    }
 
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.UtilisateurDao#updateUtilisateur(com.application.polytech.model.Utilisateur)
+     */
+    @Override
+    public void updateUtilisateur(final Utilisateur utilisateur) {
+        this.getSession().update(utilisateur);
     }
 
     /*
@@ -44,12 +39,9 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
      */
     @Override
     public Utilisateur getUtilisateurById(final Long id) {
-        this.session = this.sessionFactory.openSession();
-        final Utilisateur utilisateur = (Utilisateur) this.session.load(Utilisateur.class, new Long(id));
-        this.tx = this.session.getTransaction();
-        this.session.beginTransaction();
-        this.tx.commit();
-        return utilisateur;
+        final Criteria criteria = this.getSession().createCriteria(Utilisateur.class);
+        criteria.add(Restrictions.eq("id", id));
+        return (Utilisateur) criteria.uniqueResult();
     }
 
     /*
@@ -58,27 +50,18 @@ public class UtilisateurDaoImpl implements UtilisateurDao {
      */
     @Override
     public List<Utilisateur> getAll() {
-        this.session = this.sessionFactory.openSession();
-        this.tx = this.session.beginTransaction();
-        final List<Utilisateur> utilisateurList = this.session.createCriteria(Utilisateur.class).list();
-        this.tx.commit();
-        this.session.close();
-        return utilisateurList;
+        final Criteria criteria = this.getSession().createCriteria(Utilisateur.class);
+        return criteria.list();
     }
 
-    /**
-     * Delete utilisateur.
-     *
-     * @param id the id
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.UtilisateurDao#deleteUtilisateur(java.lang.Long)
      */
     @Override
     public void deleteUtilisateur(final Long id) {
-        this.session = this.sessionFactory.openSession();
-        final Object o = this.session.load(Utilisateur.class, id);
-        this.tx = this.session.getTransaction();
-        this.session.beginTransaction();
-        this.session.delete(o);
-        this.tx.commit();
+        final Query query = this.getSession().createSQLQuery("DELETE FROM Utilisateur WHERE id = :id");
+        query.setLong("id", id);
+        query.executeUpdate();
     }
-
 }

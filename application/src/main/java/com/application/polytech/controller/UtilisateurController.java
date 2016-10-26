@@ -40,6 +40,16 @@ public class UtilisateurController {
     }
 
     /**
+     * Update utilisateur.
+     *
+     * @param utilisateur the utilisateur
+     */
+    @RequestMapping(value = "/modifier", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody void updateUtilisateur(@RequestBody final Utilisateur utilisateur) {
+        this.dataServices.updateUtilisateur(utilisateur);
+    }
+
+    /**
      * Gets the utilisateur by id.
      *
      * @param id the id
