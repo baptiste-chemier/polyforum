@@ -64,4 +64,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public void deleteUtilisateur(final Long id) {
         this.utilisateurDao.deleteUtilisateur(id);
     }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.UtilisateurService#connecter(java.lang.String, java.lang.String)
+     */
+    @Override
+    public Utilisateur connecter(final String login, final String password) {
+        return this.utilisateurDao.connecter(login, password);
+    }
 }

@@ -57,6 +57,10 @@ public class Utilisateur implements Serializable {
     @Column(name = "date_fin_dispo")
     private Date date_fin_dispo;
 
+    /** The password. */
+    @Column(name = "password", nullable = false)
+    private String password;
+
     /**
      * Gets the id.
      *
@@ -208,5 +212,23 @@ public class Utilisateur implements Serializable {
      */
     public static long getSerialversionuid() {
         return serialVersionUID;
+    }
+
+    /**
+     * Gets the password.
+     *
+     * @return the password
+     */
+    public String getPassword() {
+        return this.password;
+    }
+
+    /**
+     * Sets the password.
+     *
+     * @param password the new password
+     */
+    public void setPassword(final String password) {
+        this.password = password;
     }
 }

@@ -24,7 +24,7 @@ public class UtilisateurController {
 
     /** The data services. */
     @Autowired
-    UtilisateurService dataServices;
+    UtilisateurService utilisateurService;
 
     /** The Constant logger. */
     static final Logger logger = Logger.getLogger(UtilisateurController.class);
@@ -36,7 +36,7 @@ public class UtilisateurController {
      */
     @RequestMapping(value = "/ajouter", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody void addUtilisateur(@RequestBody final Utilisateur utilisateur) {
-        this.dataServices.addUtilisateur(utilisateur);
+        this.utilisateurService.addUtilisateur(utilisateur);
     }
 
     /**
@@ -46,7 +46,7 @@ public class UtilisateurController {
      */
     @RequestMapping(value = "/modifier", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody void updateUtilisateur(@RequestBody final Utilisateur utilisateur) {
-        this.dataServices.updateUtilisateur(utilisateur);
+        this.utilisateurService.updateUtilisateur(utilisateur);
     }
 
     /**
@@ -59,7 +59,7 @@ public class UtilisateurController {
     public @ResponseBody Utilisateur getUtilisateurById(@PathVariable("id") final Long id) {
         Utilisateur utilisateur = null;
         try {
-            utilisateur = this.dataServices.getUtilisateurById(id);
+            utilisateur = this.utilisateurService.getUtilisateurById(id);
 
         } catch (final Exception e) {
             e.printStackTrace();
@@ -76,7 +76,7 @@ public class UtilisateurController {
     public @ResponseBody List<Utilisateur> getAll() {
         List<Utilisateur> listUtilisateur = null;
         try {
-            listUtilisateur = this.dataServices.getAll();
+            listUtilisateur = this.utilisateurService.getAll();
 
         } catch (final Exception e) {
             e.printStackTrace();
@@ -91,6 +91,22 @@ public class UtilisateurController {
      */
     @RequestMapping(value = "supprimer/{id}", method = RequestMethod.GET)
     public @ResponseBody void deleteUtilisateur(@PathVariable("id") final Long id) {
-        this.dataServices.deleteUtilisateur(id);
+        this.utilisateurService.deleteUtilisateur(id);
+    }
+
+    /**
+     * Connecter.
+     *
+     * @param login the login
+     * @param password the password
+     * @return the boolean
+     */
+    @RequestMapping(value = "connecter", method = RequestMethod.POST)
+    public @ResponseBody Boolean connecter(@PathVariable("login") final String login, @PathVariable("password") final String password) {
+        if (this.utilisateurService.connecter(login, password) != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

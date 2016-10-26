@@ -44,4 +44,13 @@ public interface UtilisateurService {
      * @param id the id
      */
     public void deleteUtilisateur(Long id);
+
+    /**
+     * Connecter.
+     *
+     * @param login the login
+     * @param password the password
+     * @return the utilisateur
+     */
+    public Utilisateur connecter(String login, String password);
 }
