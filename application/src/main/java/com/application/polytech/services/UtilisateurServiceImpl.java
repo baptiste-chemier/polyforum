@@ -3,6 +3,8 @@ package com.application.polytech.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.application.polytech.dao.UtilisateurDao;
 import com.application.polytech.model.Utilisateur;
@@ -10,6 +12,8 @@ import com.application.polytech.model.Utilisateur;
 /**
  * The Class DataServicesImpl.
  */
+@Service("utilisateurService")
+@Transactional
 public class UtilisateurServiceImpl implements UtilisateurService {
 
     /** The utilisateur dao. */
@@ -23,6 +27,15 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public void addUtilisateur(final Utilisateur utilisateur) {
         this.utilisateurDao.addUtilisateur(utilisateur);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.UtilisateurService#updateUtilisateur(com.application.polytech.model.Utilisateur)
+     */
+    @Override
+    public void updateUtilisateur(final Utilisateur utilisateur) {
+        this.utilisateurDao.updateUtilisateur(utilisateur);
     }
 
     /*
@@ -51,5 +64,4 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public void deleteUtilisateur(final Long id) {
         this.utilisateurDao.deleteUtilisateur(id);
     }
-
 }

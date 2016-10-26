@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -24,20 +25,20 @@ public class Utilisateur implements Serializable {
 
     /** The id. */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
     /** The nom. */
-    @Column(name = "nom")
+    @Column(name = "nom", nullable = false)
     private String nom;
 
     /** The prenom. */
-    @Column(name = "prenom")
+    @Column(name = "prenom", nullable = false)
     private String prenom;
 
     /** The email. */
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
 
     /** The telephone. */
@@ -45,7 +46,7 @@ public class Utilisateur implements Serializable {
     private String telephone;
 
     /** The id profil. */
-    @Column(name = "id_profil")
+    @Column(name = "id_profil", nullable = false)
     private Long idProfil;
 
     /** The date debut dispo. */
