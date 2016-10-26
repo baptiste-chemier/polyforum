@@ -51,6 +51,6 @@ controllers.controller('UsersCtrl', ['UsersRest',
             }
         }).error(function (data) { //Si la requête a provoqué une erreur (code 404)
             usersCtrl.error = data //On affiche l'erreur brute     
-            alert(usersCtrl.error);
+            //alert(usersCtrl.error);
         })
     }]);
