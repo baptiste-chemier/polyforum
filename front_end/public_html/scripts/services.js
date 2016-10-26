@@ -7,7 +7,7 @@ var services = angular.module('services', []);
  */
 services.factory('Config', [function () {
         return {
-            urlServer: 'http://localhost:8080/polyforum',
+            urlServer: 'http://localhost:8080/Polyforum',
             urlGetUsers: '/utilisateur/lister'
         };
     }]);

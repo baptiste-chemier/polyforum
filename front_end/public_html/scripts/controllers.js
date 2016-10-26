@@ -34,8 +34,9 @@ controllers.controller('Apropos', ['$rootScope', '$location',
         $rootScope.title = "A propos";
     }]);
 
-controllers.controller('UsersCtrl', ['UsersRest',
-    function (UsersRest) {
+controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest',
+    function ($rootScope, UsersRest) {
+        $rootScope.title = "Utilisateurs";
         var usersCtrl = this;
 
         //Récupère une promise
@@ -51,6 +52,6 @@ controllers.controller('UsersCtrl', ['UsersRest',
             }
         }).error(function (data) { //Si la requête a provoqué une erreur (code 404)
             usersCtrl.error = data //On affiche l'erreur brute     
-            //alert(usersCtrl.error);
+            alert(usersCtrl.error);
         })
     }]);

@@ -1,23 +1,21 @@
 <div>
-    <h1>Users list</h1>
+    <h1>Liste des utilisateurs</h1>
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>                      
-                <th>FirstName</th>
-                <th>Email</th>
-                <th>Tel</th>
+                <th>Nom</th>                      
+                <th>Prénom</th>
+                <th>Identifiant / e-mail</th>
+                <th>Actions</th>
                 
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="user in usersCtrl.users">
-                <td>{{user.id}}</td>
+                <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
                 <td>{{user.nom}}</td>
                 <td>{{user.prenom}}</td>
-                <td>{{user.email}}</td>
-                <td>{{user.telephone}}</td>                                                
+                <td><a href="#" alt="Modifier" title="Modifier"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a> &nbsp; &nbsp;<a href="#" alt = "Supprimer" title="Supprimer"><i class="fa fa-times" aria-hidden="true"></i></a></td>
             </tr>
         </tbody>
     </table>
