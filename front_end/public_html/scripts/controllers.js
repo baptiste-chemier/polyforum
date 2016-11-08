@@ -52,6 +52,28 @@ controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest',
             }
         }).error(function (data) { //Si la requête a provoqué une erreur (code 404)
             usersCtrl.error = data //On affiche l'erreur brute     
-            alert(usersCtrl.error);
+            //alert(usersCtrl.error);
+        })
+    }]);
+
+controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest',
+    function ($rootScope, SallesRest) {
+        $rootScope.title = "Salles";
+        var sallesCtrl = this;
+
+        //Récupère une promise
+        var sallesPromise = SallesRest.getSalles();
+
+        /* Si la requête aboutit (code 200) on affecte le jSon retourné
+         * à la variable employeesCtrl.employees qui sera affichée
+         * par la vue employees.html
+         */
+        sallesPromise.success(function (data) {
+            if (data.length > 0) { //si la liste n'est pas vide
+                sallesCtrl.salles = data;
+            }
+        }).error(function (data) { //Si la requête a provoqué une erreur (code 404)
+            sallesCtrl.error = data //On affiche l'erreur brute     
+            //alert(usersCtrl.error);
         })
     }]);

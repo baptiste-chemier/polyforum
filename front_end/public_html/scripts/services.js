@@ -8,7 +8,9 @@ var services = angular.module('services', []);
 services.factory('Config', [function () {
         return {
             urlServer: 'http://localhost:8080/Polyforum',
-            urlGetUsers: '/utilisateur/lister'
+            urlUtilisateur: '/utilisateur',
+            urlSalle: '/salles',
+            urlGetteur: '/lister'
         };
     }]);
 
@@ -28,7 +30,23 @@ services.factory('UsersRest', ['$http', 'Config',
         return userRest;
 
         function getUsers() {
-            var url = Config.urlServer + Config.urlGetUsers;
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteur;
+
+            return $http.get(url);
+        }
+    }]);
+
+services.factory('SallesRest', ['$http', 'Config',
+    function ($http, Config) {
+        //Liste des méthodes exposées
+        var sallesRest = {
+            getSalles: getSalles
+        };
+
+        return sallesRest;
+
+        function getSalles() {
+            var url = Config.urlServer + Config.urlSalle + Config.urlGetteur;
 
             return $http.get(url);
         }
