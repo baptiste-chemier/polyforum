@@ -56,6 +56,136 @@ controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest',
         })
     }]);
 
+controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
+    '$location', '$route',
+    function ($rootScope, UsersRest, $routeParams, $location, $route) {
+        $rootScope.title = "Utilisateurs";
+        // Définition du scope
+        var userCtrl = this;
+
+        // On référence les méthodes exposées
+        userCtrl.validateUser = validateUser;
+        userCtrl.cancel = cancel;
+
+
+        // On récupère l'id de l'employé
+        userCtrl.id = $routeParams.id;
+
+        // Si l'id est défini, c'est modification
+        // sinon ce sera un ajout
+        if (userCtrl.id) {
+            userCtrl.titleH1 = "Modification d'un utilisateur";
+        } else {
+            userCtrl.titleH1 = "Ajout d'un utilisateur";
+        }
+
+        //Gestion des DatePicker
+        //Pour la date de début
+        // le datepicker n'est pas visible
+        userCtrl.dateDebPickerOpened = false;
+
+        // Affiche le datepicker
+        userCtrl.openDateDebPicker = function () {
+            userCtrl.dateDebPickerOpened = true;
+        }
+
+        //Pour la date de fin
+        userCtrl.dateFinPickerOpened = false;
+
+        // Affiche le datepicker
+        userCtrl.openDateFinPicker = function () {
+            userCtrl.dateFinPickerOpened = true;
+        }
+        
+        // Récupère la liste des departments
+        /*EmployeesRest.getDepartments().success(function (data) {
+            employeeCtrl.departments = data;
+        });*/
+
+        // S'il s'agit d'une demande de modification, il faut lire l'employé,
+        // positionner les listes déroulantes (jobs et services) en fonction
+        // des valeurs de l'employé
+        if (userCtrl.id > 0) {
+            var userR = UsersRest.getUser($routeParams.id);
+            userR.success(function (data, status) {
+                if (status == 200) {
+                    userCtrl.user = data;
+                    
+                    if (data.date_debut_dispo !== null ) {
+                     userCtrl.user.date_debut_dispo = new Date(data.date_debut_dispo.toString());   
+                    } 
+                    if (data.date_fin_dispo !== null) {
+                     userCtrl.user.date_fin_dispo = new Date(data.date_fin_dispo.toString());   
+                    }
+                }
+            }).error(function (data) {
+                userCtrl.error = data;
+                alert(userCtrl.error);
+            });
+        }
+
+        // On a cliqué sur le bouton Annuler
+        function cancel() {
+            $location.path('/users');
+        }
+
+        /**
+         * On a cliqué sur le bouton valider
+         * @param {type} id : id de l'employé modifié
+         * @param {type} form : le formulaire complet
+         */
+        function validateUser(id, form) {
+            // Si tout a été saisi, pas de zone oubliée
+            if (form.$valid) {
+                // On récupère l'objet employee dans le scope de la vue
+                var user = userCtrl.user;
+
+                //On récupère la date au format MySQL
+                var moisDebut = user.date_debut_dispo.getMonth() + 1;
+                var anneeDebut = user.date_debut_dispo.getYear();
+                var jourDebut = user.date_debut_dispo.getDate();
+                user.date_debut_dispo = anneeDebut + '-' + moisDebut + '-' + jourDebut;
+
+                // Récupération du service sélectionné
+                //employee.department = employeeCtrl.selectedOptionDep;
+
+                // si on a un id => c'est une modification
+                if (id) {
+                    // Demande de mise à jour de l'employé
+                    UsersRest.updateUser(user).success(function (data, status) {
+                        // Si c'est OK on consulte la nouvelle liste des employés
+                        // Sinon on affiche l'erreur
+                        if (status === 200) {
+                            $location.path('/users');
+                        }
+                    }).error(function (data) {
+                        userCtrl.error = data;
+                        alert(userCtrl.error);
+                    });
+                }
+
+                // Sinon c'est la création d'un nouvel employé
+                else {
+                    // Demande d'ajout de l'employé
+                    UsersRest.addUser(user).success(function (data, status) {
+                        // Si c'est OK on consulte la nouvelle liste des employés
+                        // Sinon on affiche l'erreur
+                        if (status === 200) {
+                            $location.path('/users');
+                        }
+                    }).error(function (data) {
+                        userCtrl.error = data;
+                        alert(userCtrl.error);
+                    });
+                }
+            } else { // On affiche un message d'erreur type
+                userCtrl.error = "Erreur de saisie !";
+            }
+        }
+
+
+    }]);
+
 controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest',
     function ($rootScope, SallesRest) {
         $rootScope.title = "Salles";

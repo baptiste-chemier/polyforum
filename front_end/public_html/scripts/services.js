@@ -9,8 +9,11 @@ services.factory('Config', [function () {
         return {
             urlServer: 'http://localhost:8080/Polyforum',
             urlUtilisateur: '/utilisateur',
-            urlSalle: '/salles',
-            urlGetteur: '/lister'
+            urlGetteurUser: '/lister',
+            urlUpdateUser: '/modifier',
+            urlAddUser: '/ajouter',
+            urlSalle: '/salles'
+            
         };
     }]);
 
@@ -24,16 +27,38 @@ services.factory('UsersRest', ['$http', 'Config',
     function ($http, Config) {
         //Liste des méthodes exposées
         var userRest = {
-            getUsers: getUsers
+            getUsers: getUsers,
+            getUser: getUser, 
+            updateUser: updateUser, 
+            addUser: addUser
         };
 
         return userRest;
 
         function getUsers() {
-            var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteur;
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteurUser;
 
             return $http.get(url);
         }
+        
+        function getUser(id) {
+            var url = Config.urlServer + Config.urlUtilisateur + "/" + id;
+
+            return $http.get(url);
+        }
+        
+        function updateUser(user) {
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlUpdateUser;
+
+            return $http.post(url, user); //Attention
+        }
+        
+        function addUser(user) {
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlAddUser;
+
+            return $http.post(url, user);
+        }
+        
     }]);
 
 services.factory('SallesRest', ['$http', 'Config',
