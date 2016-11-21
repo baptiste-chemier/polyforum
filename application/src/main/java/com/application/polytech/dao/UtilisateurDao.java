@@ -14,14 +14,14 @@ public interface UtilisateurDao {
      *
      * @param utilisateur the utilisateur
      */
-    public void addUtilisateur(Utilisateur utilisateur);
+    public void addUtilisateur(final Utilisateur utilisateur);
 
     /**
      * Update utilisateur.
      *
      * @param utilisateur the utilisateur
      */
-    public void updateUtilisateur(Utilisateur utilisateur);
+    public void updateUtilisateur(final Utilisateur utilisateur);
 
     /**
      * Gets the utilisateur by id.
@@ -29,7 +29,7 @@ public interface UtilisateurDao {
      * @param id the id
      * @return the utilisateur by id
      */
-    public Utilisateur getUtilisateurById(Long id);
+    public Utilisateur getUtilisateurById(final Long id);
 
     /**
      * Gets the all.
@@ -43,7 +43,7 @@ public interface UtilisateurDao {
      *
      * @param id the id
      */
-    public void deleteUtilisateur(Long id);
+    public void deleteUtilisateur(final Long id);
 
     /**
      * Connecter.
@@ -52,5 +52,5 @@ public interface UtilisateurDao {
      * @param password the password
      * @return the utilisateur
      */
-    public Utilisateur connecter(String login, String password);
+    public Utilisateur connecter(final String login, final String password);
 }

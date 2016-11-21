@@ -15,10 +15,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.application.polytech.model.Salle;
 import com.application.polytech.services.SalleService;
 
+/**
+ * The Class SalleController.
+ */
 @Controller
 @RequestMapping("/salle")
 public class SalleController {
 
+    /** The salle service. */
     @Autowired
     SalleService salleService;
 

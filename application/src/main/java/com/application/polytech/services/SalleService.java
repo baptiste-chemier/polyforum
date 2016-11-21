@@ -8,27 +8,28 @@ import com.application.polytech.model.Salle;
  * The Interface SalleService.
  */
 public interface SalleService {
+
     /**
-     * Adds the utilisateur.
+     * Adds the salle.
      *
      * @param salle the salle
      */
-    public void addSalle(Salle salle);
+    public void addSalle(final Salle salle);
 
     /**
-     * Update utilisateur.
+     * Update salle.
      *
      * @param salle the salle
      */
-    public void updateSalle(Salle salle);
+    public void updateSalle(final Salle salle);
 
     /**
-     * Gets the utilisateur by id.
+     * Gets the salle by id.
      *
      * @param id the id
-     * @return the utilisateur by id
+     * @return the salle by id
      */
-    public Salle getSalleById(Long id);
+    public Salle getSalleById(final Long id);
 
     /**
      * Gets the all.
@@ -38,7 +39,7 @@ public interface SalleService {
     public List<Salle> getAll();
 
     /**
-     * Delete utilisateur.
+     * Delete salle.
      *
      * @param id the id
      */

@@ -12,12 +12,12 @@ import javax.persistence.Table;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
- * The Class Salle.
+ * The Class Profil.
  */
 @Entity
-@Table(name = "salle")
+@Table(name = "profil")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class Salle implements Serializable {
+public class Profil implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
@@ -31,10 +31,6 @@ public class Salle implements Serializable {
     /** The libelle. */
     @Column(name = "libelle", nullable = false)
     private String libelle;
-
-    /** The capacite. */
-    @Column(name = "capacite", nullable = false)
-    private int capacite;
 
     /**
      * Gets the id.
@@ -70,24 +66,6 @@ public class Salle implements Serializable {
      */
     public final void setLibelle(final String libelle) {
         this.libelle = libelle;
-    }
-
-    /**
-     * Gets the capacite.
-     *
-     * @return the capacite
-     */
-    public final int getCapacite() {
-        return this.capacite;
-    }
-
-    /**
-     * Sets the capacite.
-     *
-     * @param capacite the new capacite
-     */
-    public final void setCapacite(final int capacite) {
-        this.capacite = capacite;
     }
 
     /**

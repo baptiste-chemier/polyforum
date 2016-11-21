@@ -51,11 +51,11 @@ public class Utilisateur implements Serializable {
 
     /** The date debut dispo. */
     @Column(name = "date_debut_dispo")
-    private Date date_debut_dispo;
+    private Date dateDebutDispo;
 
     /** The date fin dispo. */
     @Column(name = "date_fin_dispo")
-    private Date date_fin_dispo;
+    private Date dateFinDispo;
 
     /** The password. */
     @Column(name = "password", nullable = false)
@@ -66,7 +66,7 @@ public class Utilisateur implements Serializable {
      *
      * @return the id
      */
-    public Long getId() {
+    public final Long getId() {
         return this.id;
     }
 
@@ -75,7 +75,7 @@ public class Utilisateur implements Serializable {
      *
      * @param id the new id
      */
-    public void setId(final Long id) {
+    public final void setId(final Long id) {
         this.id = id;
     }
 
@@ -84,7 +84,7 @@ public class Utilisateur implements Serializable {
      *
      * @return the nom
      */
-    public String getNom() {
+    public final String getNom() {
         return this.nom;
     }
 
@@ -93,7 +93,7 @@ public class Utilisateur implements Serializable {
      *
      * @param nom the new nom
      */
-    public void setNom(final String nom) {
+    public final void setNom(final String nom) {
         this.nom = nom;
     }
 
@@ -102,7 +102,7 @@ public class Utilisateur implements Serializable {
      *
      * @return the prenom
      */
-    public String getPrenom() {
+    public final String getPrenom() {
         return this.prenom;
     }
 
@@ -111,7 +111,7 @@ public class Utilisateur implements Serializable {
      *
      * @param prenom the new prenom
      */
-    public void setPrenom(final String prenom) {
+    public final void setPrenom(final String prenom) {
         this.prenom = prenom;
     }
 
@@ -120,7 +120,7 @@ public class Utilisateur implements Serializable {
      *
      * @return the email
      */
-    public String getEmail() {
+    public final String getEmail() {
         return this.email;
     }
 
@@ -129,7 +129,7 @@ public class Utilisateur implements Serializable {
      *
      * @param email the new email
      */
-    public void setEmail(final String email) {
+    public final void setEmail(final String email) {
         this.email = email;
     }
 
@@ -138,7 +138,7 @@ public class Utilisateur implements Serializable {
      *
      * @return the telephone
      */
-    public String getTelephone() {
+    public final String getTelephone() {
         return this.telephone;
     }
 
@@ -147,7 +147,7 @@ public class Utilisateur implements Serializable {
      *
      * @param telephone the new telephone
      */
-    public void setTelephone(final String telephone) {
+    public final void setTelephone(final String telephone) {
         this.telephone = telephone;
     }
 
@@ -156,7 +156,7 @@ public class Utilisateur implements Serializable {
      *
      * @return the id profil
      */
-    public Long getIdProfil() {
+    public final Long getIdProfil() {
         return this.idProfil;
     }
 
@@ -165,7 +165,7 @@ public class Utilisateur implements Serializable {
      *
      * @param idProfil the new id profil
      */
-    public void setIdProfil(final Long idProfil) {
+    public final void setIdProfil(final Long idProfil) {
         this.idProfil = idProfil;
     }
 
@@ -174,8 +174,8 @@ public class Utilisateur implements Serializable {
      *
      * @return the date debut dispo
      */
-    public Date getDate_debut_dispo() {
-        return this.date_debut_dispo;
+    public final Date getDate_debut_dispo() {
+        return this.dateDebutDispo;
     }
 
     /**
@@ -183,8 +183,8 @@ public class Utilisateur implements Serializable {
      *
      * @param date_debut_dispo the new date debut dispo
      */
-    public void setDate_debut_dispo(final Date date_debut_dispo) {
-        this.date_debut_dispo = date_debut_dispo;
+    public final void setDate_debut_dispo(final Date date_debut_dispo) {
+        this.dateDebutDispo = date_debut_dispo;
     }
 
     /**
@@ -192,8 +192,8 @@ public class Utilisateur implements Serializable {
      *
      * @return the date fin dispo
      */
-    public Date getDate_fin_dispo() {
-        return this.date_fin_dispo;
+    public final Date getDate_fin_dispo() {
+        return this.dateFinDispo;
     }
 
     /**
@@ -201,8 +201,8 @@ public class Utilisateur implements Serializable {
      *
      * @param date_fin_dispo the new date fin dispo
      */
-    public void setDate_fin_dispo(final Date date_fin_dispo) {
-        this.date_fin_dispo = date_fin_dispo;
+    public final void setDate_fin_dispo(final Date date_fin_dispo) {
+        this.dateFinDispo = date_fin_dispo;
     }
 
     /**
@@ -210,7 +210,7 @@ public class Utilisateur implements Serializable {
      *
      * @return the serialversionuid
      */
-    public static long getSerialversionuid() {
+    public static final long getSerialversionuid() {
         return serialVersionUID;
     }
 
@@ -219,7 +219,7 @@ public class Utilisateur implements Serializable {
      *
      * @return the password
      */
-    public String getPassword() {
+    public final String getPassword() {
         return this.password;
     }
 
@@ -228,7 +228,7 @@ public class Utilisateur implements Serializable {
      *
      * @param password the new password
      */
-    public void setPassword(final String password) {
+    public final void setPassword(final String password) {
         this.password = password;
     }
 }

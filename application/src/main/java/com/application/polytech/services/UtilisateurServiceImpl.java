@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.application.polytech.dao.ChoixEtudiantDao;
 import com.application.polytech.dao.UtilisateurDao;
+import com.application.polytech.model.ChoixEtudiant;
 import com.application.polytech.model.Utilisateur;
 
 /**
- * The Class DataServicesImpl.
+ * The Class UtilisateurServiceImpl.
  */
 @Service("utilisateurService")
 @Transactional
@@ -19,6 +21,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     /** The utilisateur dao. */
     @Autowired
     UtilisateurDao utilisateurDao;
+
+    /** The choix etudiant dao. */
+    @Autowired
+    ChoixEtudiantDao choixEtudiantDao;
 
     /*
      * (non-Javadoc)
@@ -72,5 +78,14 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public Utilisateur connecter(final String login, final String password) {
         return this.utilisateurDao.connecter(login, password);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.UtilisateurService#enregistrerChoixEtudiant(java.lang.Long, java.lang.Long)
+     */
+    @Override
+    public void enregistrerChoixEtudiant(final Long idEtudiant, final Long idEntreprise) {
+        this.choixEtudiantDao.addChoixEtudiant(new ChoixEtudiant(idEtudiant, idEntreprise));
     }
 }

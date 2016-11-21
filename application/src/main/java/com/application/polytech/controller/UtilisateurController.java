@@ -22,7 +22,7 @@ import com.application.polytech.services.UtilisateurService;
 @RequestMapping("/utilisateur")
 public class UtilisateurController {
 
-    /** The data services. */
+    /** The utilisateur service. */
     @Autowired
     UtilisateurService utilisateurService;
 
