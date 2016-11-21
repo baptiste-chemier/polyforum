@@ -89,7 +89,7 @@ public class UtilisateurController {
      *
      * @param id the id
      */
-    @RequestMapping(value = "supprimer/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/supprimer/{id}", method = RequestMethod.GET)
     public @ResponseBody void deleteUtilisateur(@PathVariable("id") final Long id) {
         this.utilisateurService.deleteUtilisateur(id);
     }
@@ -101,7 +101,7 @@ public class UtilisateurController {
      * @param password the password
      * @return the boolean
      */
-    @RequestMapping(value = "connecter", method = RequestMethod.POST)
+    @RequestMapping(value = "/connecter", method = RequestMethod.POST)
     public @ResponseBody Boolean connecter(@PathVariable("login") final String login, @PathVariable("password") final String password) {
         if (this.utilisateurService.connecter(login, password) != null) {
             return true;
