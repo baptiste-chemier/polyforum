@@ -6,10 +6,12 @@
 
 var controllers = angular.module('controllers', []);
 
-controllers.controller('MainCtrl', ['$rootScope', '$location',
-    function ($rootScope, $location) {
+controllers.controller('MainCtrl', ['$rootScope', '$location', 'UserService',
+    function ($rootScope, $location, UserService) {
         var mainCtrl = this;
-
+        
+        $rootScope.user = UserService.currentUser;
+        
         // On référence les méthodes exposées
         mainCtrl.disConnect = disConnect;
 
@@ -206,4 +208,19 @@ controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest',
             sallesCtrl.error = data //On affiche l'erreur brute     
             //alert(usersCtrl.error);
         })
+    }]);
+
+controllers.controller("LoginCtrl", ['$scope', 'UserService',
+    function ($scope, UserService) {
+        var loginCtr = this;
+        
+        $scope.userService = UserService;
+
+        $scope.user = UserService.currentUser;
+        
+        loginCtr.login = login;
+        
+        function login(user) {
+            UserService.login(user);
+        }
     }]);

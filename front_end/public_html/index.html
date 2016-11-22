@@ -18,12 +18,15 @@
         <script type="text/javascript" src="lib/bootstrap/js/bootstrap.js"></script> 
         <script src="lib/bootstrap/js/ui-bootstrap-tpls.js"></script> 
         <script type="text/javascript" src="lib/angular/angular-route.js"></script>
+        <script type="text/javascript" src="lib/angular/angular-ui-router.js"></script>
         <script type="text/javascript" src="lib/angular/angular-animate.js"></script>               
         <script type="text/javascript" src="scripts/app.js"></script>
         <script type="text/javascript" src="scripts/controllers.js"></script>
         <script type="text/javascript" src="scripts/services.js"></script>
+        <script type="text/javascript" src="scripts/authentification/auth-services.js"></script>
         
     </head>
+    <base href="http://localhost:8383/front_end/">
     <body ng-controller="MainCtrl" class="body">
         <div class="nav-side-menu">
             <div class="row">
@@ -32,7 +35,7 @@
                         <img id="photo_profil" src="pictures/baptiste.png" alt="profil" class="picture">
                     </div>
                     <div class= "col-xs-offset-1 col-xs-7 col-sm-6 col-md-6 col-lg-6 name">
-                        Aisi Nguyen
+                       {{user.name}}
                     </div>
                     <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 disconnect">
                         <a href="#">
@@ -48,6 +51,11 @@
                 <div class="menu-list ">
 
                     <ul id="menu-content" class="menu-content collapse out">
+                        <li>
+                            <a ui-sref="login">
+                                <i class="fa fa-arrow-right fa-lg"></i> Connexion
+                            </a>
+                        </li>
                         <li>
                             <a href="#">
                                 <i class="fa fa-home fa-lg"></i> Accueil
@@ -96,6 +104,7 @@
             <div class="content" ng-view>
 
             </div>
+            <div ui-view="login"></div>
         </div>
     </body>
 </html>
