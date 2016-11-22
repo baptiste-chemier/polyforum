@@ -1,17 +1,26 @@
-<div>
-    <h1>Users list</h1>
-    <table class="table table-bordered table-striped">
+<div class="tabUsers">
+    <h1>Liste des utilisateurs</h1>
+    <div class="row actionButtons">
+        <div class="col-xs-12 col-sm-offset-7 col-sm-5 col-md-offset-9 col-md-3 text-right">
+            <a href="#/addUser" class="btn btn-default"><i class="fa fa-plus"></i> Ajouter un utilisateur</a>
+        </div>
+    </div>
+    <table class="table-responsive table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>                      
+                <th>Identifiant / e-mail</th>
+                <th>Nom</th>                      
+                <th>Prénom</th>
+                <th>Actions</th>
+                
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="user in usersCtrl.users">
-                <td>{{user.id}}</td>
+                <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
                 <td>{{user.nom}}</td>
-
+                <td>{{user.prenom}}</td>
+                <td><a href="#/updateUser/{{user.id}}" alt="Modifier" title="Modifier"><i class="fa fa-pencil-square-o fa-3" aria-hidden="true"></i></a> &nbsp; &nbsp;<a href="#" alt = "Supprimer" title="Supprimer"><i class="fa fa-times fa-3" aria-hidden="true"></i></a></td>
             </tr>
         </tbody>
     </table>

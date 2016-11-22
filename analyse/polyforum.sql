@@ -1,3 +1,4 @@
+<<<<<<< HEAD:analyse/polyforum.sql
 -- phpMyAdmin SQL Dump
 -- version 4.1.12
 -- http://www.phpmyadmin.net
@@ -176,7 +177,3 @@ INSERT INTO `utilisateur` (`id`, `nom`, `prenom`, `email`, `telephone`, `id_prof
 (7, 'COMBES', 'Joris', 'cj@gmail.com', '0666573372', 1, '2016-02-15 00:00:00', '2016-02-16 00:00:00', '123456'),
 (8, 'PENAS', 'Olivier', 'pn@gmail.com', '0666573372', 1, '2016-02-15 00:00:00', '2016-02-16 00:00:00', '123456'),
 (9, 'BILLON', 'Guillaume', 'bg@gmail.com', '0666573372', 1, '2016-02-15 00:00:00', '2016-02-16 00:00:00', '123456');
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

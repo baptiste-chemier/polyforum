@@ -1,0 +1,32 @@
+<div class="row rowInfosConnection">
+    <div class="col-sm-12">
+        <p>
+            Vous devez être connecté pour accéder à l'application <span>Polyforum</span>
+        </p>
+    </div>
+</div>
+
+<div class="row rowConnexion"  ng-hide="userIsLoggedIn">
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">Indentifiant</span>
+                <input ng-model="user.login" type="text" class="form-control" required autofocus>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="form-group">
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
+                <input ng-model="user.pass" type="text" class="form-control" required>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <span class="alert-txt">{{errMsg}}</span>
+    </div>
+    <div class="col-sm-12">
+        <button ng-click="loginCtrl.login(user)" class="btn btn-primary">Se connecter</button>
+    </div>
+</div>
