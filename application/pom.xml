@@ -13,16 +13,18 @@
 		<log4j.version>1.2.17</log4j.version>
 		<jdk.version>1.8</jdk.version>
 		<poi.version>3.10-FINAL</poi.version>
+        <compiler.version>3.5.1</compiler.version>
 		<context.path>application</context.path>
 	</properties>
 	<build>
-		<finalName>${pom.artifactId}</finalName>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>${jdk.version}</source>
 					<target>${jdk.version}</target>
+					<version>${compiler.version}</version>
 				</configuration>
 			</plugin>
 		</plugins>

@@ -82,8 +82,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
      * @see com.application.polytech.services.UtilisateurService#connecter(java.lang.String, java.lang.String)
      */
     @Override
-    public Utilisateur connecter(final String login, final String password) {
-        return this.utilisateurDao.connecter(login, password);
+    public Utilisateur connecter(final String email, final String password) {
+        return this.utilisateurDao.connecter(email, password);
     }
 
     /*

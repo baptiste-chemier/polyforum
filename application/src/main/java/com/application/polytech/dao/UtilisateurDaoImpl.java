@@ -106,9 +106,9 @@ public class UtilisateurDaoImpl extends AbstractDao implements UtilisateurDao {
      * @see com.application.polytech.dao.UtilisateurDao#connecter(java.lang.String, java.lang.String)
      */
     @Override
-    public Utilisateur connecter(final String login, final String password) {
-        final Query query = this.getSession().createQuery("SELECT FROM Utilisateur WHERE email = :login AND password = :password");
-        query.setString("email", login);
+    public Utilisateur connecter(final String email, final String password) {
+        final Query query = this.getSession().createQuery("FROM Utilisateur WHERE email = :email AND password = :password");
+        query.setString("email", email);
         query.setString("password", password);
 
         if (!query.list().isEmpty()) {

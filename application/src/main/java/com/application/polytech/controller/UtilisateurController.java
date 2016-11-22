@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.application.polytech.model.Connexion;
 import com.application.polytech.model.Utilisateur;
 import com.application.polytech.services.UtilisateurService;
 
@@ -88,13 +89,12 @@ public class UtilisateurController {
     /**
      * Connecter.
      *
-     * @param login the login
-     * @param password the password
+     * @param connexion the connexion
      * @return the boolean
      */
-    @RequestMapping(value = "/connecter", method = RequestMethod.POST)
-    public @ResponseBody Boolean connecter(@PathVariable("login") final String login, @PathVariable("password") final String password) {
-        if (this.utilisateurService.connecter(login, password) != null) {
+    @RequestMapping(value = "/connecter", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Boolean connecter(@RequestBody final Connexion connexion) {
+        if (this.utilisateurService.connecter(connexion.getEmail(), connexion.getPassword()) != null) {
             return true;
         } else {
             return false;
