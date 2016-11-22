@@ -69,5 +69,12 @@ public interface UtilisateurService {
      * @param idEntreprise the id entreprise
      * @param idEtudiant the id etudiant
      */
-    public void enregistrerChoixEntreprise(Long idEntreprise, Long idEtudiant);
+    public void enregistrerChoixEntreprise(final Long idEntreprise, final Long idEtudiant);
+
+    /**
+     * Importer utilisateur excel.
+     *
+     * @param filePath the file path
+     */
+    public void importerUtilisateurExcel(final String filePath);
 }

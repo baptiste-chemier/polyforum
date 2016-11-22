@@ -113,4 +113,16 @@ public class UtilisateurServiceImpl implements UtilisateurService {
             this.choixEntrepriseDao.addChoixEntreprise(new ChoixEntreprise(idEntreprise, idEtudiant));
         }
     }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.UtilisateurService#importerUtilisateurExcel(java.lang.String)
+     */
+    @Override
+    public void importerUtilisateurExcel(final String filePath) {
+        final List<Utilisateur> utilisateurs = this.utilisateurDao.lireFichierExcel(filePath);
+        for (final Utilisateur utilisateur : utilisateurs) {
+            this.utilisateurDao.addUtilisateur(utilisateur);
+        }
+    }
 }

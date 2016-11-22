@@ -12,6 +12,7 @@
 		<hibernate.version>4.3.5.Final</hibernate.version>
 		<log4j.version>1.2.17</log4j.version>
 		<jdk.version>1.8</jdk.version>
+		<poi.version>3.10-FINAL</poi.version>
 		<context.path>application</context.path>
 	</properties>
 	<build>
@@ -97,5 +98,16 @@
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>${poi.version}</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -122,4 +122,12 @@ public class UtilisateurController {
     public @ResponseBody void enregistrerChoixEntreprise(@PathVariable("idEntreprise") final Long idEntreprise, @PathVariable("idEtudiant") final Long idEtudiant) {
         this.utilisateurService.enregistrerChoixEntreprise(idEntreprise, idEtudiant);
     }
+
+    /**
+     * Importer utilisateur excel.
+     */
+    @RequestMapping(value = "/importerUtilisateurExcel", method = RequestMethod.GET)
+    public @ResponseBody void importerUtilisateurExcel() {
+        this.utilisateurService.importerUtilisateurExcel("C:/fichePolyforum.xlsx");
+    }
 }

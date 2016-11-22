@@ -1,7 +1,16 @@
 package com.application.polytech.dao;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
@@ -108,5 +117,71 @@ public class UtilisateurDaoImpl extends AbstractDao implements UtilisateurDao {
         } else {
             return null;
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.UtilisateurDao#lireFichierExcel(java.lang.String)
+     */
+    @Override
+    public List<Utilisateur> lireFichierExcel(final String filePath) {
+        final List<Utilisateur> utilisateurs = new ArrayList<>();
+        try {
+            final FileInputStream fis = new FileInputStream(new File(filePath));
+            final XSSFWorkbook workbook = new XSSFWorkbook(fis);
+            final XSSFSheet sheet = workbook.getSheetAt(0);
+            final Iterator ite = sheet.rowIterator();
+            final Row beginRow = (Row) ite.next();
+            while (ite.hasNext()) {
+                final Row row = (Row) ite.next();
+                final Utilisateur utilisateur = importerUtilisateur(row);
+                utilisateurs.add(utilisateur);
+            }
+            fis.close();
+        } catch (final Exception e) {
+
+        }
+        return utilisateurs;
+    }
+
+    /**
+     * Importer utilisateur.
+     *
+     * @param row the row
+     * @return the utilisateur
+     */
+    private static Utilisateur importerUtilisateur(final Row row) {
+        final Utilisateur utilisateur = new Utilisateur();
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
+        final String nom = row.getCell(0).getStringCellValue();
+        utilisateur.setNom(nom);
+
+        final String prenom = row.getCell(1).getStringCellValue();
+        utilisateur.setPrenom(prenom);
+
+        final String password = row.getCell(2).getStringCellValue();
+        utilisateur.setPassword(password);
+
+        final String idProfil = row.getCell(3).getStringCellValue();
+        utilisateur.setIdProfil(Long.parseLong(idProfil));
+
+        final String email = row.getCell(4).getStringCellValue();
+        utilisateur.setEmail(email);
+
+        final String telephone = row.getCell(5).getStringCellValue();
+        utilisateur.setTelephone(telephone);
+
+        try {
+            final String dateDebutDispo = row.getCell(6).getStringCellValue();
+            utilisateur.setDateDebutDispo(formatter.parse(dateDebutDispo));
+
+            final String dateFinDispo = row.getCell(7).getStringCellValue();
+            utilisateur.setDateFinDispo(formatter.parse(dateFinDispo));
+        } catch (final ParseException e) {
+            e.printStackTrace();
+        }
+
+        return utilisateur;
     }
 }

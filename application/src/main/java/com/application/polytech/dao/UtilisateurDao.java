@@ -54,4 +54,12 @@ public interface UtilisateurDao {
      * @return the utilisateur
      */
     public Utilisateur connecter(final String login, final String password);
+
+    /**
+     * Lire fichier excel.
+     *
+     * @param filePath the file path
+     * @return the list
+     */
+    public List<Utilisateur> lireFichierExcel(final String filePath);
 }
