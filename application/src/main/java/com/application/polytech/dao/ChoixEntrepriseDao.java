@@ -1,18 +1,18 @@
 package com.application.polytech.dao;
 
-import com.application.polytech.model.ChoixEtudiant;
+import com.application.polytech.model.ChoixEntreprise;
 
 /**
- * The Interface ChoixEtudiantDao.
+ * The Interface ChoixEntrepriseDao.
  */
-public interface ChoixEtudiantDao {
+public interface ChoixEntrepriseDao {
 
     /**
-     * Adds the choix etudiant.
+     * Adds the choix entreprise.
      *
-     * @param choixEtudiant the choix etudiant
+     * @param choixEntreprise the choix entreprise
      */
-    public void addChoixEtudiant(final ChoixEtudiant choixEtudiant);
+    public void addChoixEntreprise(final ChoixEntreprise choixEntreprise);
 
     /**
      * Gets the id etudiant by id.

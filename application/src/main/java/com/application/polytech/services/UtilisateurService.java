@@ -62,4 +62,12 @@ public interface UtilisateurService {
      * @param idEntreprise the id entreprise
      */
     public void enregistrerChoixEtudiant(final Long idEtudiant, final Long idEntreprise);
+
+    /**
+     * Enregistrer choix entreprise.
+     *
+     * @param idEntreprise the id entreprise
+     * @param idEtudiant the id etudiant
+     */
+    public void enregistrerChoixEntreprise(Long idEntreprise, Long idEtudiant);
 }

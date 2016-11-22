@@ -4,27 +4,27 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
-import com.application.polytech.model.ChoixEtudiant;
+import com.application.polytech.model.ChoixEntreprise;
 import com.application.polytech.model.Utilisateur;
 
 /**
- * The Class ChoixEtudiantDaoImpl.
+ * The Class ChoixEntrepriseDaoImpl.
  */
-@Repository("choixEtudiantDao")
-public class ChoixEtudiantDaoImpl extends AbstractDao implements ChoixEtudiantDao {
+@Repository("choixEntrepriseDao")
+public class ChoixEntrepriseDaoImpl extends AbstractDao implements ChoixEntrepriseDao {
 
     /*
      * (non-Javadoc)
      * @see com.application.polytech.dao.ChoixEtudiantDao#addChoixEtudiant(com.application.polytech.model.ChoixEtudiant)
      */
     @Override
-    public void addChoixEtudiant(final ChoixEtudiant choixEtudiant) {
-        this.persist(choixEtudiant);
+    public void addChoixEntreprise(final ChoixEntreprise choixEntreprise) {
+        this.persist(choixEntreprise);
     }
 
     /*
      * (non-Javadoc)
-     * @see com.application.polytech.dao.ChoixEtudiantDao#getIdEtudiantById(java.lang.Long)
+     * @see com.application.polytech.dao.ChoixEntrepriseDao#getIdEtudiantById(java.lang.Long)
      */
     @Override
     public Long getIdEtudiantById(final Long id) {

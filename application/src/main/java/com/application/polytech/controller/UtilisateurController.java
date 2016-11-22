@@ -100,4 +100,26 @@ public class UtilisateurController {
             return false;
         }
     }
+
+    /**
+     * Enregistrer choix etudiant.
+     *
+     * @param idEtudiant the id etudiant
+     * @param idEntreprise the id entreprise
+     */
+    @RequestMapping(value = "/enregistrerChoixEtudiant/{idEtudiant}/{idEntreprise}", method = RequestMethod.POST)
+    public @ResponseBody void enregistrerChoixEtudiant(@PathVariable("idEtudiant") final Long idEtudiant, @PathVariable("idEntreprise") final Long idEntreprise) {
+        this.utilisateurService.enregistrerChoixEtudiant(idEtudiant, idEntreprise);
+    }
+
+    /**
+     * Enregistrer choix entreprise.
+     *
+     * @param idEntreprise the id entreprise
+     * @param idEtudiant the id etudiant
+     */
+    @RequestMapping(value = "/enregistrerChoixEntreprise/{idEntreprise}/{idEtudiant}", method = RequestMethod.POST)
+    public @ResponseBody void enregistrerChoixEntreprise(@PathVariable("idEntreprise") final Long idEntreprise, @PathVariable("idEtudiant") final Long idEtudiant) {
+        this.utilisateurService.enregistrerChoixEntreprise(idEntreprise, idEtudiant);
+    }
 }

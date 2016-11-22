@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -22,19 +20,15 @@ public class ChoixEtudiant implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /** The id. */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    /** The id entreprise. */
-    @Column(name = "id_entreprise", nullable = false)
-    private Long idEntreprise;
-
     /** The id etudiant. */
+    @Id
     @Column(name = "id_etudiant", nullable = false)
     private Long idEtudiant;
+
+    /** The id entreprise. */
+    @Id
+    @Column(name = "id_entreprise", nullable = false)
+    private Long idEntreprise;
 
     /**
      * Instantiates a new choix etudiant.
@@ -44,42 +38,6 @@ public class ChoixEtudiant implements Serializable {
      */
     public ChoixEtudiant(final Long idEtudiant, final Long idEntreprise) {
         this.idEtudiant = idEtudiant;
-        this.idEntreprise = idEntreprise;
-    }
-
-    /**
-     * Gets the id.
-     *
-     * @return the id
-     */
-    public final Long getId() {
-        return this.id;
-    }
-
-    /**
-     * Sets the id.
-     *
-     * @param id the new id
-     */
-    public final void setId(final Long id) {
-        this.id = id;
-    }
-
-    /**
-     * Gets the id entreprise.
-     *
-     * @return the id entreprise
-     */
-    public final Long getIdEntreprise() {
-        return this.idEntreprise;
-    }
-
-    /**
-     * Sets the id entreprise.
-     *
-     * @param idEntreprise the new id entreprise
-     */
-    public final void setIdEntreprise(final Long idEntreprise) {
         this.idEntreprise = idEntreprise;
     }
 
@@ -99,6 +57,24 @@ public class ChoixEtudiant implements Serializable {
      */
     public final void setIdEtudiant(final Long idEtudiant) {
         this.idEtudiant = idEtudiant;
+    }
+
+    /**
+     * Gets the id entreprise.
+     *
+     * @return the id entreprise
+     */
+    public final Long getIdEntreprise() {
+        return this.idEntreprise;
+    }
+
+    /**
+     * Sets the id entreprise.
+     *
+     * @param idEntreprise the new id entreprise
+     */
+    public final void setIdEntreprise(final Long idEntreprise) {
+        this.idEntreprise = idEntreprise;
     }
 
     /**

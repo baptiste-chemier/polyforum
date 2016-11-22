@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.application.polytech.dao.ChoixEntrepriseDao;
 import com.application.polytech.dao.ChoixEtudiantDao;
 import com.application.polytech.dao.UtilisateurDao;
+import com.application.polytech.model.ChoixEntreprise;
 import com.application.polytech.model.ChoixEtudiant;
 import com.application.polytech.model.Utilisateur;
 
@@ -25,6 +27,10 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     /** The choix etudiant dao. */
     @Autowired
     ChoixEtudiantDao choixEtudiantDao;
+
+    /** The choix entreprise dao. */
+    @Autowired
+    ChoixEntrepriseDao choixEntrepriseDao;
 
     /*
      * (non-Javadoc)
@@ -86,6 +92,25 @@ public class UtilisateurServiceImpl implements UtilisateurService {
      */
     @Override
     public void enregistrerChoixEtudiant(final Long idEtudiant, final Long idEntreprise) {
-        this.choixEtudiantDao.addChoixEtudiant(new ChoixEtudiant(idEtudiant, idEntreprise));
+        final Long idEtu = this.choixEtudiantDao.getIdEtudiantById(idEtudiant);
+        final Long idEnt = this.choixEtudiantDao.getIdEntrepriseById(idEntreprise);
+
+        if (idEnt != null && idEtu != null) {
+            this.choixEtudiantDao.addChoixEtudiant(new ChoixEtudiant(idEtudiant, idEntreprise));
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.UtilisateurService#enregistrerChoixEntreprise(java.lang.Long, java.lang.Long)
+     */
+    @Override
+    public void enregistrerChoixEntreprise(final Long idEntreprise, final Long idEtudiant) {
+        final Long idEnt = this.choixEntrepriseDao.getIdEntrepriseById(idEntreprise);
+        final Long idEtu = this.choixEntrepriseDao.getIdEtudiantById(idEtudiant);
+
+        if (idEnt != null && idEtu != null) {
+            this.choixEntrepriseDao.addChoixEntreprise(new ChoixEntreprise(idEntreprise, idEtudiant));
+        }
     }
 }
