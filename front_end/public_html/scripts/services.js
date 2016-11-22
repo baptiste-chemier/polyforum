@@ -12,6 +12,7 @@ services.factory('Config', [function () {
             urlGetteurUser: '/lister',
             urlUpdateUser: '/modifier',
             urlAddUser: '/ajouter',
+            urlLogUser: '/connecter',
             urlSalle: '/salles'
             
         };
@@ -74,5 +75,21 @@ services.factory('SallesRest', ['$http', 'Config',
             var url = Config.urlServer + Config.urlSalle + Config.urlGetteur;
 
             return $http.get(url);
+        }
+    }]);
+
+services.factory('LoginRest', ['$http', 'Config',
+    function ($http, Config) {
+        //Liste des méthodes exposées
+        var loginRest = {
+            login: login
+        };
+
+        return loginRest;
+
+        function login(userLogin, userPass) {
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlLogUser;
+
+            return $http.post(url);
         }
     }]);

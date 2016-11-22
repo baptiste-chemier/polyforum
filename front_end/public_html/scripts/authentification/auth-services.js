@@ -10,7 +10,7 @@ angular.module("AuthServices", [])
             localStorage.removeItem(key);
         };
     })
-    .service("UserService", function($http, $location, SessionService, httpBufferService) {
+    .service("UserService", function($http, $location, LoginRest, SessionService, httpBufferService) {
 
         this.currentUser = {
             name: SessionService.getValue("session.name") || "",
@@ -18,43 +18,41 @@ angular.module("AuthServices", [])
             isLoggedIn: (SessionService.getValue("session.name") ? true : false)
         };
 
-        /*this.login = function(user) {
+        this.login = function(user) {
             var _this = this;
-            alert(user.name);
-           return $http.post("/login", {
-                "username": user.name,
-                "password": user.pass
-            }).success(function(response) {
+           return LoginRest.login(user.login, user.pass).success(function(response) {
 
                 _this.currentUser.name = response.username;
                 _this.currentUser.isLoggedIn = true;
-                SessionService.setValue("session.name", response.username);
-                $location.path("/");
+                SessionService.setValue("session.name", response.nom);
+                SessionService.setValue("session.firstname", response.prenom);
+                $location.path("accueil");
                 // or
-                httpBufferService.retryLastRequest();
+                //httpBufferService.retryLastRequest();
 
             });
-        };*/
+        };
         
-            this.login = function (user) {
+           /* this.login = function (user) {
                 var _this = this;
-                alert(user.name);
                     _this.currentUser.name = "Baptiste";
                     _this.currentUser.firstname = "Chemier";
                     _this.currentUser.isLoggedIn = true;
-                    SessionService.setValue("session.name", "Baptiste");
-                    $location.path("/aPropos");
+                    SessionService.setValue("session.name", "Chemier");
+                    SessionService.setValue("session.firstname", "Baptiste");
+                    $location.path("accueil");
                     // or
                     //httpBufferService.retryLastRequest();
 
 
-            };
+            };*/
             
         this.logout = function() {
             var _this = this;
             return $http.post("/logout").success(function() {
                 _this.currentUser.isLoggedIn = false;
                 SessionService.destroyItem("session.name");
+                SessionService.destroyItem("session.firstname");
             });
         };
 

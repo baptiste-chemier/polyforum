@@ -210,14 +210,15 @@ controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest',
         })
     }]);
 
-controllers.controller("LoginCtrl", ['$scope', 'UserService',
-    function ($scope, UserService) {
+controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
+    function ($rootScope, UserService) {
         var loginCtr = this;
         
-        $scope.userService = UserService;
-
-        $scope.user = UserService.currentUser;
+        $rootScope.title = "Connection";
         
+        $rootScope.userService = UserService;
+
+        $rootScope.user = UserService.currentUser;
         loginCtr.login = login;
         
         function login(user) {

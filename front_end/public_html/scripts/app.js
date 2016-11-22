@@ -4,31 +4,11 @@ var app = angular.module('app', [
     'ngAnimate', 
     'ui.bootstrap', 
     'controllers', 
-    'services', 
-    'ui.router']);
+    'services']);
 
-app.config(['$stateProvider', '$routeProvider', '$httpProvider', '$locationProvider',
-    function ($stateProvider, $routeProvider, $httpProvider, $locationProvider) {
+app.config(['$routeProvider', '$httpProvider', '$locationProvider',
+    function ($routeProvider, $httpProvider, $locationProvider) {
         
-        $stateProvider
-                .state("Main", {
-                    url: "/"
-                })
-                .state("login", {
-                    url: "/login",
-                    onEnter: function (UserService) {
-                        UserService.setLoginState(true);
-                    },
-                    onExit: function (UserService) {
-                        UserService.setLoginState(false);
-                    },
-                    views: {
-                        "login": {
-                            templateUrl: "partials/login.html",
-                            controller: "LoginCtrl as loginCtrl"
-                        }
-                    }
-                });
                 
         $routeProvider
                 // a Propos
@@ -53,6 +33,15 @@ app.config(['$stateProvider', '$routeProvider', '$httpProvider', '$locationProvi
                 .when('/salles', {
                     templateUrl: 'partials/salles.html',
                     controller: 'SallesCtrl as sallesCtrl'
+                })
+                //Login
+                .when('/login', {
+                    templateUrl: 'partials/login.html',
+                    controller: 'LoginCtrl as loginCtrl'
+                })
+                //Accueil
+                .when('/accueil', {
+                    templateUrl: 'partials/accueil.html'
                 });
         
         $httpProvider.interceptors.push(function ($q, $location, httpBufferService) {
