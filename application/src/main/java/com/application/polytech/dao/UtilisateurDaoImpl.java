@@ -29,8 +29,35 @@ public class UtilisateurDaoImpl extends AbstractDao implements UtilisateurDao {
      * @see com.application.polytech.dao.UtilisateurDao#updateUtilisateur(com.application.polytech.model.Utilisateur)
      */
     @Override
-    public void updateUtilisateur(final Utilisateur utilisateur) {
-        this.getSession().update(utilisateur);
+    public void updateUtilisateur(final Long id, final Utilisateur utilisateur) {
+        final Utilisateur utilisateurModifie = this.getUtilisateurById(id);
+
+        if (utilisateurModifie != null) {
+            if (utilisateur.getNom() != null) {
+                utilisateurModifie.setNom(utilisateur.getNom());
+            }
+
+            if (utilisateur.getPrenom() != null) {
+                utilisateurModifie.setPrenom(utilisateur.getPrenom());
+            }
+
+            if (utilisateur.getPassword() != null) {
+                utilisateurModifie.setPassword(utilisateur.getPassword());
+            }
+
+            if (utilisateur.getIdProfil() != null) {
+                utilisateurModifie.setIdProfil(utilisateur.getIdProfil());
+            }
+
+            if (utilisateur.getEmail() != null) {
+                utilisateurModifie.setEmail(utilisateur.getEmail());
+            }
+
+            utilisateurModifie.setTelephone(utilisateur.getTelephone());
+            utilisateurModifie.setDateDebutDispo(utilisateur.getDateDebutDispo());
+            utilisateurModifie.setDateFinDispo(utilisateur.getDateFinDispo());
+        }
+        this.getSession().update(utilisateurModifie);
     }
 
     /*

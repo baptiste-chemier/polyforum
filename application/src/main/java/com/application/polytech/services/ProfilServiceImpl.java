@@ -38,4 +38,13 @@ public class ProfilServiceImpl implements ProfilService {
         return this.profilDao.getAll();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.ProfilService#getLibelleById(java.lang.Long)
+     */
+    @Override
+    public String getLibelleById(final Long id) {
+        return this.profilDao.getLibelleById(id);
+    }
+
 }

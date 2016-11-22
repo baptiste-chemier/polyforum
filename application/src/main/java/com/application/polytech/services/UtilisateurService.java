@@ -19,9 +19,10 @@ public interface UtilisateurService {
     /**
      * Update utilisateur.
      *
+     * @param id the id
      * @param utilisateur the utilisateur
      */
-    public void updateUtilisateur(final Utilisateur utilisateur);
+    public void updateUtilisateur(final Long id, final Utilisateur utilisateur);
 
     /**
      * Gets the utilisateur by id.

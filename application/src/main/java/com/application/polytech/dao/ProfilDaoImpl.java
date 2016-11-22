@@ -3,6 +3,7 @@ package com.application.polytech.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -33,6 +34,17 @@ public class ProfilDaoImpl extends AbstractDao implements ProfilDao {
     public List<Profil> getAll() {
         final Criteria criteria = this.getSession().createCriteria(Profil.class);
         return criteria.list();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.ProfilDao#getLibelleById(java.lang.Long)
+     */
+    @Override
+    public String getLibelleById(final Long id) {
+        final Query query = this.getSession().createSQLQuery("SELECT libelle FROM Profil WHERE id = :id");
+        query.setLong("id", id);
+        return (String) query.uniqueResult();
     }
 
 }

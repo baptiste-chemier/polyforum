@@ -24,4 +24,12 @@ public interface ProfilService {
      */
     public List<Profil> getAll();
 
+    /**
+     * Gets the libelle by id.
+     *
+     * @param id the id
+     * @return the libelle by id
+     */
+    public String getLibelleById(Long id);
+
 }

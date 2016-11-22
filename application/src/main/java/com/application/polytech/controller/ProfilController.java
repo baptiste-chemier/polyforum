@@ -36,12 +36,7 @@ public class ProfilController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Profil getProfilById(@PathVariable("id") final Long id) {
         Profil profil = null;
-        try {
-            profil = this.profilService.getProfilById(id);
-
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        profil = this.profilService.getProfilById(id);
         return profil;
     }
 
@@ -53,12 +48,18 @@ public class ProfilController {
     @RequestMapping(value = "/lister", method = RequestMethod.GET)
     public @ResponseBody List<Profil> getAll() {
         List<Profil> listProfil = null;
-        try {
-            listProfil = this.profilService.getAll();
-
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        listProfil = this.profilService.getAll();
         return listProfil;
+    }
+
+    /**
+     * Gets the libelle by id.
+     *
+     * @param id the id
+     * @return the libelle by id
+     */
+    @RequestMapping(value = "/libelle/{id}", method = RequestMethod.GET)
+    public @ResponseBody String getLibelleById(@PathVariable("id") final Long id) {
+        return this.profilService.getLibelleById(id);
     }
 }

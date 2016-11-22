@@ -174,17 +174,17 @@ public class Utilisateur implements Serializable {
      *
      * @return the date debut dispo
      */
-    public final Date getDate_debut_dispo() {
+    public final Date getDateDebutDispo() {
         return this.dateDebutDispo;
     }
 
     /**
      * Sets the date debut dispo.
      *
-     * @param date_debut_dispo the new date debut dispo
+     * @param dateDebutDispo the new date debut dispo
      */
-    public final void setDate_debut_dispo(final Date date_debut_dispo) {
-        this.dateDebutDispo = date_debut_dispo;
+    public final void setDateDebutDispo(final Date dateDebutDispo) {
+        this.dateDebutDispo = dateDebutDispo;
     }
 
     /**
@@ -192,17 +192,17 @@ public class Utilisateur implements Serializable {
      *
      * @return the date fin dispo
      */
-    public final Date getDate_fin_dispo() {
+    public final Date getDateFinDispo() {
         return this.dateFinDispo;
     }
 
     /**
      * Sets the date fin dispo.
      *
-     * @param date_fin_dispo the new date fin dispo
+     * @param dateFinDispo the new date fin dispo
      */
-    public final void setDate_fin_dispo(final Date date_fin_dispo) {
-        this.dateFinDispo = date_fin_dispo;
+    public final void setDateFinDispo(final Date dateFinDispo) {
+        this.dateFinDispo = dateFinDispo;
     }
 
     /**

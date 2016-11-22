@@ -42,11 +42,12 @@ public class UtilisateurController {
     /**
      * Update utilisateur.
      *
+     * @param id the id
      * @param utilisateur the utilisateur
      */
-    @RequestMapping(value = "/modifier", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody void updateUtilisateur(@RequestBody final Utilisateur utilisateur) {
-        this.utilisateurService.updateUtilisateur(utilisateur);
+    @RequestMapping(value = "/modifier/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody void updateUtilisateur(@PathVariable("id") final Long id, @RequestBody final Utilisateur utilisateur) {
+        this.utilisateurService.updateUtilisateur(id, utilisateur);
     }
 
     /**
@@ -58,12 +59,7 @@ public class UtilisateurController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Utilisateur getUtilisateurById(@PathVariable("id") final Long id) {
         Utilisateur utilisateur = null;
-        try {
-            utilisateur = this.utilisateurService.getUtilisateurById(id);
-
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        utilisateur = this.utilisateurService.getUtilisateurById(id);
         return utilisateur;
     }
 
@@ -75,12 +71,7 @@ public class UtilisateurController {
     @RequestMapping(value = "/lister", method = RequestMethod.GET)
     public @ResponseBody List<Utilisateur> getAll() {
         List<Utilisateur> listUtilisateur = null;
-        try {
-            listUtilisateur = this.utilisateurService.getAll();
-
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        listUtilisateur = this.utilisateurService.getAll();
         return listUtilisateur;
     }
 

@@ -40,8 +40,8 @@ public class UtilisateurServiceImpl implements UtilisateurService {
      * @see com.application.polytech.services.UtilisateurService#updateUtilisateur(com.application.polytech.model.Utilisateur)
      */
     @Override
-    public void updateUtilisateur(final Utilisateur utilisateur) {
-        this.utilisateurDao.updateUtilisateur(utilisateur);
+    public void updateUtilisateur(final Long id, final Utilisateur utilisateur) {
+        this.utilisateurDao.updateUtilisateur(id, utilisateur);
     }
 
     /*

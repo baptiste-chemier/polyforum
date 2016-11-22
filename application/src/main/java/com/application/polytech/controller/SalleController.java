@@ -58,12 +58,7 @@ public class SalleController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Salle getSalleById(@PathVariable("id") final Long id) {
         Salle salle = null;
-        try {
-            salle = this.salleService.getSalleById(id);
-
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        salle = this.salleService.getSalleById(id);
         return salle;
     }
 
@@ -75,12 +70,7 @@ public class SalleController {
     @RequestMapping(value = "/lister", method = RequestMethod.GET)
     public @ResponseBody List<Salle> getAll() {
         List<Salle> listSalle = null;
-        try {
-            listSalle = this.salleService.getAll();
-
-        } catch (final Exception e) {
-            e.printStackTrace();
-        }
+        listSalle = this.salleService.getAll();
         return listSalle;
     }
 
