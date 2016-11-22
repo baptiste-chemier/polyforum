@@ -225,3 +225,114 @@ controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
             UserService.login(user);
         }
     }]);
+
+controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParams',
+    '$location', '$route',
+    function ($rootScope, UsersRest, $routeParams, $location, $route) {
+        $rootScope.title = "Mon compte";
+        // Définition du scope
+        var monCompteCtrl = this;
+
+        // On référence les méthodes exposées
+        monCompteCtrl.validateUser = validateUser;
+        monCompteCtrl.cancel = cancel;
+
+
+        // On récupère l'id de l'employé
+        monCompteCtrl.id = $routeParams.id;
+
+        //Gestion des DatePicker
+        //Pour la date de début
+        // le datepicker n'est pas visible
+        monCompteCtrl.dateDebPickerOpened = false;
+
+        // Affiche le datepicker
+        monCompteCtrl.openDateDebPicker = function () {
+            monCompteCtrl.dateDebPickerOpened = true;
+        }
+
+        //Pour la date de fin
+        monCompteCtrl.dateFinPickerOpened = false;
+
+        // Affiche le datepicker
+        monCompteCtrl.openDateFinPicker = function () {
+            monCompteCtrl.dateFinPickerOpened = true;
+        }
+
+        // Récupère la liste des departments
+        /*EmployeesRest.getDepartments().success(function (data) {
+         employeeCtrl.departments = data;
+         });*/
+
+        // S'il s'agit d'une demande de modification, il faut lire l'employé,
+        // positionner les listes déroulantes (jobs et services) en fonction
+        // des valeurs de l'employé
+        if (monCompteCtrl.id > 0) {
+            var userR = UsersRest.getUser($routeParams.id);
+            userR.success(function (data, status) {
+                if (status == 200) {
+                    monCompteCtrl.user = data;
+
+                    if (data.date_debut_dispo !== null) {
+                        monCompteCtrl.user.date_debut_dispo = new Date(data.date_debut_dispo.toString());
+                    }
+                    if (data.date_fin_dispo !== null) {
+                        monCompteCtrl.user.date_fin_dispo = new Date(data.date_fin_dispo.toString());
+                    }
+                }
+            }).error(function (data) {
+                monCompteCtrl.error = data;
+                alert(monCompteCtrl.error);
+            });
+        }
+
+        // On a cliqué sur le bouton Annuler
+        function cancel() {
+            $location.path('accueil');
+        }
+
+        /**
+         * On a cliqué sur le bouton valider
+         * @param {type} id : id de l'employé modifié
+         * @param {type} form : le formulaire complet
+         */
+        function validateUser(id, form) {
+            // Si tout a été saisi, pas de zone oubliée
+            if (form.$valid) {
+                // On récupère l'objet employee dans le scope de la vue
+                var user = monCompteCtrl.user;
+
+                //On récupère la date au format MySQL
+                var moisDebut = user.date_debut_dispo.getMonth() + 1;
+                var anneeDebut = user.date_debut_dispo.getYear();
+                var jourDebut = user.date_debut_dispo.getDate();
+                user.date_debut_dispo = anneeDebut + '-' + moisDebut + '-' + jourDebut;
+
+                // Récupération du service sélectionné
+                //employee.department = employeeCtrl.selectedOptionDep;
+
+                // si on a un id => c'est une modification
+                if (id) {
+                    // Demande de mise à jour de l'employé
+                    UsersRest.updateUser(user).success(function (data, status) {
+                        // Si c'est OK on consulte la nouvelle liste des employés
+                        // Sinon on affiche l'erreur
+                        if (status === 200) {
+                            $location.path('/users');
+                        }
+                    }).error(function (data) {
+                        monCompteCtrl.error = data;
+                        alert(monCompteCtrl.error);
+                    });
+                }
+
+                else {
+                    //Il y a forcément un ID sinon, erreur
+                    monCompteCtrl.error = "Erreur de chargement !";
+                }
+            } else { // On affiche un message d'erreur type
+                monCompteCtrl.error = "Erreur de saisie !";
+            }
+        }
+
+    }]);
