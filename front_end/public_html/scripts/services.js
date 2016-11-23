@@ -13,9 +13,13 @@ services.factory('Config', [function () {
             urlUpdateUser: '/modifier',
             urlAddUser: '/ajouter',
             urlLogUser: '/connecter',
-            urlSalle: '/salles',
             urlProfil: '/profil', 
-            urlGetteurProfil: '/recupererLibelle'
+            urlGetteurProfil: '/recupererLibelle',
+            urlSalle: '/salle',
+            urlGetteurSalle: '/lister',
+            urlUpdateSalle: '/modifier',
+            urlAddSalle: '/ajouter',
+            urlDeleteSalle: '/supprimer'
             
         };
     }]);
@@ -66,16 +70,42 @@ services.factory('UsersRest', ['$http', 'Config',
 
 services.factory('SallesRest', ['$http', 'Config',
     function ($http, Config) {
-        //Liste des mÃ©thodes exposÃ©es
+        //Liste des méthodes exposées
+
         var sallesRest = {
-            getSalles: getSalles
+            getSalles: getSalles,
+            getSalle: getSalle,
+            updateSalle: updateSalle,
+            addSalle: addSalle,
+            deleteSalle: deleteSalle
         };
 
+        var REST_SERVICE_URI = Config.urlServer + Config.urlSalle;
         return sallesRest;
 
         function getSalles() {
-            var url = Config.urlServer + Config.urlSalle + Config.urlGetteur;
+            var url = REST_SERVICE_URI + Config.urlGetteurSalle;
+            return $http.get(url);
+        }
 
+        function getSalle(id) {
+            var url = Config.urlServer + Config.urlSalle + "/" + id;
+            return $http.get(url);
+
+        }
+
+        function updateSalle(salle) {
+            var url = REST_SERVICE_URI + Config.urlUpdateSalle;
+            return $http.post(url, salle);
+        }
+
+        function addSalle(salle) {
+             var url = REST_SERVICE_URI + Config.urlAddSalle;
+            return $http.post(url, salle);
+        }
+        
+        function deleteSalle(id) {
+            var url = REST_SERVICE_URI + Config.urlDeleteSalle + "/" +id;
             return $http.get(url);
         }
     }]);

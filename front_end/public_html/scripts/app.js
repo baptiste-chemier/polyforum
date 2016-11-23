@@ -3,7 +3,8 @@ var app = angular.module('app', [
     'ngRoute', 
     'ngAnimate', 
     'ui.bootstrap', 
-    'controllers', 
+    'controllers',
+    'directives',
     'services']);
 
 app.config(['$routeProvider', '$httpProvider', '$locationProvider',
@@ -33,6 +34,14 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider',
                 .when('/salles', {
                     templateUrl: 'partials/salles.html',
                     controller: 'SallesCtrl as sallesCtrl'
+                })
+                .when('/addSalle', {
+                    templateUrl: 'partials/salle.html',
+                    controller: 'SalleCtrl as salleCtrl'
+                })
+                .when('/updateSalle/:id', {
+                    templateUrl: 'partials/salle.html',
+                    controller: 'SalleCtrl as salleCtrl'
                 })
                 //Login
                 .when('/login', {

@@ -1,17 +1,30 @@
 <div class="salles">
     <h1>Administration des salles</h1>
-    <div class="row salle">
-        <div class="col-xs-12 col-sm-7 col-md-7 col-lg-7  name">
-            Salle 15
-        </div>
-        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 capacite">
-            Capacité: 2/2
-        </div>
-        <div class="col-xs-6 col-sm-1 col-md-1 col-lg-1">
-            <a href="#" alt="Modifier" title="Modifier"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-        </div>
-        <div class="col-xs-6 col-sm-1 col-md-1 col-lg-1">
-            <a href="#" alt = "Supprimer" title="Supprimer"><i class="fa fa-times" aria-hidden="true"></i></a>
+    <div class="row actionButtons">
+        <div class="col-xs-12 col-sm-offset-7 col-sm-5 col-md-offset-9 col-md-3 text-right">
+            <a href="#/addSalle" class="btn btn-default"><i class="fa fa-plus"></i> Ajouter une salle</a>
         </div>
     </div>
+        <table class="table-responsive table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Nom de la salle</th>
+                <th>Capacité</th>                      
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="salle in sallesCtrl.salles">
+                <td>{{salle.libelle}}</td>
+                <td>{{salle.capacite}}</td>
+                <td><a href="#/updateSalle/{{salle.id}}" title="Modifier">
+                        <i class="fa fa-pencil-square-o fa-3" aria-hidden="true"></i>
+                    </a> &nbsp; &nbsp;
+                    <a href="" confirmed-click="sallesCtrl.deleteSalle(salle.id)" ng-confirm-box-click="Deleting confirmed ?" title="Supprimer">
+                        <i class="fa fa-times fa-3" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>

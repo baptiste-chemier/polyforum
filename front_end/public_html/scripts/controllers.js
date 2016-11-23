@@ -53,9 +53,9 @@ controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest',
                 usersCtrl.users = data;
             }
         }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
-            usersCtrl.error = data //On affiche l'erreur brute     
+            usersCtrl.error = data; //On affiche l'erreur brute     
             //alert(usersCtrl.error);
-        })
+        });
     }]);
 
 controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
@@ -110,7 +110,7 @@ controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
         if (userCtrl.id > 0) {
             var userR = UsersRest.getUser($routeParams.id);
             userR.success(function (data, status) {
-                if (status == 200) {
+                if (status === 200) {
                     userCtrl.user = data;
                     
                     if (data.date_debut_dispo !== null ) {
@@ -192,22 +192,148 @@ controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest',
     function ($rootScope, SallesRest) {
         $rootScope.title = "Salles";
         var sallesCtrl = this;
-
-        //RÃ©cupÃ¨re une promise
+        //Récupère une promise
         var sallesPromise = SallesRest.getSalles();
+        
+        // On référence les méthodes exposées
+        sallesCtrl.deleteSalle = deleteSalle;
 
-        /* Si la requÃªte aboutit (code 200) on affecte le jSon retournÃ©
-         * Ã  la variable employeesCtrl.employees qui sera affichÃ©e
-         * par la vue employees.html
+        /* Si la requête aboutit (code 200) on affecte le jSon retourné
+         * à la variable sallesCtrl.salles qui sera affichée
+         * par la vue salles.html
          */
         sallesPromise.success(function (data) {
             if (data.length > 0) { //si la liste n'est pas vide
                 sallesCtrl.salles = data;
             }
-        }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
-            sallesCtrl.error = data //On affiche l'erreur brute     
+        }).error(function (data) { //Si la requête a provoqué une erreur (code 404)
+            sallesCtrl.error = data; //On affiche l'erreur brute     
             //alert(usersCtrl.error);
-        })
+        });
+        
+         /**
+         * Suppression d'un employé
+         * @param {type} id de l'employé à supprimer
+         */
+        function deleteSalle(id) {
+            if (id) {
+                SallesRest.deleteSalle(id).success(function (data, status) {
+                    if (status === 200) {
+                        $location.path('/salles');
+                        $route.reload();
+                    }
+                }).error(function (data) {
+                    sallesCtrl.error = data;
+                    alert(sallesSCtrl.error);
+                });
+            }
+        }
+    }]);
+
+controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
+    '$location', '$route',
+    function ($rootScope, SallesRest, $routeParams, $location, $route) {
+        $rootScope.title = "Salles";
+        // Définition du scope
+        var salleCtrl = this;
+
+        // On référence les méthodes exposées
+        salleCtrl.validateSalle = validateSalle;
+        salleCtrl.cancel = cancel;
+        salleCtrl.reset = reset;
+
+
+salleCtrl.log = "yesy";
+        // On récupère l'id de la salle
+        salleCtrl.id = $routeParams.id;
+        
+        
+         // Si l'id est défini, c'est modification
+        // sinon ce sera un ajout
+        if (salleCtrl.id) {
+            salleCtrl.titleH1 = "Modification d'une salle";
+        } else {
+            salleCtrl.titleH1 = "Ajout d'une salle";
+        }
+
+        SallesRest.getSalles();
+        
+        // S'il s'agit d'une demande de modification, il faut lire l'employé,
+        // positionner les listes déroulantes (jobs et services) en fonction
+        // des valeurs de l'employé
+        if (salleCtrl.id > 0) {
+            var salleS = SallesRest.getSalle($routeParams.id);
+            salleS.success(function (data, status) {
+                if (status === 200) {
+                    salleCtrl.salle = data;
+                }
+            }).error(function (data) {
+                salleCtrl.error = data;
+                salle(salleCtrl.error);
+            });
+        }
+        
+        /**
+         * On a cliqué sur le bouton valider
+         * @param {type} id : id de l'employé modifié
+         * @param {type} form : le formulaire complet
+         */
+        function validateSalle(id, form) {
+            // Si tout a été saisi, pas de zone oubliée
+            if (form.$valid) {
+                // On récupère l'objet employee dans le scope de la vue
+                var salle= salleCtrl.salle;
+
+
+                // Récupération du service sélectionné
+                //employee.department = employeeCtrl.selectedOptionDep;
+
+                // si on a un id => c'est une modification
+                if (id) {
+                     salleCtrl.log = "modif";
+                    // Demande de mise à jour de l'employé
+                    SallesRest.updateSalle(salle).success(function (data, status) {
+                        // Si c'est OK on consulte la nouvelle liste des employés
+                        // Sinon on affiche l'erreur
+                        if (status === 200) {
+                            $location.path('/salles');
+                        }
+                    }).error(function (data) {
+                        salleCtrl.error = data;
+                        alert(salleCtrl.error);
+                    });
+                }
+
+                // Sinon c'est la création d'un nouvel employé
+                else {
+                    // Demande d'ajout de l'employé
+                   
+                    SallesRest.addSalle(salle).success(function (data, status) {
+                        // Si c'est OK on consulte la nouvelle liste des employés
+                        // Sinon on affiche l'erreur
+                        if (status === 200) {
+                            $location.path('/salles');
+                        }
+                    }).error(function (data) {
+                        salleCtrl.error = data;
+                        alert(salleCtrl.error);
+                    });
+                }
+            } else { // On affiche un message d'erreur type
+                salleCtrl.error = "Erreur de saisie !";
+            }
+        }
+
+        // On a cliqué sur le bouton Annuler
+        function cancel() {
+            $location.path('/salles');
+        }
+
+        function reset() {
+            salleCtrl.salle = {id: null, username: '', address: '', email: ''};
+            $rootScope.myForm.$setPristine(); //reset Form
+            
+        }
     }]);
 
 controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
@@ -271,7 +397,7 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
         if (monCompteCtrl.id > 0) {
             var userR = UsersRest.getUser($routeParams.id);
             userR.success(function (data, status) {
-                if (status == 200) {
+                if (status === 200) {
                     monCompteCtrl.user = data;
 
                     if (data.date_debut_dispo !== null) {
