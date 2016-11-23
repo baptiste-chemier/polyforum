@@ -19,9 +19,10 @@ public interface SalleService {
     /**
      * Update salle.
      *
+     * @param id the id
      * @param salle the salle
      */
-    public void updateSalle(final Salle salle);
+    public void updateSalle(final Long id, final Salle salle);
 
     /**
      * Gets the salle by id.

@@ -34,8 +34,8 @@ public class SalleServiceImpl implements SalleService {
      * @see com.application.polytech.services.SalleService#updateSalle(com.application.polytech.model.Salle)
      */
     @Override
-    public void updateSalle(final Salle salle) {
-        this.salleDao.updateSalle(salle);
+    public void updateSalle(final Long id, final Salle salle) {
+        this.salleDao.updateSalle(id, salle);
     }
 
     /*

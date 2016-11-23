@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.application.polytech.model.Connexion;
 import com.application.polytech.model.Utilisateur;
+import com.application.polytech.model.UtilisateurDTO;
 import com.application.polytech.services.UtilisateurService;
 
 /**
@@ -89,12 +89,12 @@ public class UtilisateurController {
     /**
      * Connecter.
      *
-     * @param connexion the connexion
-     * @return the boolean
+     * @param utilisateurDto the utilisateur dto
+     * @return the utilisateur
      */
     @RequestMapping(value = "/connecter", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Utilisateur connecter(@RequestBody final Connexion connexion) {
-        final Utilisateur utilisateur = this.utilisateurService.connecter(connexion.getEmail(), connexion.getPassword());
+    public @ResponseBody Utilisateur connecter(@RequestBody final UtilisateurDTO utilisateurDto) {
+        final Utilisateur utilisateur = this.utilisateurService.connecter(utilisateurDto.getEmail(), utilisateurDto.getPassword());
         if (utilisateur != null) {
             return utilisateur;
         } else {
