@@ -12,15 +12,16 @@ services.factory('Config', [function () {
             urlGetteurUser: '/lister',
             urlUpdateUser: '/modifier',
             urlAddUser: '/ajouter',
+            urlDeleteUser: '/supprimer',
             urlLogUser: '/connecter',
-            urlProfil: '/profil', 
+            urlProfil: '/profil',
             urlGetteurProfil: '/recupererLibelle',
             urlSalle: '/salle',
             urlGetteurSalle: '/lister',
             urlUpdateSalle: '/modifier',
             urlAddSalle: '/ajouter',
             urlDeleteSalle: '/supprimer'
-            
+
         };
     }]);
 
@@ -32,12 +33,13 @@ services.factory('Config', [function () {
  */
 services.factory('UsersRest', ['$http', 'Config',
     function ($http, Config) {
-        //Liste des mÃ©thodes exposÃ©es
+        //Liste des methodes exposees
         var userRest = {
             getUsers: getUsers,
-            getUser: getUser, 
-            updateUser: updateUser, 
-            addUser: addUser
+            getUser: getUser,
+            updateUser: updateUser,
+            addUser: addUser,
+            deleteUser: deleteUser
         };
 
         return userRest;
@@ -47,25 +49,30 @@ services.factory('UsersRest', ['$http', 'Config',
 
             return $http.get(url);
         }
-        
+
         function getUser(id) {
             var url = Config.urlServer + Config.urlUtilisateur + "/" + id;
 
             return $http.get(url);
         }
-        
+
         function updateUser(user) {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlUpdateUser;
 
             return $http.post(url, user); //Attention
         }
-        
+
         function addUser(user) {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlAddUser;
 
             return $http.post(url, user);
         }
-        
+
+        function deleteUser(id) {
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlDeleteUser + "/" + id;
+            return $http.get(url);
+        }
+
     }]);
 
 services.factory('SallesRest', ['$http', 'Config',
@@ -100,12 +107,12 @@ services.factory('SallesRest', ['$http', 'Config',
         }
 
         function addSalle(salle) {
-             var url = REST_SERVICE_URI + Config.urlAddSalle;
+            var url = REST_SERVICE_URI + Config.urlAddSalle;
             return $http.post(url, salle);
         }
-        
+
         function deleteSalle(id) {
-            var url = REST_SERVICE_URI + Config.urlDeleteSalle + "/" +id;
+            var url = REST_SERVICE_URI + Config.urlDeleteSalle + "/" + id;
             return $http.get(url);
         }
     }]);
@@ -114,17 +121,17 @@ services.factory('LoginRest', ['$http', 'Config',
     function ($http, Config) {
         //Liste des mÃ©thodes exposÃ©es
         var loginRest = {
-            login: login, 
-            getProfil:getProfil
+            login: login,
+            getProfil: getProfil
         };
 
         return loginRest;
 
         function login(login, pass) {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlLogUser;
-            return $http.post(url, {"email": login,"password": pass});
+            return $http.post(url, {"email": login, "password": pass});
         }
-        
+
         function getProfil(idProfil) {
             var url = Config.urlServer + Config.urlProfil + Config.urlGetteurProfil + "/" + idProfil;
             return $http.get(url);

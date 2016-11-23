@@ -20,7 +20,11 @@
                 <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
                 <td>{{user.nom}}</td>
                 <td>{{user.prenom}}</td>
-                <td><a href="#/updateUser/{{user.id}}" title="Modifier"><i class="fa fa-pencil-square-o fa-3" aria-hidden="true"></i></a> &nbsp; &nbsp;<a href="#" title="Supprimer"><i class="fa fa-times fa-3" aria-hidden="true"></i></a></td>
+                <td><a href="#/updateUser/{{user.id}}" title="Modifier">
+                        <i class="fa fa-pencil-square-o fa-3" aria-hidden="true"></i>
+                    </a> 
+                    &nbsp; &nbsp;
+                    <a href="" confirmed-click="usersCtrl.deleteUser(user.id)" ng-confirm-box-click="Deleting confirmed ?" title="Supprimer"><i class="fa fa-times fa-3" aria-hidden="true"></i></a></td>
             </tr>
         </tbody>
     </table>

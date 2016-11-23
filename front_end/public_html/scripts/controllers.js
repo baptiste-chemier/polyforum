@@ -36,16 +36,19 @@ controllers.controller('Apropos', ['$rootScope', '$location',
         $rootScope.title = "A propos";
     }]);
 
-controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest',
-    function ($rootScope, UsersRest) {
+controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest', '$location', '$route',
+    function ($rootScope, UsersRest, $location, $route ) {
         $rootScope.title = "Utilisateurs";
         var usersCtrl = this;
 
-        //RÃ©cupÃ¨re une promise
+        //Récupère une promise
         var usersPromise = UsersRest.getUsers();
+        
+         // On référence les méthodes exposées
+        usersCtrl.deleteUser = deleteUser;
 
-        /* Si la requÃªte aboutit (code 200) on affecte le jSon retournÃ©
-         * Ã  la variable employeesCtrl.employees qui sera affichÃ©e
+        /* Si la requete aboutit (code 200) on affecte le jSon retourne
+         * A  la variable employeesCtrl.employees qui sera affiche
          * par la vue employees.html
          */
         usersPromise.success(function (data) {
@@ -56,6 +59,24 @@ controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest',
             usersCtrl.error = data; //On affiche l'erreur brute     
             //alert(usersCtrl.error);
         });
+        
+        /**
+         * Suppression d'une salle
+         * @param {type} id de la salle a supprimer
+         */
+        function deleteUser(id) {
+            if (id) {
+                UsersRest.deleteUser(id).success(function (data, status) {
+                    if (status === 200) {
+                        $location.path('/users');
+                        $route.reload();
+                    }
+                }).error(function (data) {
+                    usersCtrl.error = data;
+                    alert(usersCtrl.error);
+                });
+            }
+        }
     }]);
 
 controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
@@ -65,12 +86,12 @@ controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
         // DÃ©finition du scope
         var userCtrl = this;
 
-        // On rÃ©fÃ©rence les mÃ©thodes exposÃ©es
+        // On reference les methodes exposees
         userCtrl.validateUser = validateUser;
         userCtrl.cancel = cancel;
 
 
-        // On rÃ©cupÃ¨re l'id de l'employÃ©
+        // On recupere l'id de l'employe
         userCtrl.id = $routeParams.id;
 
         // Si l'id est dÃ©fini, c'est modification
@@ -82,7 +103,7 @@ controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
         }
 
         //Gestion des DatePicker
-        //Pour la date de dÃ©but
+        //Pour la date de debut
         // le datepicker n'est pas visible
         userCtrl.dateDebPickerOpened = false;
 
@@ -99,14 +120,7 @@ controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
             userCtrl.dateFinPickerOpened = true;
         }
         
-        // RÃ©cupÃ¨re la liste des departments
-        /*EmployeesRest.getDepartments().success(function (data) {
-            employeeCtrl.departments = data;
-        });*/
-
-        // S'il s'agit d'une demande de modification, il faut lire l'employÃ©,
-        // positionner les listes dÃ©roulantes (jobs et services) en fonction
-        // des valeurs de l'employÃ©
+        // S'il s'agit d'une demande de modification, il faut lire l'employe,
         if (userCtrl.id > 0) {
             var userR = UsersRest.getUser($routeParams.id);
             userR.success(function (data, status) {
@@ -133,29 +147,27 @@ controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
 
         /**
          * On a cliquÃ© sur le bouton valider
-         * @param {type} id : id de l'employÃ© modifiÃ©
+         * @param {type} id : id de l'employe modifie
          * @param {type} form : le formulaire complet
          */
         function validateUser(id, form) {
-            // Si tout a Ã©tÃ© saisi, pas de zone oubliÃ©e
+            // Si tout a ete saisi, pas de zone oubliÃ©e
             if (form.$valid) {
-                // On rÃ©cupÃ¨re l'objet employee dans le scope de la vue
+                // On recupere l'objet employee dans le scope de la vue
                 var user = userCtrl.user;
 
-                //On rÃ©cupÃ¨re la date au format MySQL
+                //On recupere la date au format MySQL
                 var moisDebut = user.date_debut_dispo.getMonth() + 1;
                 var anneeDebut = user.date_debut_dispo.getYear();
                 var jourDebut = user.date_debut_dispo.getDate();
                 user.date_debut_dispo = anneeDebut + '-' + moisDebut + '-' + jourDebut;
 
-                // RÃ©cupÃ©ration du service sÃ©lectionnÃ©
-                //employee.department = employeeCtrl.selectedOptionDep;
 
                 // si on a un id => c'est une modification
                 if (id) {
-                    // Demande de mise Ã  jour de l'employÃ©
+                    // Demande de mise a  jour de l'employe
                     UsersRest.updateUser(user).success(function (data, status) {
-                        // Si c'est OK on consulte la nouvelle liste des employÃ©s
+                        // Si c'est OK on consulte la nouvelle liste des employes
                         // Sinon on affiche l'erreur
                         if (status === 200) {
                             $location.path('/users');
@@ -166,11 +178,11 @@ controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
                     });
                 }
 
-                // Sinon c'est la crÃ©ation d'un nouvel employÃ©
+                // Sinon c'est la creation d'un nouvel employe
                 else {
-                    // Demande d'ajout de l'employÃ©
+                    // Demande d'ajout de l'employe
                     UsersRest.addUser(user).success(function (data, status) {
-                        // Si c'est OK on consulte la nouvelle liste des employÃ©s
+                        // Si c'est OK on consulte la nouvelle liste des employes
                         // Sinon on affiche l'erreur
                         if (status === 200) {
                             $location.path('/users');
@@ -212,8 +224,8 @@ controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest', '$location', '
         });
         
          /**
-         * Suppression d'un employé
-         * @param {type} id de l'employé à supprimer
+         * Suppression d'une salle
+         * @param {type} id de la salle a supprimer
          */
         function deleteSalle(id) {
             if (id) {
@@ -224,7 +236,7 @@ controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest', '$location', '
                     }
                 }).error(function (data) {
                     sallesCtrl.error = data;
-                    alert(sallesSCtrl.error);
+                    alert(sallesCtrl.error);
                 });
             }
         }
