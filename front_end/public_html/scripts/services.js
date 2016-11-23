@@ -101,9 +101,11 @@ services.factory('SallesRest', ['$http', 'Config',
 
         }
 
-        function updateSalle(salle) {
-            var url = REST_SERVICE_URI + Config.urlUpdateSalle;
-            return $http.post(url, salle);
+        function updateSalle(salle, id) {
+            var url = REST_SERVICE_URI + Config.urlUpdateSalle + "/" + id;
+            alert(salle.id);
+            return $http.put(url, id, salle);
+            
         }
 
         function addSalle(salle) {
