@@ -12,21 +12,13 @@ controllers.controller('MainCtrl', ['$rootScope', '$location', 'UserService',
         
         $rootScope.user = UserService.currentUser;
         
-        // On rÃ©fÃ©rence les mÃ©thodes exposÃ©es
-        mainCtrl.disConnect = disConnect;
-
         // Par defaut on n'est pas authentifiÃ©
-        $rootScope.isConnected = false;
-        $rootScope.title = "Test";
 
-        /* 
-         * DÃ©connexion : isConnected passe Ã  faux => le menu disparaÃ®tra
-         * On recharge la page principale
-         */
-        function disConnect() {
-            $rootScope.isConnected = false;
-            $location.path('/home');
-        }
+        $rootScope.title = "Accueil";
+
+        $rootScope.disconnect = function () {
+            UserService.logout($rootScope);
+        };
     }]);
 
 controllers.controller('Apropos', ['$rootScope', '$location',

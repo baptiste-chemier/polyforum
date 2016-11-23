@@ -37,7 +37,7 @@
                        {{user.name}} {{user.firstname}}
                     </div>
                     <div class="col-xs-2 col-sm-1 col-md-1 col-lg-1 disconnect">
-                        <a href="#">
+                        <a href="" confirmed-click="disconnect()" ng-confirm-box-click="Êtes-vous sûr de vouloir quitter l'application ?" title="Logout">
                             <i class="fa fa-power-off fa-lg"></i>
                         </a>
                     </div>
@@ -50,46 +50,43 @@
                 <div class="menu-list ">
 
                     <ul id="menu-content" class="menu-content collapse out">
-                        <li>
+                        <li ng-hide="user.isLoggedIn">
                             <a href="#/login">
                                 <i class="fa fa-arrow-right fa-lg"></i> Connexion
                             </a>
                         </li>
-                        <li>
-                            <a href="#/monCompte/1">
-                                <i class="fa fa-sign-in fa-lg"></i> Mon compte
-                            </a>
-                        </li>
-                        <li>
+                        <li ng-show="user.isLoggedIn">
                             <a href="#">
                                 <i class="fa fa-home fa-lg"></i> Accueil
                             </a>
                         </li>
-
-                        <li>
-                            <a href="#"><i class="fa fa-cog fa-lg"></i> Configuration</a>
+                        <li ng-show="user.isLoggedIn">
+                            <a href="#/monCompte/1">
+                                <i class="fa fa-sign-in fa-lg"></i> Mon compte
+                            </a>
                         </li>
 
-                        <li>
-                            <a href="#"><i class="fa fa-list fa-lg"></i> Participants</a>
-                        </li>  
 
-                        <li >
+                        <li ng-show="user.isTeacher">
+                            <a href="#"><i class="fa fa-cog fa-lg"></i> Configuration</a>
+                        </li> 
+
+                        <li ng-show="user.isTeacher">
                             <a href="#/salles"><i class="fa fa-map-marker fa-lg"></i> Salles </a>
                         </li>
 
-                        <li>
+                        <li >
                             <a href="#">
                                 <i class="fa fa-calendar fa-lg"></i> Planning
                             </a>
                         </li>
 
-                        <li>
+                        <li ng-show="user.isTeacher">
                             <a href="#/users">
                                 <i class="fa fa-users fa-lg"></i> Utilisateur
                             </a>
                         </li>
-                        <li>
+                        <li ng-show="user.isLoggedIn">
                             <a href="#/apropos">
                                 <i class="fa fa-info-circle fa-lg"></i> A Propos
                             </a>
@@ -105,6 +102,7 @@
                     {{title}}
                 </div>
             </div>
+
             <div class="content" ng-view>
 
             </div>

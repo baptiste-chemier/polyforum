@@ -17,6 +17,10 @@ angular.module("AuthServices", [])
             firstname: SessionService.getValue("session.firstname") || "",
             isLoggedIn: (SessionService.getValue("session.name") ? true : false), 
             badConnexion: (SessionService.getValue("session.badConnexion") ? false : true), 
+            profil: SessionService.getValue("session.profil") || "",
+            isStudent: SessionService.getValue("session.isLoggedInAsStudent"),
+            isTeacher: SessionService.getValue("session.isLoggedInAsTeacher"),
+            isCompagny: SessionService.getValue("session.isLoggedInAsCompagny"),
         };
 
         this.login = function($rootScope) {
@@ -31,22 +35,46 @@ angular.module("AuthServices", [])
                     SessionService.setValue("session.badConnexion", "bad.");
                 } else {
                     $rootScope.user.badConnexion = false;
+                    var isStudent = false;
+                    var isTeacher = false;
+                    var isCOmpagny = false;
                     switch (response.idProfil) {
                         case 1:
                             //Etudiant
+                            SessionService.setValue("session.profil", "Etudiant");
+                            SessionService.setValue("session.isLoggedInAsStudent", true);
+                            SessionService.setValue("session.isLoggedInAsTeacher", false);
+                            SessionService.setValue("session.isLoggedInAsCompagny", false);
+                            isStudent= true;
+                            
                         break;
                         case 2:
                             //Enseignant (admin)
+                            SessionService.setValue("session.profil", "Enseignant");
+                            SessionService.setValue("session.isLoggedInAsStudent", false);
+                            SessionService.setValue("session.isLoggedInAsTeacher", true);
+                            SessionService.setValue("session.isLoggedInAsCompagny", false);
+                            isTeacher = true;
                         break;
                         case 3:
                             //Entreprise
+                            SessionService.setValue("session.profil", "Entreprise");
+                            SessionService.setValue("session.isLoggedInAsStudent", false);
+                            SessionService.setValue("session.isLoggedInAsTeacher", false);
+                            SessionService.setValue("session.isLoggedInAsCompagny", true);
+                            isCOmpagny =true;
                         break;
                     }
                     _this.currentUser.name = response.nom;
+                    _this.currentUser.firstname = response.prenom;
                     _this.currentUser.isLoggedIn = true;
+                    _this.currentUser.isStudent = isStudent;
+                    _this.currentUser.isCompagny = isCOmpagny;
+                    _this.currentUser.isTeacher = isTeacher;
+                    
                     SessionService.setValue("session.name", response.nom);
                     SessionService.setValue("session.firstname", response.prenom);
-                    //$location.path("accueil");
+                    $location.path("accueil");
                 }
 
 
@@ -69,13 +97,21 @@ angular.module("AuthServices", [])
 
             };*/
             
-        this.logout = function() {
+        this.logout = function($rootScope) {
             var _this = this;
-            return $http.post("/logout").success(function() {
-                _this.currentUser.isLoggedIn = false;
-                SessionService.destroyItem("session.name");
-                SessionService.destroyItem("session.firstname");
-            });
+            _this.currentUser.isLoggedIn = false;
+            _this.currentUser.isStudent = false;
+            _this.currentUser.isCompagny = false;
+            _this.currentUser.isTeacher = false;
+            _this.currentUser.name = "";
+            _this.currentUser.firstname = "";
+            SessionService.destroyItem("session.name");
+            SessionService.destroyItem("session.firstname");
+            SessionService.destroyItem("session.isLoggedInAsStudent");
+            SessionService.destroyItem("session.isLoggedInAsTeacher");
+            SessionService.destroyItem("session.isLoggedInAsCompagny");
+
+            $location.path("/login");
         };
 
 
@@ -109,3 +145,4 @@ angular.module("AuthServices", [])
             }
         };
     });
+

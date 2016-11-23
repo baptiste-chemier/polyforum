@@ -55,8 +55,11 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider',
                 .when('/monCompte/:id', {
                     templateUrl: 'partials/monCompte.html',
                     controller: 'MonCompteCtrl as monCompteCtrl'
+                })
+                .otherwise({
+                    templateUrl: 'partials/login.html',
+                    controller: 'LoginCtrl as loginCtrl'
                 });
-        
         $httpProvider.interceptors.push(function ($q, $location, httpBufferService) {
 
             return {
