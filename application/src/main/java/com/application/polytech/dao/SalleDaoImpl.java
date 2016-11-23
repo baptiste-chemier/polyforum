@@ -39,7 +39,7 @@ public class SalleDaoImpl extends AbstractDao implements SalleDao {
 
             salleModifie.setCapacite(salle.getCapacite());
 
-            this.getSession().update(salle);
+            this.getSession().update(salleModifie);
 
         }
 

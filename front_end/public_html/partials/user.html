@@ -1,6 +1,6 @@
 <div class="formUser">
     <h1>{{userCtrl.titleH1}}</h1>
-    
+
     <form class="form-horizontal" role="form" name="userForm" >
 
         <div class="form-group">
@@ -15,47 +15,51 @@
                 <input type="text" name="prenom" ng-model="userCtrl.user.prenom" class="form-control" placeholder="Prénom" required autofocus>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label class="col-xs 12 col-sm-3 col-md-3 control-label">N° de téléphone </label>
             <div class="col-xs 12 col-sm-6  col-md-5 col-lg-3">
                 <input type="text" name="telephone" ng-model="userCtrl.user.telephone" class="form-control" placeholder="N° de Téléphone" required autofocus>
             </div>
         </div>
-        
+
         <div class="form-group">
             <label class="col-xs 12 col-sm-3 col-md-3 control-label">Mail </label>
             <div class="col-xs 12 col-sm-6  col-md-5 col-lg-3">
                 <input type="text" name="email" ng-model="userCtrl.user.email" class="form-control" placeholder="e-Mail" required autofocus>
             </div>
         </div>
-        
+
         <div class="form-group">
-            <label class="col-sm-3 control-label">Date de disponibilité (début) </label>
-            <div class="col-sm-6 col-md-5 col-lg-3">   
+            <label class="col-sm-3 control-label">Heure de début </label>
+            <div class="col-sm-6 col-md-5 col-lg-3">
                 <p class="input-group">
-                    <input type="text" class="form-control" is-open="userCtrl.dateDebPickerOpened" datepicker-popup="shortDate" 
-                           ng-model="userCtrl.user.date_debut_dispo" ng-required="true"  name="date_debut_dispo" close-text="Close" />                 
+                    <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy hh:mm" ng-model="userCtrl.time" is-open="userCtrl.timeOpened" ng-required="true" close-text="Close"/>
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="userCtrl.openDateDebPicker()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
-                    </span>   
+                        <button type="button" class="btn btn-default" ng-click="userCtrl.opentimeOpened()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                    </span>
                 </p>
-            </div>
-        </div>  
-        
+
+                <timepicker  ng-model="userCtrl.time" hour-step="1" minute-step="30" show-meridian="true">
+                </timepicker>
+            </div> 
+        </div>
+
         <div class="form-group">
-            <label class="col-sm-3 control-label">Date de disponibilité (Fin) </label>
-            <div class="col-sm-6 col-md-5 col-lg-3">   
+            <label class="col-sm-3 control-label">Heure de fin </label>
+            <div class="col-sm-6 col-md-5 col-lg-3">
                 <p class="input-group">
-                    <input type="text" class="form-control" is-open="userCtrl.dateFinPickerOpened" datepicker-popup="shortDate" 
-                           ng-model="userCtrl.user.date_fin_dispo" ng-required="true"  name="date_fin_dispo" close-text="Close" />                 
+                    <input type="text" class="form-control" datepicker-popup="dd-MMMM-yyyy hh:mm" ng-model="userCtrl.timefin" is-open="userCtrl.timeClosed" ng-required="true" close-text="Close"/>
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="userCtrl.openDateFinPicker()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
-                    </span>   
+                        <button type="button" class="btn btn-default" ng-click="userCtrl.opentimeClosed()"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                    </span>
                 </p>
+
+                <timepicker ng-model="userCtrl.timefin" hour-step="1" minute-step="30" show-meridian="true">
+                </timepicker>
             </div>
-        </div>  
-        
+        </div>
+
         <div class="form-group buttons">
             <div class="col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4">
                 <button type="submit" class="btn btn-default btn-primary" ng-click="userCtrl.validateUser(userCtrl.user.id, userForm)"><i class="fa fa-check" aria-hidden="true"></i> Enregistrer</button>
@@ -63,7 +67,7 @@
                 <button type="button" class="btn btn-default " ng-click="userCtrl.cancel()"><i class="fa fa-times" aria-hidden="true"></i> Annuler</button>
             </div>           
         </div>  
-        
+
         <div class="form-group" >
             <div class="col-sm-6 col-sm-offset-3" ng-show="userCtrl.error" >
                 <div class="alert-danger" role="alert">
@@ -72,8 +76,8 @@
                 </div>
             </div>
         </div>
-        
-        
+
+
     </form>
-    
+
 </div>

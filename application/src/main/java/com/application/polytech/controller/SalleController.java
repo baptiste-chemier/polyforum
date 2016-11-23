@@ -58,9 +58,7 @@ public class SalleController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Salle getSalleById(@PathVariable("id") final Long id) {
-        Salle salle = null;
-        salle = this.salleService.getSalleById(id);
-        return salle;
+        return this.salleService.getSalleById(id);
     }
 
     /**
@@ -70,9 +68,7 @@ public class SalleController {
      */
     @RequestMapping(value = "/lister", method = RequestMethod.GET)
     public @ResponseBody List<Salle> getAll() {
-        List<Salle> listSalle = null;
-        listSalle = this.salleService.getAll();
-        return listSalle;
+        return this.salleService.getAll();
     }
 
     /**
