@@ -213,17 +213,17 @@ controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest',
 controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
     function ($rootScope, UserService) {
         var loginCtr = this;
-        
+
         $rootScope.title = "Connection";
         
         $rootScope.userService = UserService;
 
         $rootScope.user = UserService.currentUser;
-        loginCtr.login = login;
-        
-        function login(user) {
-            UserService.login(user);
-        }
+
+        $rootScope.login = function() {
+            UserService.login($rootScope).success(function(){
+            });
+        };
     }]);
 
 controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParams',

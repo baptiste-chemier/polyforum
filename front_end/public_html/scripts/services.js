@@ -13,7 +13,9 @@ services.factory('Config', [function () {
             urlUpdateUser: '/modifier',
             urlAddUser: '/ajouter',
             urlLogUser: '/connecter',
-            urlSalle: '/salles'
+            urlSalle: '/salles',
+            urlProfil: '/profil', 
+            urlGetteurProfil: '/recupererLibelle'
             
         };
     }]);
@@ -82,14 +84,19 @@ services.factory('LoginRest', ['$http', 'Config',
     function ($http, Config) {
         //Liste des méthodes exposées
         var loginRest = {
-            login: login
+            login: login, 
+            getProfil:getProfil
         };
 
         return loginRest;
 
-        function login(userLogin, userPass) {
+        function login(login, pass) {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlLogUser;
-
-            return $http.post(url);
+            return $http.post(url, {"email": login,"password": pass});
+        }
+        
+        function getProfil(idProfil) {
+            var url = Config.urlServer + Config.urlProfil + Config.urlGetteurProfil + "/" + idProfil;
+            return $http.get(url);
         }
     }]);

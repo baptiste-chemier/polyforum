@@ -23,10 +23,14 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-12">
-        <span class="alert-txt">{{errMsg}}</span>
+    <div class="col-sm-12" ng-show="user.badConnexion">
+        <div  class="alert alert-danger" role="alert">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            {{errMsg}}
+        </div>
+        
     </div>
     <div class="col-sm-12">
-        <button ng-click="loginCtrl.login(user)" class="btn btn-primary">Se connecter</button>
+        <button ng-click="login()" class="btn btn-primary">Se connecter</button>
     </div>
 </div>

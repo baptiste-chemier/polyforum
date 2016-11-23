@@ -15,18 +15,40 @@ angular.module("AuthServices", [])
         this.currentUser = {
             name: SessionService.getValue("session.name") || "",
             firstname: SessionService.getValue("session.firstname") || "",
-            isLoggedIn: (SessionService.getValue("session.name") ? true : false)
+            isLoggedIn: (SessionService.getValue("session.name") ? true : false), 
+            badConnexion: (SessionService.getValue("session.badConnexion") ? false : true), 
         };
 
-        this.login = function(user) {
+        this.login = function($rootScope) {
             var _this = this;
-           return LoginRest.login(user.login, user.pass).success(function(response) {
+            var user = $rootScope.user;
 
-                _this.currentUser.name = response.username;
-                _this.currentUser.isLoggedIn = true;
-                SessionService.setValue("session.name", response.nom);
-                SessionService.setValue("session.firstname", response.prenom);
-                $location.path("accueil");
+           return LoginRest.login(user.login, user.pass).success(function(response) {
+                if (false == response) {
+                    //Bad pass or bad login
+                    $rootScope.errMsg = "Le nom d'utilisateur ou le mot de passe saisi est incorrect.";
+                    $rootScope.user.badConnexion = true;
+                    SessionService.setValue("session.badConnexion", "bad.");
+                } else {
+                    $rootScope.user.badConnexion = false;
+                    switch (response.idProfil) {
+                        case 1:
+                            //Etudiant
+                        break;
+                        case 2:
+                            //Enseignant (admin)
+                        break;
+                        case 3:
+                            //Entreprise
+                        break;
+                    }
+                    _this.currentUser.name = response.nom;
+                    _this.currentUser.isLoggedIn = true;
+                    SessionService.setValue("session.name", response.nom);
+                    SessionService.setValue("session.firstname", response.prenom);
+                    //$location.path("accueil");
+                }
+
                 // or
                 //httpBufferService.retryLastRequest();
 
