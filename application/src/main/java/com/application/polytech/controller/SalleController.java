@@ -42,11 +42,12 @@ public class SalleController {
     /**
      * Update salle.
      *
+     * @param id the id
      * @param salle the salle
      */
-    @RequestMapping(value = "/modifier", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody void updateSalle(@RequestBody final Salle salle) {
-        this.salleService.updateSalle(salle);
+    @RequestMapping(value = "/modifier/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody void updateSalle(@PathVariable("id") final Long id, @RequestBody final Salle salle) {
+        this.salleService.updateSalle(id, salle);
     }
 
     /**

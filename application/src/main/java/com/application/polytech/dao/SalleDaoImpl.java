@@ -29,8 +29,20 @@ public class SalleDaoImpl extends AbstractDao implements SalleDao {
      * @see com.application.polytech.dao.SalleDao#updateSalle(com.application.polytech.model.Salle)
      */
     @Override
-    public void updateSalle(final Salle salle) {
-        this.getSession().update(salle);
+    public void updateSalle(final Long id, final Salle salle) {
+        final Salle salleModifie = this.getSalleById(id);
+
+        if (salleModifie != null) {
+            if (salle.getLibelle() != null) {
+                salleModifie.setLibelle(salle.getLibelle());
+            }
+
+            salleModifie.setCapacite(salle.getCapacite());
+
+            this.getSession().update(salle);
+
+        }
+
     }
 
     /*

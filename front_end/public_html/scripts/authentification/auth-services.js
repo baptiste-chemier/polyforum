@@ -49,9 +49,9 @@ angular.module("AuthServices", [])
                     //$location.path("accueil");
                 }
 
-                // or
-                //httpBufferService.retryLastRequest();
 
+            }).error(function (response) { //Si la requête a provoqué une erreur (code 404)
+                alert("pas bon");
             });
         };
         
