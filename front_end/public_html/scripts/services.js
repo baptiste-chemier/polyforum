@@ -3,7 +3,7 @@
 var services = angular.module('services', []);
 
 /*
- * Définition des urls 
+ * DÃ©finition des urls 
  */
 services.factory('Config', [function () {
         return {
@@ -19,14 +19,14 @@ services.factory('Config', [function () {
     }]);
 
 /*
- * Gestion de l'accès aux données, utilise le
+ * Gestion de l'accÃ¨s aux donnÃ©es, utilise le
  * service Config qui contient les urls du serveur RestFul 
- * Cahque méthode exposée retourne une promise qui 
- * sera exploitée dans les contrôleurs
+ * Cahque mÃ©thode exposÃ©e retourne une promise qui 
+ * sera exploitÃ©e dans les contrÃ´leurs
  */
 services.factory('UsersRest', ['$http', 'Config',
     function ($http, Config) {
-        //Liste des méthodes exposées
+        //Liste des mÃ©thodes exposÃ©es
         var userRest = {
             getUsers: getUsers,
             getUser: getUser, 
@@ -64,7 +64,7 @@ services.factory('UsersRest', ['$http', 'Config',
 
 services.factory('SallesRest', ['$http', 'Config',
     function ($http, Config) {
-        //Liste des méthodes exposées
+        //Liste des mÃ©thodes exposÃ©es
         var sallesRest = {
             getSalles: getSalles
         };
@@ -80,16 +80,17 @@ services.factory('SallesRest', ['$http', 'Config',
 
 services.factory('LoginRest', ['$http', 'Config',
     function ($http, Config) {
-        //Liste des méthodes exposées
+        //Liste des mÃ©thodes exposÃ©es
         var loginRest = {
             login: login
         };
 
         return loginRest;
 
-        function login(userLogin, userPass) {
+        function login(user) {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlLogUser;
-
-            return $http.post(url);
+            alert(user.login);
+            alert(user.pass);
+            return $http.post(url, {"email": userLogin,"password": userPass});
         }
     }]);
