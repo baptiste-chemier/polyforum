@@ -21,7 +21,6 @@ h1 {
 /*******************************************************************
 ********************************************************************/
 
-
 .pictureAccueil {
     margin: 0px;
 }
@@ -334,6 +333,7 @@ body {
 .rowInfosConnection {
     margin: 20px 0px 0px 0px;
     font-size: 20px;
+    text-align: center;
 }
 
 .rowInfosConnection span {

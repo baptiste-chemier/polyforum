@@ -11,23 +11,27 @@
 </div>
 
 <div class="row rowConnexion"  ng-hide="userIsLoggedIn">
-    <div class="col-sm-12">
+    <div class="col-sm-offset-3 col-sm-7 col-md-offset-4 col-md-4 text-center">
         <div class="form-group">
             <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Indentifiant</span>
-                <input ng-model="user.login" type="text" class="form-control" required autofocus>
+                <div class="input-group-addon">
+                    <i class="fa fa-user fa-lg"></i> 
+                </div>
+                <input ng-model="user.login" type="text" class="form-control" placeholder="polytech@exemple.fr" required autofocus>
             </div>
         </div>
     </div>
-    <div class="col-sm-12">
+    <div class="col-sm-offset-3 col-sm-7 col-md-offset-4 col-md-4 text-center">
         <div class="form-group">
             <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Mot de passe</span>
-                <input ng-model="user.pass" type="text" class="form-control" required>
+                <div class="input-group-addon">
+                    <i class="fa fa-lock fa-lg"></i> 
+                </div>
+                <input ng-model="user.pass" type="text" class="form-control" placeholder="Mot de passe" required>
             </div>
         </div>
     </div>
-    <div class="col-sm-12" ng-show="user.badConnexion">
+    <div class="col-sm-offset-3 col-sm-7 text-center" ng-show="user.badConnexion">
         <div  class="alert alert-danger" role="alert">
             <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
             {{errMsg}}

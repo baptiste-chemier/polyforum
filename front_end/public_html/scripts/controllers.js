@@ -332,7 +332,7 @@ controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
     function ($rootScope, UserService) {
         var loginCtr = this;
 
-        $rootScope.title = "Connection";
+        $rootScope.title = "Connexion";
         
         $rootScope.userService = UserService;
 
