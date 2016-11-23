@@ -21,15 +21,17 @@ angular.module("AuthServices", [])
         this.login = function(user) {
             var _this = this;
            return LoginRest.login(user.login, user.pass).success(function(response) {
-
-                _this.currentUser.name = response.username;
+               alert(response);
+                /*_this.currentUser.name = response.username;
                 _this.currentUser.isLoggedIn = true;
                 SessionService.setValue("session.name", response.nom);
                 SessionService.setValue("session.firstname", response.prenom);
-                $location.path("accueil");
+                $location.path("accueil");*/
                 // or
                 //httpBufferService.retryLastRequest();
 
+            }).error(function (response) { //Si la requête a provoqué une erreur (code 404)
+                alert("pas bon");
             });
         };
         
