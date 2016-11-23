@@ -58,7 +58,7 @@ public class ProfilController {
      * @param id the id
      * @return the libelle by id
      */
-    @RequestMapping(value = "/libelle/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/recupererlibelle/{id}", method = RequestMethod.GET)
     public @ResponseBody String getLibelleById(@PathVariable("id") final Long id) {
         return this.profilService.getLibelleById(id);
     }
