@@ -188,8 +188,8 @@ controllers.controller('UserCtrl', ['$rootScope','UsersRest', '$routeParams',
 
     }]);
 
-controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest',
-    function ($rootScope, SallesRest) {
+controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest', '$location', '$route',
+    function ($rootScope, SallesRest, $location, $route ) {
         $rootScope.title = "Salles";
         var sallesCtrl = this;
         //Récupère une promise
