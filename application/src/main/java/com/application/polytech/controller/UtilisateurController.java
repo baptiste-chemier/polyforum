@@ -93,11 +93,12 @@ public class UtilisateurController {
      * @return the boolean
      */
     @RequestMapping(value = "/connecter", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Boolean connecter(@RequestBody final Connexion connexion) {
-        if (this.utilisateurService.connecter(connexion.getEmail(), connexion.getPassword()) != null) {
-            return true;
+    public @ResponseBody Utilisateur connecter(@RequestBody final Connexion connexion) {
+        final Utilisateur utilisateur = this.utilisateurService.connecter(connexion.getEmail(), connexion.getPassword());
+        if (utilisateur != null) {
+            return utilisateur;
         } else {
-            return false;
+            return null;
         }
     }
 
