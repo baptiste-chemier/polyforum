@@ -82,20 +82,6 @@ angular.module("AuthServices", [])
                 alert("pas bon");
             });
         };
-        
-           /* this.login = function (user) {
-                var _this = this;
-                    _this.currentUser.name = "Baptiste";
-                    _this.currentUser.firstname = "Chemier";
-                    _this.currentUser.isLoggedIn = true;
-                    SessionService.setValue("session.name", "Chemier");
-                    SessionService.setValue("session.firstname", "Baptiste");
-                    $location.path("accueil");
-                    // or
-                    //httpBufferService.retryLastRequest();
-
-
-            };*/
             
         this.logout = function($rootScope) {
             var _this = this;
@@ -105,13 +91,17 @@ angular.module("AuthServices", [])
             _this.currentUser.isTeacher = false;
             _this.currentUser.name = "";
             _this.currentUser.firstname = "";
+            
             SessionService.destroyItem("session.name");
             SessionService.destroyItem("session.firstname");
             SessionService.destroyItem("session.isLoggedInAsStudent");
             SessionService.destroyItem("session.isLoggedInAsTeacher");
             SessionService.destroyItem("session.isLoggedInAsCompagny");
 
-            $location.path("/login");
+            $rootScope.$apply(function () {
+                $location.path("/login");
+                console.log($location.path());
+            });
         };
 
 
