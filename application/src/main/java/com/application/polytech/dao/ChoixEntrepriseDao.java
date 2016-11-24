@@ -1,6 +1,9 @@
 package com.application.polytech.dao;
 
+import java.util.List;
+
 import com.application.polytech.model.ChoixEntreprise;
+import com.application.polytech.model.Utilisateur;
 
 /**
  * The Interface ChoixEntrepriseDao.
@@ -29,5 +32,13 @@ public interface ChoixEntrepriseDao {
      * @return the id entreprise by id
      */
     public Long getIdEntrepriseById(final Long id);
+
+    /**
+     * Gets the list etudiant by id entreprise.
+     *
+     * @param id the id
+     * @return the list etudiant by id entreprise
+     */
+    public List<Utilisateur> getListEtudiantByIdEntreprise(Long id);
 
 }
