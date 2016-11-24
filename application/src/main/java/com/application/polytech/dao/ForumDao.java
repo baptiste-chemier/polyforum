@@ -1,5 +1,7 @@
 package com.application.polytech.dao;
 
+import java.util.List;
+
 import com.application.polytech.model.Forum;
 
 /**
@@ -21,6 +23,13 @@ public interface ForumDao {
      * @return the forum by id
      */
     public Forum getForumById(final Long id);
+
+    /**
+     * Gets the all.
+     *
+     * @return the all
+     */
+    public List<Forum> getAll();
 
     /**
      * Update forum.
