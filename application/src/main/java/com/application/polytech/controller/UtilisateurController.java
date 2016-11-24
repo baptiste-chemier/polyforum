@@ -59,9 +59,8 @@ public class UtilisateurController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Utilisateur getUtilisateurById(@PathVariable("id") final Long id) {
-        Utilisateur utilisateur = null;
-        utilisateur = this.utilisateurService.getUtilisateurById(id);
-        return utilisateur;
+        return this.utilisateurService.getUtilisateurById(id);
+
     }
 
     /**
@@ -71,9 +70,7 @@ public class UtilisateurController {
      */
     @RequestMapping(value = "/lister", method = RequestMethod.GET)
     public @ResponseBody List<Utilisateur> getAll() {
-        List<Utilisateur> listUtilisateur = null;
-        listUtilisateur = this.utilisateurService.getAll();
-        return listUtilisateur;
+        return this.utilisateurService.getAll();
     }
 
     /**
@@ -100,28 +97,6 @@ public class UtilisateurController {
         } else {
             return null;
         }
-    }
-
-    /**
-     * Enregistrer choix etudiant.
-     *
-     * @param idEtudiant the id etudiant
-     * @param idEntreprise the id entreprise
-     */
-    @RequestMapping(value = "/enregistrerChoixEtudiant/{idEtudiant}/{idEntreprise}", method = RequestMethod.POST)
-    public @ResponseBody void enregistrerChoixEtudiant(@PathVariable("idEtudiant") final Long idEtudiant, @PathVariable("idEntreprise") final Long idEntreprise) {
-        this.utilisateurService.enregistrerChoixEtudiant(idEtudiant, idEntreprise);
-    }
-
-    /**
-     * Enregistrer choix entreprise.
-     *
-     * @param idEntreprise the id entreprise
-     * @param idEtudiant the id etudiant
-     */
-    @RequestMapping(value = "/enregistrerChoixEntreprise/{idEntreprise}/{idEtudiant}", method = RequestMethod.POST)
-    public @ResponseBody void enregistrerChoixEntreprise(@PathVariable("idEntreprise") final Long idEntreprise, @PathVariable("idEtudiant") final Long idEtudiant) {
-        this.utilisateurService.enregistrerChoixEntreprise(idEntreprise, idEtudiant);
     }
 
     /**
