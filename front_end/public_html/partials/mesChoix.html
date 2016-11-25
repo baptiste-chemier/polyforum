@@ -1,0 +1,35 @@
+
+<div class="col-sm-6">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td colspan="2">{{choiceCtrl.titreColoneAChoisir}}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="choice in choiceCtrl.choises">
+                <td>{{choice.prenom}} {{choice.nom}}</td>
+                <td>
+                    <a href="" title="Ajouter" ng-click="choiceCtrl.ajoutEntrepriseMesChoix(choice.id)">
+                        <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+        
+    </table>
+</div>
+<div class="col-sm-6">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>{{choiceCtrl.titreColoneMesChoix}}</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="myChoice in choiceCtrl.myChoices">
+                <td>{{myChoice.idEntreprise}}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

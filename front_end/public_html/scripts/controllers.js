@@ -489,3 +489,63 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
         }
 
     }]);
+
+controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant', 'UserService', 'UsersRest',
+    function ($rootScope, $location, ChoixEtudiant, UserService, UsersRest) {
+        var choiceCtrl = this;
+
+        $rootScope.title = "Mes choix";
+        
+        $rootScope.user = UserService.currentUser;
+        ajoutEntrepriseMesChoix
+        
+        // On rÃ©fÃ©rence les mÃ©thodes exposÃ©es
+        choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
+        
+        if ($rootScope.user.isStudent) {
+            choiceCtrl.titreColoneAChoisir = "Les Entreprises présentes";
+            choiceCtrl.titreColoneMesChoix = "Les Entreprises que je veux voir";
+            
+            //Récupère une promise
+            var choicesPromise = ChoixEtudiant.getAllChoix();
+            var myChoicesPromise = ChoixEtudiant.getChoix(1); //ATENTION ID EN DUR
+
+
+            choicesPromise.success(function (data) {
+                if (data.length > 0) { //si la liste n'est pas vide
+                    choiceCtrl.choises = data;
+                }
+            }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
+                choiceCtrl.error = data; //On affiche l'erreur brute     
+                //alert(usersCtrl.error);
+            });
+            
+            myChoicesPromise.success(function (data) {
+                if (data.length > 0) { //si la liste n'est pas vide
+                    choiceCtrl.myChoices = data;
+                }
+            }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
+                choiceCtrl.error = data; //On affiche l'erreur brute     
+                //alert(usersCtrl.error);
+            });
+            
+        }
+        
+        function ajoutEntrepriseMesChoix(id_entreprise) {
+            alert(id_entreprise);
+            ChoixEtudiant.saveChoix(1, id_entreprise,15).success(function(response){
+                myChoicesPromise.success(function (data) {
+                    if (data.length > 0) { //si la liste n'est pas vide
+                        choiceCtrl.myChoices = data;
+                    }
+                }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
+                    choiceCtrl.error = data; //On affiche l'erreur brute     
+                    //alert(usersCtrl.error);
+                });
+            }).error(function(response) {
+                alert("error");
+            });
+
+        }
+
+    }]);

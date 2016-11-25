@@ -65,7 +65,11 @@
                                 <i class="fa fa-sign-in fa-lg"></i> Mon compte
                             </a>
                         </li>
-
+                        <li ng-show="user.isStudent">
+                            <a href="#/meschoix">
+                                <i class="fa fa-book fa-lg"></i> Mes Choix
+                            </a>
+                        </li>
 
                         <li ng-show="user.isTeacher">
                             <a href="#"><i class="fa fa-cog fa-lg"></i> Configuration</a>

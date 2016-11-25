@@ -56,6 +56,11 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider',
                     templateUrl: 'partials/monCompte.html',
                     controller: 'MonCompteCtrl as monCompteCtrl'
                 })
+                //Mes Choix 
+                .when('/meschoix', {
+                    templateUrl: 'partials/mesChoix.html',
+                    controller: 'ChoiceCtrl as choiceCtrl'
+                })
                 .otherwise({
                     templateUrl: 'partials/login.html',
                     controller: 'LoginCtrl as loginCtrl'
@@ -65,7 +70,6 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider',
             return {
                 "responseError": function (response) {
                     var deferred = $q.defer();
-
                     if (response.status === 401) {
 
                         $location.path("/login");
