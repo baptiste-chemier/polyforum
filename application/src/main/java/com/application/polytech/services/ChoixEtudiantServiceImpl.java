@@ -44,4 +44,9 @@ public class ChoixEtudiantServiceImpl implements ChoixEtudiantService {
         return this.choixEtudiantDao.getListEntrepriseByIdEtudiant(id);
     }
 
+    @Override
+    public List<Utilisateur> getListEntreprise() {
+        return this.choixEtudiantDao.getListEntreprise();
+    }
+
 }

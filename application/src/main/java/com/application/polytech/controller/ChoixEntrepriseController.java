@@ -50,4 +50,9 @@ public class ChoixEntrepriseController {
     public @ResponseBody List<Utilisateur> getListEtudiantByIdEntreprise(@PathVariable("idEntreprise") final Long id) {
         return this.choixEntrepriseService.getListEtudiantByIdEntreprise(id);
     }
+
+    @RequestMapping(value = "/lister", method = RequestMethod.GET)
+    public @ResponseBody List<Utilisateur> getListEtudiant() {
+        return this.choixEntrepriseService.getListEtudiant();
+    }
 }

@@ -41,4 +41,6 @@ public interface ChoixEntrepriseDao {
      */
     public List<Utilisateur> getListEtudiantByIdEntreprise(Long id);
 
+    public List<Utilisateur> getListEtudiant();
+
 }

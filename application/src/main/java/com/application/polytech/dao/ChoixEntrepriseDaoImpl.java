@@ -63,4 +63,11 @@ public class ChoixEntrepriseDaoImpl extends AbstractDao implements ChoixEntrepri
         criteria.add(Restrictions.eq("idEntreprise", id));
         return criteria.list();
     }
+
+    @Override
+    public List<Utilisateur> getListEtudiant() {
+        final Criteria criteria = this.getSession().createCriteria(Utilisateur.class);
+        criteria.add(Restrictions.eq("idProfil", 1L));
+        return criteria.list();
+    }
 }

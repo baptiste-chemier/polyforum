@@ -25,4 +25,6 @@ public interface ChoixEtudiantService {
      */
     public List<Utilisateur> getListEntrepriseByIdEtudiant(final Long id);
 
+    public List<Utilisateur> getListEntreprise();
+
 }
