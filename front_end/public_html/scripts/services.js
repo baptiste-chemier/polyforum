@@ -26,10 +26,10 @@ services.factory('Config', [function () {
     }]);
 
 /*
- * Gestion de l'accÃ¨s aux donnÃ©es, utilise le
+ * Gestion de l'acces aux donnees, utilise le
  * service Config qui contient les urls du serveur RestFul 
- * Cahque mÃ©thode exposÃ©e retourne une promise qui 
- * sera exploitÃ©e dans les contrÃ´leurs
+ * Chaque mehotde exposee retourne une promise qui 
+ * sera exploitee dans les controleurs
  */
 services.factory('UsersRest', ['$http', 'Config',
     function ($http, Config) {
@@ -56,10 +56,9 @@ services.factory('UsersRest', ['$http', 'Config',
             return $http.get(url);
         }
 
-        function updateUser(user) {
-            var url = Config.urlServer + Config.urlUtilisateur + Config.urlUpdateUser;
-
-            return $http.post(url, user); //Attention
+        function updateUser(user, id) {
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlUpdateUser + '/' + id;
+            return $http.put(url, user); //Attention
         }
 
         function addUser(user) {
@@ -103,10 +102,11 @@ services.factory('SallesRest', ['$http', 'Config',
 
         function updateSalle(salle, id) {
             var url = REST_SERVICE_URI + Config.urlUpdateSalle + "/" + id;
-            alert(salle.id);
-            return $http.put(url, id, salle);
-            
+            return $http.put(url, salle);
+  
         }
+
+
 
         function addSalle(salle) {
             var url = REST_SERVICE_URI + Config.urlAddSalle;
