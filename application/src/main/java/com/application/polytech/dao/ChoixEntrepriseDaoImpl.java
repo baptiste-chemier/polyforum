@@ -64,6 +64,10 @@ public class ChoixEntrepriseDaoImpl extends AbstractDao implements ChoixEntrepri
         return criteria.list();
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.ChoixEntrepriseDao#getListEtudiant()
+     */
     @Override
     public List<Utilisateur> getListEtudiant() {
         final Criteria criteria = this.getSession().createCriteria(Utilisateur.class);

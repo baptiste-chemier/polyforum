@@ -44,6 +44,10 @@ public class ChoixEntrepriseServiceImpl implements ChoixEntrepriseService {
         return this.choixEntrepriseDao.getListEtudiantByIdEntreprise(id);
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.ChoixEntrepriseService#getListEtudiant()
+     */
     @Override
     public List<Utilisateur> getListEtudiant() {
         return this.choixEntrepriseDao.getListEtudiant();
