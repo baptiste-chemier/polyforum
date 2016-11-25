@@ -1,5 +1,8 @@
 package com.application.polytech.services;
 
+import java.util.Date;
+import java.util.List;
+
 import com.application.polytech.model.Forum;
 
 /**
@@ -23,14 +26,19 @@ public interface ForumService {
     public Forum getForumById(final Long id);
 
     /**
+     * Gets the all.
+     *
+     * @return the all
+     */
+    public List<Forum> getAll();
+
+    /**
      * Update forum.
      *
      * @param id the id
-     * @param date the date
-     * @param heureDebut the heure debut
-     * @param heureFin the heure fin
-     * @param minDebut the min debut
-     * @param minFin the min fin
+     * @param dateDebutForum the date debut forum
+     * @param dateFinForum the date fin forum
+     * @param email the email
      */
-    public void updateForum(final Long id, final String date, final Integer heureDebut, final Integer heureFin, final Integer minDebut, final Integer minFin);
+    public void updateForum(final Long id, final Date dateDebutForum, final Date dateFinForum, final String email);
 }

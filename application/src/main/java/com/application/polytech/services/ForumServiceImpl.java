@@ -1,9 +1,7 @@
 package com.application.polytech.services;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,36 +44,42 @@ public class ForumServiceImpl implements ForumService {
      * @see com.application.polytech.services.ForumService#updateForum(java.lang.Long, java.lang.String, java.lang.Integer, java.lang.Integer, java.lang.Integer, java.lang.Integer)
      */
     @Override
-    public void updateForum(final Long id, final String date, final Integer heureDebut, final Integer heureFin, final Integer minDebut, final Integer minFin) {
-        try {
-            final Forum forumModifie = this.forumDao.getForumById(id);
+    public void updateForum(final Long id, final Date dateDebutForum, final Date dateFinForum, final String email) {
+        final Forum forumModifie = this.forumDao.getForumById(id);
 
-            if (forumModifie != null) {
-                final SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-                final Date format = sdf.parse(date);
-                final Calendar dateDebut = Calendar.getInstance();
+        if (forumModifie != null) {
+            // final SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+            // final Date format = sdf.parse(date);
+            // final Calendar dateDebut = Calendar.getInstance();
+            //
+            // dateDebut.setTime(format);
+            // dateDebut.set(Calendar.HOUR, heureDebut);
+            // dateDebut.set(Calendar.MINUTE, minDebut);
+            // dateDebut.set(Calendar.SECOND, 0);
+            // dateDebut.set(Calendar.MILLISECOND, 0);
+            //
+            // final Calendar dateFin = Calendar.getInstance();
+            // dateFin.setTime(format);
+            // dateFin.set(Calendar.HOUR, heureFin);
+            // dateFin.set(Calendar.MINUTE, minFin);
+            // dateFin.set(Calendar.SECOND, 0);
+            // dateFin.set(Calendar.MILLISECOND, 0);
 
-                dateDebut.setTime(format);
-                dateDebut.set(Calendar.HOUR, heureDebut);
-                dateDebut.set(Calendar.MINUTE, minDebut);
-                dateDebut.set(Calendar.SECOND, 0);
-                dateDebut.set(Calendar.MILLISECOND, 0);
+            forumModifie.setDateDebutForum(dateDebutForum);
+            forumModifie.setDateDebutForum(dateFinForum);
+            forumModifie.setEmail(email);
 
-                final Calendar dateFin = Calendar.getInstance();
-                dateFin.setTime(format);
-                dateFin.set(Calendar.HOUR, heureFin);
-                dateFin.set(Calendar.MINUTE, minFin);
-                dateFin.set(Calendar.SECOND, 0);
-                dateFin.set(Calendar.MILLISECOND, 0);
-
-                forumModifie.setDateDebutDispo(dateDebut.getTime());
-                forumModifie.setDateDebutDispo(dateFin.getTime());
-
-                this.forumDao.updateForum(forumModifie);
-            }
-        } catch (final ParseException e) {
-            e.printStackTrace();
+            this.forumDao.updateForum(forumModifie);
         }
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.ForumService#getAll()
+     */
+    @Override
+    public List<Forum> getAll() {
+        return this.forumDao.getAll();
     }
 
 }

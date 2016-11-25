@@ -1,5 +1,7 @@
 package com.application.polytech.dao;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -39,9 +41,19 @@ public class ForumDaoImpl extends AbstractDao implements ForumDao {
     @Override
     public void updateForum(final Forum forum) {
         final Forum forumModifie = this.getForumById(forum.getId());
-        forumModifie.setDateDebutDispo(forum.getDateDebutDispo());
-        forumModifie.setDateFinDispo(forumModifie.getDateFinDispo());
+        forumModifie.setDateDebutForum(forum.getDateDebutForum());
+        forumModifie.setDateFinForum(forumModifie.getDateFinForum());
 
         this.getSession().update(forumModifie);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.ForumDao#getAll()
+     */
+    @Override
+    public List<Forum> getAll() {
+        final Criteria criteria = this.getSession().createCriteria(Forum.class);
+        return criteria.list();
     }
 }

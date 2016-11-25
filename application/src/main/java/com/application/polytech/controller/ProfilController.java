@@ -35,9 +35,7 @@ public class ProfilController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Profil getProfilById(@PathVariable("id") final Long id) {
-        Profil profil = null;
-        profil = this.profilService.getProfilById(id);
-        return profil;
+        return this.profilService.getProfilById(id);
     }
 
     /**
@@ -47,9 +45,7 @@ public class ProfilController {
      */
     @RequestMapping(value = "/lister", method = RequestMethod.GET)
     public @ResponseBody List<Profil> getAll() {
-        List<Profil> listProfil = null;
-        listProfil = this.profilService.getAll();
-        return listProfil;
+        return this.profilService.getAll();
     }
 
     /**

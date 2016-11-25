@@ -29,13 +29,17 @@ public class Forum implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    /** The date debut dispo. */
-    @Column(name = "date_debut_dispo")
-    private Date dateDebutDispo;
+    /** The date debut forum. */
+    @Column(name = "date_debut_forum")
+    private Date dateDebutForum;
 
-    /** The date fin dispo. */
-    @Column(name = "date_fin_dispo")
-    private Date dateFinDispo;
+    /** The date fin forum. */
+    @Column(name = "date_fin_forum")
+    private Date dateFinForum;
+
+    /** The email. */
+    @Column(name = "email")
+    private String email;
 
     /**
      * Gets the id.
@@ -56,39 +60,39 @@ public class Forum implements Serializable {
     }
 
     /**
-     * Gets the date debut dispo.
+     * Gets the date debut forum.
      *
-     * @return the date debut dispo
+     * @return the date debut forum
      */
-    public final Date getDateDebutDispo() {
-        return this.dateDebutDispo;
+    public final Date getDateDebutForum() {
+        return this.dateDebutForum;
     }
 
     /**
-     * Sets the date debut dispo.
+     * Sets the date debut forum.
      *
-     * @param dateDebutDispo the new date debut dispo
+     * @param dateDebutForum the new date debut forum
      */
-    public final void setDateDebutDispo(final Date dateDebutDispo) {
-        this.dateDebutDispo = dateDebutDispo;
+    public final void setDateDebutForum(final Date dateDebutForum) {
+        this.dateDebutForum = dateDebutForum;
     }
 
     /**
-     * Gets the date fin dispo.
+     * Gets the date fin forum.
      *
-     * @return the date fin dispo
+     * @return the date fin forum
      */
-    public final Date getDateFinDispo() {
-        return this.dateFinDispo;
+    public final Date getDateFinForum() {
+        return this.dateFinForum;
     }
 
     /**
-     * Sets the date fin dispo.
+     * Sets the date fin forum.
      *
-     * @param dateFinDispo the new date fin dispo
+     * @param dateFinForum the new date fin forum
      */
-    public final void setDateFinDispo(final Date dateFinDispo) {
-        this.dateFinDispo = dateFinDispo;
+    public final void setDateFinForum(final Date dateFinForum) {
+        this.dateFinForum = dateFinForum;
     }
 
     /**
@@ -98,6 +102,24 @@ public class Forum implements Serializable {
      */
     public static final long getSerialversionuid() {
         return serialVersionUID;
+    }
+
+    /**
+     * Gets the email.
+     *
+     * @return the email
+     */
+    public final String getEmail() {
+        return this.email;
+    }
+
+    /**
+     * Sets the email.
+     *
+     * @param email the new email
+     */
+    public final void setEmail(final String email) {
+        this.email = email;
     }
 
 }

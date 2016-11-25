@@ -9,8 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.application.polytech.dao.ChoixEntrepriseDao;
 import com.application.polytech.dao.ChoixEtudiantDao;
 import com.application.polytech.dao.UtilisateurDao;
-import com.application.polytech.model.ChoixEntreprise;
-import com.application.polytech.model.ChoixEtudiant;
 import com.application.polytech.model.Utilisateur;
 
 /**
@@ -84,34 +82,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     @Override
     public Utilisateur connecter(final String email, final String password) {
         return this.utilisateurDao.connecter(email, password);
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see com.application.polytech.services.UtilisateurService#enregistrerChoixEtudiant(java.lang.Long, java.lang.Long)
-     */
-    @Override
-    public void enregistrerChoixEtudiant(final Long idEtudiant, final Long idEntreprise) {
-        final Long idEtu = this.choixEtudiantDao.getIdEtudiantById(idEtudiant);
-        final Long idEnt = this.choixEtudiantDao.getIdEntrepriseById(idEntreprise);
-
-        if (idEnt != null && idEtu != null) {
-            this.choixEtudiantDao.addChoixEtudiant(new ChoixEtudiant(idEtudiant, idEntreprise));
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see com.application.polytech.services.UtilisateurService#enregistrerChoixEntreprise(java.lang.Long, java.lang.Long)
-     */
-    @Override
-    public void enregistrerChoixEntreprise(final Long idEntreprise, final Long idEtudiant) {
-        final Long idEnt = this.choixEntrepriseDao.getIdEntrepriseById(idEntreprise);
-        final Long idEtu = this.choixEntrepriseDao.getIdEtudiantById(idEtudiant);
-
-        if (idEnt != null && idEtu != null) {
-            this.choixEntrepriseDao.addChoixEntreprise(new ChoixEntreprise(idEntreprise, idEtudiant));
-        }
     }
 
     /*

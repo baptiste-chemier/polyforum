@@ -1,5 +1,7 @@
 package com.application.polytech.controller;
 
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -11,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.application.polytech.model.Forum;
-import com.application.polytech.model.ForumDTO;
 import com.application.polytech.services.ForumService;
 
 /**
@@ -42,11 +43,11 @@ public class ForumController {
      * Update utilisateur.
      *
      * @param id the id
-     * @param forumDto the forum dto
+     * @param forum the forum
      */
     @RequestMapping(value = "/modifier/{id}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody void updateUtilisateur(@PathVariable("id") final Long id, @RequestBody final ForumDTO forumDto) {
-        this.forumService.updateForum(id, forumDto.getDate(), forumDto.getHeureDebut(), forumDto.getHeureFin(), forumDto.getMinDebut(), forumDto.getMinFin());
+    public @ResponseBody void updateUtilisateur(@PathVariable("id") final Long id, @RequestBody final Forum forum) {
+        this.forumService.updateForum(id, forum.getDateDebutForum(), forum.getDateFinForum(), forum.getEmail());
     }
 
     /**
@@ -57,8 +58,16 @@ public class ForumController {
      */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public @ResponseBody Forum getForumById(@PathVariable("id") final Long id) {
-        Forum forum = null;
-        forum = this.forumService.getForumById(id);
-        return forum;
+        return this.forumService.getForumById(id);
+    }
+
+    /**
+     * Gets the all.
+     *
+     * @return the all
+     */
+    @RequestMapping(value = "/lister", method = RequestMethod.GET)
+    public @ResponseBody List<Forum> getAll() {
+        return this.forumService.getAll();
     }
 }

@@ -1,5 +1,7 @@
 package com.application.polytech.dao;
 
+import java.util.List;
+
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
@@ -49,5 +51,23 @@ public class ChoixEtudiantDaoImpl extends AbstractDao implements ChoixEtudiantDa
         final Utilisateur utilisateur = (Utilisateur) criteria.uniqueResult();
 
         return utilisateur.getId();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.ChoixEtudiantDao#getListEntrepriseByIdEtudiant(java.lang.Long)
+     */
+    @Override
+    public List<Utilisateur> getListEntrepriseByIdEtudiant(final Long id) {
+        final Criteria criteria = this.getSession().createCriteria(ChoixEtudiant.class);
+        criteria.add(Restrictions.eq("idEtudiant", id));
+        return criteria.list();
+    }
+
+    @Override
+    public List<Utilisateur> getListEntreprise() {
+        final Criteria criteria = this.getSession().createCriteria(Utilisateur.class);
+        criteria.add(Restrictions.eq("idProfil", 3L));
+        return criteria.list();
     }
 }

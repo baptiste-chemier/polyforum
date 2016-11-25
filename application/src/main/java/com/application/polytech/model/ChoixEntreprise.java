@@ -30,15 +30,28 @@ public class ChoixEntreprise implements Serializable {
     @Column(name = "id_etudiant", nullable = false)
     private Long idEtudiant;
 
+    /** The ordre. */
+    @Column(name = "ordre", nullable = false)
+    private int ordre;
+
+    /**
+     * Instantiates a new choix entreprise.
+     */
+    public ChoixEntreprise() {
+
+    }
+
     /**
      * Instantiates a new choix entreprise.
      *
      * @param idEntreprise the id entreprise
      * @param idEtudiant the id etudiant
+     * @param ordre the ordre
      */
-    public ChoixEntreprise(final Long idEntreprise, final Long idEtudiant) {
+    public ChoixEntreprise(final Long idEntreprise, final Long idEtudiant, final int ordre) {
         this.idEntreprise = idEntreprise;
         this.idEtudiant = idEtudiant;
+        this.ordre = ordre;
     }
 
     /**
@@ -84,5 +97,23 @@ public class ChoixEntreprise implements Serializable {
      */
     public static final long getSerialversionuid() {
         return serialVersionUID;
+    }
+
+    /**
+     * Gets the ordre.
+     *
+     * @return the ordre
+     */
+    public final int getOrdre() {
+        return this.ordre;
+    }
+
+    /**
+     * Sets the ordre.
+     *
+     * @param ordre the new ordre
+     */
+    public final void setOrdre(final int ordre) {
+        this.ordre = ordre;
     }
 }
