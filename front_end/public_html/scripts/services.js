@@ -139,3 +139,15 @@ services.factory('LoginRest', ['$http', 'Config',
             return $http.get(url);
         }
     }]);
+
+
+services.factory('PlanningRest', ['$http', 'Config',
+    function ($http, Config) {
+        //Liste des mÃ©thodes exposÃ©es
+        var planningRest = {
+ 
+        };
+
+        return planningRest;
+
+    }]);

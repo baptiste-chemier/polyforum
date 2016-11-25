@@ -27,6 +27,13 @@ controllers.controller('Apropos', ['$rootScope', '$location',
         $rootScope.title = "A propos";
     }]);
 
+controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest','$location', '$route',
+    function ($rootScope, PlanningRest, $location, $route) {
+        var planningCtrl = this;
+
+        $rootScope.title = "Planning";
+    }]);
+
 controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest', '$location', '$route',
     function ($rootScope, UsersRest, $location, $route) {
         $rootScope.title = "Utilisateurs";
@@ -139,7 +146,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
         function cancel() {
             $location.path('/users');
         }
-
+  
         /**
          * On a clique sur le bouton valider
          * @param {type} id : id de l'employe modifie
@@ -244,10 +251,8 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
         // On référence les méthodes exposées
         salleCtrl.validateSalle = validateSalle;
         salleCtrl.cancel = cancel;
-        salleCtrl.reset = reset;
+        //salleCtrl.reset = reset;
 
-
-        salleCtrl.log = "yesy";
         // On récupère l'id de la salle
         salleCtrl.id = $routeParams.id;
 
@@ -286,15 +291,14 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
             // Si tout a été saisi, pas de zone oubliée
             if (form.$valid) {
                 // On récupère l'objet employee dans le scope de la vue
+                
                 var salle = salleCtrl.salle;
-
 
                 // Récupération du service sélectionné
                 //employee.department = employeeCtrl.selectedOptionDep;
 
                 // si on a un id => c'est une modification
                 if (id) {
-                    salleCtrl.log = "modif";
                     // Demande de mise à jour de l'employé
                     SallesRest.updateSalle(salle,salleCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle l
@@ -334,11 +338,11 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
             $location.path('/salles');
         }
 
-        function reset() {
-            salleCtrl.salle = {id: null, username: '', address: '', email: ''};
-            $rootScope.myForm.$setPristine(); //reset Form
-
-        }
+//        function reset() {
+//            salleCtrl.salle = { username: '', address: '', email: ''};
+//            $rootScope.myForm.$setPristine(); //reset Form
+//
+//        }
     }]);
 
 controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
