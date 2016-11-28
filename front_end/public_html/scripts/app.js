@@ -52,6 +52,10 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider',
                 .when('/accueil', {
                     templateUrl: 'partials/accueil.html'
                 })
+                  .when('/planning', {
+                    templateUrl: 'partials/planning.html',
+                    controller: 'PlanningCtrl as planningCtrl'
+                })
                 .when('/monCompte/:id', {
                     templateUrl: 'partials/monCompte.html',
                     controller: 'MonCompteCtrl as monCompteCtrl'

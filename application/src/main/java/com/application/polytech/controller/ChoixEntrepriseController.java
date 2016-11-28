@@ -51,6 +51,11 @@ public class ChoixEntrepriseController {
         return this.choixEntrepriseService.getListEtudiantByIdEntreprise(id);
     }
 
+    /**
+     * Gets the list etudiant.
+     *
+     * @return the list etudiant
+     */
     @RequestMapping(value = "/lister", method = RequestMethod.GET)
     public @ResponseBody List<Utilisateur> getListEtudiant() {
         return this.choixEntrepriseService.getListEtudiant();

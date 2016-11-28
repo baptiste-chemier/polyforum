@@ -27,6 +27,13 @@ controllers.controller('Apropos', ['$rootScope', '$location',
         $rootScope.title = "A propos";
     }]);
 
+controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest','$location', '$route',
+    function ($rootScope, PlanningRest, $location, $route) {
+        var planningCtrl = this;
+
+        $rootScope.title = "Planning";
+    }]);
+
 controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest', '$location', '$route',
     function ($rootScope, UsersRest, $location, $route) {
         $rootScope.title = "Utilisateurs";
@@ -97,6 +104,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
         var d = new Date();
         d.setHours(14);
         d.setMinutes(0);
+        d.setSeconds(0);
         userCtrl.time = d;
 
         userCtrl.timeOpened = false;
@@ -109,6 +117,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
         var fin = new Date();
         fin.setHours(18);
         fin.setMinutes(0);
+        fin.setSeconds(0);
         userCtrl.timefin = fin;
 
         userCtrl.timeClosed = false;
@@ -137,7 +146,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
         function cancel() {
             $location.path('/users');
         }
-
+  
         /**
          * On a clique sur le bouton valider
          * @param {type} id : id de l'employe modifie
@@ -148,38 +157,15 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
             if (form.$valid) {
                 // On recupere l'objet employee dans le scope de la vue
                 var user = userCtrl.user;
-
-                //On recupere la date au format MySQL
-//                var moisDebut = user.date_debut_dispo.getMonth() + 1;
-//                var anneeDebut = user.date_debut_dispo.getYear();
-//                var jourDebut = user.date_debut_dispo.getDate();
-//                user.date_debut_dispo = anneeDebut + '-' + moisDebut + '-' + jourDebut;
-
-                var moisDebut = userCtrl.time.getMonth() + 1;
-                var anneeDebut = userCtrl.time.getYear();
-                var jourDebut = userCtrl.time.getDate();
-                var heureDebut = userCtrl.time.getHours();
-                var minDebut = userCtrl.time.getMinutes();
-
-
-                var simpledate = jourDebut + '-' + moisDebut + '-' + anneeDebut + ' ' + heureDebut + ':' + minDebut + ':00';
-                user.date_debut_dispo = simpledate;
-
-                var moisFin = userCtrl.timefin.getMonth() + 1;
-                var anneeFin = userCtrl.timefin.getYear();
-                var jourFin = userCtrl.timefin.getDate();
-                var heureFin = userCtrl.timefin.getHours();
-                var minFin = userCtrl.timefin.getMinutes();
-
-
-                var simpledatefin = jourFin + '-' + moisFin + '-' + anneeFin + ' ' + heureFin + ':' + minFin + ':00';
-                user.date_fin_dispo = simpledatefin;
+                              
+                user.dateDebutDispo = userCtrl.time.getTime();
+                user.dateFinDispo   = userCtrl.timefin.getTime();
 
                 // si on a un id => c'est une modification
                 if (id) {
                     // Demande de mise a  jour de l'employe
                     userCtrl.log = "add";
-                    UsersRest.updateUser(user).success(function (data, status) {
+                    UsersRest.updateUser(user, userCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle liste des employes
                         // Sinon on affiche l'erreur
                         if (status === 200) {
@@ -265,10 +251,8 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
         // On référence les méthodes exposées
         salleCtrl.validateSalle = validateSalle;
         salleCtrl.cancel = cancel;
-        salleCtrl.reset = reset;
+        //salleCtrl.reset = reset;
 
-
-        salleCtrl.log = "yesy";
         // On récupère l'id de la salle
         salleCtrl.id = $routeParams.id;
 
@@ -307,15 +291,14 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
             // Si tout a été saisi, pas de zone oubliée
             if (form.$valid) {
                 // On récupère l'objet employee dans le scope de la vue
+                
                 var salle = salleCtrl.salle;
-
 
                 // Récupération du service sélectionné
                 //employee.department = employeeCtrl.selectedOptionDep;
 
                 // si on a un id => c'est une modification
                 if (id) {
-                    salleCtrl.log = "modif";
                     // Demande de mise à jour de l'employé
                     SallesRest.updateSalle(salle,salleCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle l
@@ -355,11 +338,11 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
             $location.path('/salles');
         }
 
-        function reset() {
-            salleCtrl.salle = {id: null, username: '', address: '', email: ''};
-            $rootScope.myForm.$setPristine(); //reset Form
-
-        }
+//        function reset() {
+//            salleCtrl.salle = { username: '', address: '', email: ''};
+//            $rootScope.myForm.$setPristine(); //reset Form
+//
+//        }
     }]);
 
 controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
@@ -394,28 +377,31 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
         // On rÃ©cupÃ¨re l'id de l'employÃ©
         monCompteCtrl.id = $routeParams.id;
 
-        //Gestion des DatePicker
-        //Pour la date de dÃ©but
-        // le datepicker n'est pas visible
-        monCompteCtrl.dateDebPickerOpened = false;
+        var d = new Date();
+        d.setHours(14);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        monCompteCtrl.time = d;
+
+        monCompteCtrl.timeOpened = false;
 
         // Affiche le datepicker
-        monCompteCtrl.openDateDebPicker = function () {
-            monCompteCtrl.dateDebPickerOpened = true;
-        }
+        monCompteCtrl.opentimeOpened = function () {
+            monCompteCtrl.timeOpened = true;
+        };
 
-        //Pour la date de fin
-        monCompteCtrl.dateFinPickerOpened = false;
+        var fin = new Date();
+        fin.setHours(18);
+        fin.setMinutes(0);
+        fin.setSeconds(0);
+        monCompteCtrl.timefin = fin;
+
+        monCompteCtrl.timeClosed = false;
 
         // Affiche le datepicker
-        monCompteCtrl.openDateFinPicker = function () {
-            monCompteCtrl.dateFinPickerOpened = true;
-        }
-
-        // RÃ©cupÃ¨re la liste des departments
-        /*EmployeesRest.getDepartments().success(function (data) {
-         employeeCtrl.departments = data;
-         });*/
+        monCompteCtrl.opentimeClosed = function () {
+            monCompteCtrl.timeClosed = true;
+        };
 
         // S'il s'agit d'une demande de modification, il faut lire l'employÃ©,
         // positionner les listes dÃ©roulantes (jobs et services) en fonction
@@ -425,13 +411,6 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
             userR.success(function (data, status) {
                 if (status === 200) {
                     monCompteCtrl.user = data;
-
-                    if (data.date_debut_dispo !== null) {
-                        monCompteCtrl.user.date_debut_dispo = new Date(data.date_debut_dispo.toString());
-                    }
-                    if (data.date_fin_dispo !== null) {
-                        monCompteCtrl.user.date_fin_dispo = new Date(data.date_fin_dispo.toString());
-                    }
                 }
             }).error(function (data) {
                 monCompteCtrl.error = data;
@@ -455,19 +434,13 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
                 // On rÃ©cupÃ¨re l'objet employee dans le scope de la vue
                 var user = monCompteCtrl.user;
 
-                //On rÃ©cupÃ¨re la date au format MySQL
-                var moisDebut = user.date_debut_dispo.getMonth() + 1;
-                var anneeDebut = user.date_debut_dispo.getYear();
-                var jourDebut = user.date_debut_dispo.getDate();
-                user.date_debut_dispo = anneeDebut + '-' + moisDebut + '-' + jourDebut;
-
-                // RÃ©cupÃ©ration du service sÃ©lectionnÃ©
-                //employee.department = employeeCtrl.selectedOptionDep;
+                user.dateDebutDispo = userCtrl.time.getTime();
+                user.dateFinDispo   = userCtrl.timefin.getTime();
 
                 // si on a un id => c'est une modification
                 if (id) {
                     // Demande de mise Ã  jour de l'employÃ©
-                    UsersRest.updateUser(user).success(function (data, status) {
+                    UsersRest.updateUser(user, monCompteCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle liste des employÃ©s
                         // Sinon on affiche l'erreur
                         if (status === 200) {
