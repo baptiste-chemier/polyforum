@@ -497,7 +497,7 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
         $rootScope.title = "Mes choix";
         
         $rootScope.user = UserService.currentUser;
-        ajoutEntrepriseMesChoix
+        ajoutEntrepriseMesChoix;
         
         // On rÃ©fÃ©rence les mÃ©thodes exposÃ©es
         choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
@@ -508,7 +508,7 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
             
             //Récupère une promise
             var choicesPromise = ChoixEtudiant.getAllChoix();
-            var myChoicesPromise = ChoixEtudiant.getChoix(1); //ATENTION ID EN DUR
+            var myChoicesPromise = ChoixEtudiant.getChoix(UserService.currentUser.id); //ATENTION ID EN DUR
 
 
             choicesPromise.success(function (data) {

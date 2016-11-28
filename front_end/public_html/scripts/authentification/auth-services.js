@@ -20,7 +20,8 @@ angular.module("AuthServices", [])
             profil: SessionService.getValue("session.profil") || "",
             isStudent: SessionService.getValue("session.isLoggedInAsStudent"),
             isTeacher: SessionService.getValue("session.isLoggedInAsTeacher"),
-            isCompagny: SessionService.getValue("session.isLoggedInAsCompagny"),
+            isCompany: SessionService.getValue("session.isLoggedInAsCompany"),
+            id: SessionService.getValue("session.userId")
         };
 
         this.login = function($rootScope) {
@@ -37,14 +38,14 @@ angular.module("AuthServices", [])
                     $rootScope.user.badConnexion = false;
                     var isStudent = false;
                     var isTeacher = false;
-                    var isCOmpagny = false;
+                    var isCompany = false;
                     switch (response.idProfil) {
                         case 1:
                             //Etudiant
                             SessionService.setValue("session.profil", "Etudiant");
                             SessionService.setValue("session.isLoggedInAsStudent", true);
                             SessionService.setValue("session.isLoggedInAsTeacher", false);
-                            SessionService.setValue("session.isLoggedInAsCompagny", false);
+                            SessionService.setValue("session.isLoggedInAsCompany", false);
                             isStudent= true;
                             
                         break;
@@ -53,7 +54,7 @@ angular.module("AuthServices", [])
                             SessionService.setValue("session.profil", "Enseignant");
                             SessionService.setValue("session.isLoggedInAsStudent", false);
                             SessionService.setValue("session.isLoggedInAsTeacher", true);
-                            SessionService.setValue("session.isLoggedInAsCompagny", false);
+                            SessionService.setValue("session.isLoggedInAsCompany", false);
                             isTeacher = true;
                         break;
                         case 3:
@@ -61,19 +62,20 @@ angular.module("AuthServices", [])
                             SessionService.setValue("session.profil", "Entreprise");
                             SessionService.setValue("session.isLoggedInAsStudent", false);
                             SessionService.setValue("session.isLoggedInAsTeacher", false);
-                            SessionService.setValue("session.isLoggedInAsCompagny", true);
-                            isCOmpagny =true;
+                            SessionService.setValue("session.isLoggedInAsCompany", true);
+                            isCompany =true;
                         break;
                     }
                     _this.currentUser.name = response.nom;
                     _this.currentUser.firstname = response.prenom;
                     _this.currentUser.isLoggedIn = true;
                     _this.currentUser.isStudent = isStudent;
-                    _this.currentUser.isCompagny = isCOmpagny;
+                    _this.currentUser.isCompany = isCompany;
                     _this.currentUser.isTeacher = isTeacher;
                     
                     SessionService.setValue("session.name", response.nom);
                     SessionService.setValue("session.firstname", response.prenom);
+                    SessionService.setValue("session.userId", response.id);
                     $location.path("accueil");
                 }
 
@@ -87,16 +89,17 @@ angular.module("AuthServices", [])
             var _this = this;
             _this.currentUser.isLoggedIn = false;
             _this.currentUser.isStudent = false;
-            _this.currentUser.isCompagny = false;
+            _this.currentUser.isCompany = false;
             _this.currentUser.isTeacher = false;
             _this.currentUser.name = "";
             _this.currentUser.firstname = "";
             
             SessionService.destroyItem("session.name");
             SessionService.destroyItem("session.firstname");
+            SessionService.destroyItem("session.userId");
             SessionService.destroyItem("session.isLoggedInAsStudent");
             SessionService.destroyItem("session.isLoggedInAsTeacher");
-            SessionService.destroyItem("session.isLoggedInAsCompagny");
+            SessionService.destroyItem("session.isLoggedInAsCompany");
 
             $rootScope.$apply(function () {
                 $location.path("/login");
@@ -135,4 +138,5 @@ angular.module("AuthServices", [])
             }
         };
     });
+
 
