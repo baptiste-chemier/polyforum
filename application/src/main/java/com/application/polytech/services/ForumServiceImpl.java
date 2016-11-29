@@ -48,25 +48,8 @@ public class ForumServiceImpl implements ForumService {
         final Forum forumModifie = this.forumDao.getForumById(id);
 
         if (forumModifie != null) {
-            // final SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-            // final Date format = sdf.parse(date);
-            // final Calendar dateDebut = Calendar.getInstance();
-            //
-            // dateDebut.setTime(format);
-            // dateDebut.set(Calendar.HOUR, heureDebut);
-            // dateDebut.set(Calendar.MINUTE, minDebut);
-            // dateDebut.set(Calendar.SECOND, 0);
-            // dateDebut.set(Calendar.MILLISECOND, 0);
-            //
-            // final Calendar dateFin = Calendar.getInstance();
-            // dateFin.setTime(format);
-            // dateFin.set(Calendar.HOUR, heureFin);
-            // dateFin.set(Calendar.MINUTE, minFin);
-            // dateFin.set(Calendar.SECOND, 0);
-            // dateFin.set(Calendar.MILLISECOND, 0);
-
             forumModifie.setDateDebutForum(dateDebutForum);
-            forumModifie.setDateDebutForum(dateFinForum);
+            forumModifie.setDateFinForum(dateFinForum);
             forumModifie.setEmail(email);
 
             this.forumDao.updateForum(forumModifie);
