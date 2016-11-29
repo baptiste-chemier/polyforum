@@ -104,7 +104,7 @@ public class ChoixEntrepriseDaoImpl extends AbstractDao implements ChoixEntrepri
         final Query query = this.getSession()
                 .createSQLQuery(
                         "SELECT id, nom, prenom, email, telephone, id_profil as idProfil, date_debut_dispo as dateDebutDispo, date_fin_dispo as dateFinDispo FROM Utilisateur WHERE id NOT IN ( "
-                                + "SELECT id_entreprise FROM choix_etudiant WHERE id_etudiant = :id ) AND id_profil = '3'")
+                                + "SELECT id_etudiant FROM choix_entreprise WHERE id_entreprise = :id ) AND id_profil = '1'")
                 .addScalar("id", LongType.INSTANCE).addScalar("nom", StringType.INSTANCE).addScalar("prenom", StringType.INSTANCE).addScalar("email", StringType.INSTANCE)
                 .addScalar("telephone", StringType.INSTANCE).addScalar("idProfil", LongType.INSTANCE).addScalar("dateDebutDispo", DateType.INSTANCE).addScalar("dateFinDispo", DateType.INSTANCE);
         query.setLong("id", id);
