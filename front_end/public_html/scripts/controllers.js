@@ -27,11 +27,27 @@ controllers.controller('Apropos', ['$rootScope', '$location',
         $rootScope.title = "A propos";
     }]);
 
-controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest','$location', '$route',
+controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest', '$location', '$route',
     function ($rootScope, PlanningRest, $location, $route) {
         var planningCtrl = this;
 
         $rootScope.title = "Planning";
+
+        planningCtrl.test = "5%";
+               
+        planningCtrl.track = ['track-one-session','track-two-session','track-three-session','track-four-session','track-five-session'];
+        
+        var entreprisesPromise = PlanningRest.getEntreprises();
+
+        entreprisesPromise.success(function (data) {
+            if (data.length > 0) { //si la liste n'est pas vide
+                planningCtrl.entreprises = data;
+            }
+        }).error(function (data) { //Si la requete provoque une erreur (code 404)
+            planningCtrl.error = data; //On affiche l'erreur brute     
+            //alert(usersCtrl.error);
+        });
+
     }]);
 
 controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest', '$location', '$route',
@@ -45,10 +61,6 @@ controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest', '$location', '$r
         // On référence les méthodes exposées
         usersCtrl.deleteUser = deleteUser;
 
-        /* Si la requete aboutit (code 200) on affecte le jSon retourne
-         * A  la variable employeesCtrl.employees qui sera affiche
-         * par la vue employees.html
-         */
         usersPromise.success(function (data) {
             if (data.length > 0) { //si la liste n'est pas vide
                 usersCtrl.users = data;
@@ -146,7 +158,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
         function cancel() {
             $location.path('/users');
         }
-  
+
         /**
          * On a clique sur le bouton valider
          * @param {type} id : id de l'employe modifie
@@ -157,9 +169,9 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
             if (form.$valid) {
                 // On recupere l'objet employee dans le scope de la vue
                 var user = userCtrl.user;
-                              
+
                 user.dateDebutDispo = userCtrl.time.getTime();
-                user.dateFinDispo   = userCtrl.timefin.getTime();
+                user.dateFinDispo = userCtrl.timefin.getTime();
 
                 // si on a un id => c'est une modification
                 if (id) {
@@ -291,7 +303,7 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
             // Si tout a été saisi, pas de zone oubliée
             if (form.$valid) {
                 // On récupère l'objet employee dans le scope de la vue
-                
+
                 var salle = salleCtrl.salle;
 
                 // Récupération du service sélectionné
@@ -300,7 +312,7 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
                 // si on a un id => c'est une modification
                 if (id) {
                     // Demande de mise à jour de l'employé
-                    SallesRest.updateSalle(salle,salleCtrl.id).success(function (data, status) {
+                    SallesRest.updateSalle(salle, salleCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle l
                         // iste des employés
                         // Sinon on affiche l'erreur
@@ -350,7 +362,7 @@ controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
         var loginCtr = this;
 
         $rootScope.title = "Connexion";
-        
+
         $rootScope.userService = UserService;
 
         $rootScope.user = UserService.currentUser;
@@ -435,7 +447,7 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
                 var user = monCompteCtrl.user;
 
                 user.dateDebutDispo = userCtrl.time.getTime();
-                user.dateFinDispo   = userCtrl.timefin.getTime();
+                user.dateFinDispo = userCtrl.timefin.getTime();
 
                 // si on a un id => c'est une modification
                 if (id) {
@@ -468,17 +480,17 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
         var choiceCtrl = this;
 
         $rootScope.title = "Mes choix";
-        
+
         $rootScope.user = UserService.currentUser;
         ajoutEntrepriseMesChoix;
-        
+
         // On rÃ©fÃ©rence les mÃ©thodes exposÃ©es
         choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
-        
+
         if ($rootScope.user.isStudent) {
             choiceCtrl.titreColoneAChoisir = "Les Entreprises présentes";
             choiceCtrl.titreColoneMesChoix = "Les Entreprises que je veux voir";
-            
+
             //Récupère une promise
             var choicesPromise = ChoixEtudiant.getAllChoix();
             var myChoicesPromise = ChoixEtudiant.getChoix(UserService.currentUser.id); //ATENTION ID EN DUR
@@ -492,7 +504,7 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
                 choiceCtrl.error = data; //On affiche l'erreur brute     
                 //alert(usersCtrl.error);
             });
-            
+
             myChoicesPromise.success(function (data) {
                 if (data.length > 0) { //si la liste n'est pas vide
                     choiceCtrl.myChoices = data;
@@ -501,12 +513,12 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
                 choiceCtrl.error = data; //On affiche l'erreur brute     
                 //alert(usersCtrl.error);
             });
-            
+
         }
-        
+
         function ajoutEntrepriseMesChoix(id_entreprise) {
             alert(id_entreprise);
-            ChoixEtudiant.saveChoix(1, id_entreprise,15).success(function(response){
+            ChoixEtudiant.saveChoix(1, id_entreprise, 15).success(function (response) {
                 myChoicesPromise.success(function (data) {
                     if (data.length > 0) { //si la liste n'est pas vide
                         choiceCtrl.myChoices = data;
@@ -515,7 +527,7 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
                     choiceCtrl.error = data; //On affiche l'erreur brute     
                     //alert(usersCtrl.error);
                 });
-            }).error(function(response) {
+            }).error(function (response) {
                 alert("error");
             });
 

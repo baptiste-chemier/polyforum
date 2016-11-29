@@ -66,10 +66,10 @@ h1 {
     margin-left: -15px;
 }
 .nav-side-menu .user-block .picture {
-    border-radius: 45px;
-    height: 64px;
-    width: 64px;
-    margin-left: 10px;
+    border-radius: 45px !important;
+    height: 64px !important;
+    width: 64px !important;
+    margin-left: 10px !important;
 }
 .nav-side-menu .toggle-btn {
     display: none;

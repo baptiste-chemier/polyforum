@@ -49,7 +49,6 @@ services.factory('UsersRest', ['$http', 'Config',
 
         function getUsers() {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteurUser;
-
             return $http.get(url);
         }
 
@@ -175,10 +174,17 @@ services.factory('PlanningRest', ['$http', 'Config',
     function ($http, Config) {
         //Liste des mÃ©thodes exposÃ©es
         var planningRest = {
- 
+             getEntreprises: getEntreprises
         };
 
         return planningRest;
+        
+        function getEntreprises() {
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteurUser;
+            return $http.get(url);
+        }
+
+
 
 
     }]);
