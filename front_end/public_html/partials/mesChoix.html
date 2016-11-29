@@ -29,11 +29,11 @@
         <tbody>
             <tr ng-repeat="myChoice in choiceCtrl.myChoices">
                 <td>
-                    <a href="" title="Supprimer" ng-click="choiceCtrl.ajoutEntrepriseMesChoix(choice.id)">
+                    <a href="" title="Supprimer" ng-click="choiceCtrl.deleteEntrepriseMesChoix(myChoice.id, $index)">
                         <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
                     </a>
                 </td>
-                <td>{{myChoice.nom}} {{myChoice.prenom}}</td>
+                <td>{{myChoice.nom}} {{myChoice.prenom}} </td>
             </tr>
         </tbody>
     </table>

@@ -25,6 +25,7 @@ services.factory('Config', [function () {
             urlGetteurChoixEtudiant: '/lister', 
             urlsaveChoixEtudiant: '/ajouter', 
             urlGetChoixEtudiantNonAJouter:'/listerEntrepriseNonAjoutee', 
+            urlDeleteChoixEtudiant: '/supprimer',
             
             //Config
             urlConfig:'/forum',
@@ -154,7 +155,8 @@ services.factory('ChoixEtudiant', ['$http', 'Config',
             getAllChoix: getAllChoix, 
             saveChoix:saveChoix,
             getChoix:getChoix, 
-            getChoixNonAjouter:getChoixNonAjouter
+            getChoixNonAjouter:getChoixNonAjouter, 
+            deleteChoix:deleteChoix
         };
 
         return choixRest;
@@ -178,6 +180,12 @@ services.factory('ChoixEtudiant', ['$http', 'Config',
         function getChoixNonAjouter(idEtu) {
             var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlGetChoixEtudiantNonAJouter + "/" + idEtu;
             ;
+            return $http.get(url);
+        }
+        
+        function deleteChoix(id_entreprise, id_etudiant) {
+            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlDeleteChoixEtudiant + "/" + id_etudiant + "/" +id_entreprise;
+
             return $http.get(url);
         }
     }]);

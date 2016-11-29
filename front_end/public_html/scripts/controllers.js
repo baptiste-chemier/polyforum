@@ -485,6 +485,7 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
 
 
         choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
+        choiceCtrl.deleteEntrepriseMesChoix = deleteEntrepriseMesChoix;
 
         if ($rootScope.user.isStudent) {
             choiceCtrl.titreColoneAChoisir = "Les Entreprises présentes";
@@ -522,12 +523,16 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
                 choiceCtrl.choices.splice(index, 1);
                 choiceCtrl.myChoices.push(entreprise);
                 
-            });/*.success(function(data){
-                console.log(data);
-            }).error(function (response) {
-                alert("error");
-            });*/
+            });
+        }
+        
+        function deleteEntrepriseMesChoix(id_entreprise, index) {
+            ChoixEtudiant.deleteChoix(id_entreprise, parseInt(UserService.currentUser.id)).success(function () {
+                var entreprise = choiceCtrl.myChoices[index];
+                choiceCtrl.myChoices.splice(index, 1);
+                choiceCtrl.choices.push(entreprise);
 
+            });
         }
 
     }]);
