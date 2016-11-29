@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -29,37 +30,56 @@ public class Entretien implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    /** The nom. */
-    @Column(name = "nom", nullable = false)
-    private String nom;
+    /** The id entreprise. */
+    @Column(name = "id_entreprise", nullable = false)
+    private Long idEntreprise;
 
-    /** The prenom. */
-    @Column(name = "prenom", nullable = false)
-    private String prenom;
+    /** The id utilisateur. */
+    @Column(name = "id_utilisateur", nullable = false)
+    private Long idUtilisateur;
 
-    /** The email. */
-    @Column(name = "email", nullable = false)
-    private String email;
+    /** The id salle. */
+    @Column(name = "id_salle", nullable = false)
+    private Long idSalle;
 
-    /** The telephone. */
-    @Column(name = "telephone")
-    private String telephone;
+    /** The date debut. */
+    @Column(name = "date_debut")
+    private Date dateDebut;
 
-    /** The id profil. */
-    @Column(name = "id_profil", nullable = false)
-    private Long idProfil;
+    /** The date fin. */
+    @Column(name = "date_fin", nullable = false)
+    private Date dateFin;
 
-    /** The date debut dispo. */
-    @Column(name = "date_debut_dispo")
-    private Date dateDebutDispo;
+    /** The duree. */
+    @Transient
+    private int duree;
 
-    /** The date fin dispo. */
-    @Column(name = "date_fin_dispo")
-    private Date dateFinDispo;
+    /**
+     * Instantiates a new entretien.
+     *
+     * @param idEntreprise the id entreprise
+     * @param idUtilisateur the id utilisateur
+     * @param idSalle the id salle
+     * @param dateDebut the date debut
+     * @param dateFin the date fin
+     */
+    public Entretien(final Long idEntreprise, final Long idUtilisateur, final Long idSalle, final Date dateDebut, final Date dateFin) {
+        super();
+        this.idEntreprise = idEntreprise;
+        this.idUtilisateur = idUtilisateur;
+        this.idSalle = idSalle;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+    }
 
-    /** The password. */
-    @Column(name = "password", nullable = false)
-    private String password;
+    /**
+     * Gets the serialversionuid.
+     *
+     * @return the serialversionuid
+     */
+    public static final long getSerialversionuid() {
+        return serialVersionUID;
+    }
 
     /**
      * Gets the id.
@@ -80,155 +100,110 @@ public class Entretien implements Serializable {
     }
 
     /**
-     * Gets the nom.
+     * Gets the id entreprise.
      *
-     * @return the nom
+     * @return the id entreprise
      */
-    public final String getNom() {
-        return this.nom;
+    public final Long getIdEntreprise() {
+        return this.idEntreprise;
     }
 
     /**
-     * Sets the nom.
+     * Sets the id entreprise.
      *
-     * @param nom the new nom
+     * @param idEntreprise the new id entreprise
      */
-    public final void setNom(final String nom) {
-        this.nom = nom;
+    public final void setIdEntreprise(final Long idEntreprise) {
+        this.idEntreprise = idEntreprise;
     }
 
     /**
-     * Gets the prenom.
+     * Gets the id utilisateur.
      *
-     * @return the prenom
+     * @return the id utilisateur
      */
-    public final String getPrenom() {
-        return this.prenom;
+    public final Long getIdUtilisateur() {
+        return this.idUtilisateur;
     }
 
     /**
-     * Sets the prenom.
+     * Sets the id utilisateur.
      *
-     * @param prenom the new prenom
+     * @param idUtilisateur the new id utilisateur
      */
-    public final void setPrenom(final String prenom) {
-        this.prenom = prenom;
+    public final void setIdUtilisateur(final Long idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
     }
 
     /**
-     * Gets the email.
+     * Gets the id salle.
      *
-     * @return the email
+     * @return the id salle
      */
-    public final String getEmail() {
-        return this.email;
+    public final Long getIdSalle() {
+        return this.idSalle;
     }
 
     /**
-     * Sets the email.
+     * Sets the id salle.
      *
-     * @param email the new email
+     * @param idSalle the new id salle
      */
-    public final void setEmail(final String email) {
-        this.email = email;
+    public final void setIdSalle(final Long idSalle) {
+        this.idSalle = idSalle;
     }
 
     /**
-     * Gets the telephone.
+     * Gets the date debut.
      *
-     * @return the telephone
+     * @return the date debut
      */
-    public final String getTelephone() {
-        return this.telephone;
+    public final Date getDateDebut() {
+        return this.dateDebut;
     }
 
     /**
-     * Sets the telephone.
+     * Sets the date debut.
      *
-     * @param telephone the new telephone
+     * @param dateDebut the new date debut
      */
-    public final void setTelephone(final String telephone) {
-        this.telephone = telephone;
+    public final void setDateDebut(final Date dateDebut) {
+        this.dateDebut = dateDebut;
     }
 
     /**
-     * Gets the id profil.
+     * Gets the date fin.
      *
-     * @return the id profil
+     * @return the date fin
      */
-    public final Long getIdProfil() {
-        return this.idProfil;
+    public final Date getDateFin() {
+        return this.dateFin;
     }
 
     /**
-     * Sets the id profil.
+     * Sets the date fin.
      *
-     * @param idProfil the new id profil
+     * @param dateFin the new date fin
      */
-    public final void setIdProfil(final Long idProfil) {
-        this.idProfil = idProfil;
+    public final void setDateFin(final Date dateFin) {
+        this.dateFin = dateFin;
     }
 
     /**
-     * Gets the date debut dispo.
+     * Gets the duree.
      *
-     * @return the date debut dispo
+     * @return the duree
      */
-    public final Date getDateDebutDispo() {
-        return this.dateDebutDispo;
+    public final int getDuree() {
+        return this.duree;
     }
 
     /**
-     * Sets the date debut dispo.
+     * Sets the duree.
      *
-     * @param dateDebutDispo the new date debut dispo
+     * @param duree the new duree
      */
-    public final void setDateDebutDispo(final Date dateDebutDispo) {
-        this.dateDebutDispo = dateDebutDispo;
-    }
-
-    /**
-     * Gets the date fin dispo.
-     *
-     * @return the date fin dispo
-     */
-    public final Date getDateFinDispo() {
-        return this.dateFinDispo;
-    }
-
-    /**
-     * Sets the date fin dispo.
-     *
-     * @param dateFinDispo the new date fin dispo
-     */
-    public final void setDateFinDispo(final Date dateFinDispo) {
-        this.dateFinDispo = dateFinDispo;
-    }
-
-    /**
-     * Gets the serialversionuid.
-     *
-     * @return the serialversionuid
-     */
-    public static final long getSerialversionuid() {
-        return serialVersionUID;
-    }
-
-    /**
-     * Gets the password.
-     *
-     * @return the password
-     */
-    public final String getPassword() {
-        return this.password;
-    }
-
-    /**
-     * Sets the password.
-     *
-     * @param password the new password
-     */
-    public final void setPassword(final String password) {
-        this.password = password;
+    public final void setDuree(final int duree) {
+        this.duree = duree;
     }
 }

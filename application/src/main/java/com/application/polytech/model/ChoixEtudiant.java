@@ -23,16 +23,20 @@ public class ChoixEtudiant implements Serializable {
     /** The id etudiant. */
     @Id
     @Column(name = "id_etudiant", nullable = false)
-    private Long idEtudiant;
+    private Long id_etudiant;
 
     /** The id entreprise. */
     @Id
     @Column(name = "id_entreprise", nullable = false)
-    private Long idEntreprise;
+    private Long id_entreprise;
 
     /** The ordre. */
     @Column(name = "ordre", nullable = false)
     private int ordre;
+
+    /** The duree. */
+    @Column(name = "duree", nullable = false)
+    private int duree;
 
     /**
      * Instantiates a new choix etudiant.
@@ -44,14 +48,16 @@ public class ChoixEtudiant implements Serializable {
     /**
      * Instantiates a new choix etudiant.
      *
-     * @param idEtudiant the id etudiant
-     * @param idEntreprise the id entreprise
+     * @param id_etudiant the id etudiant
+     * @param id_entreprise the id entreprise
      * @param ordre the ordre
+     * @param duree the duree
      */
-    public ChoixEtudiant(final Long idEtudiant, final Long idEntreprise, final int ordre) {
-        this.idEtudiant = idEtudiant;
-        this.idEntreprise = idEntreprise;
+    public ChoixEtudiant(final Long id_etudiant, final Long id_entreprise, final int ordre, final int duree) {
+        this.id_etudiant = id_etudiant;
+        this.id_entreprise = id_entreprise;
         this.ordre = ordre;
+        this.duree = duree;
     }
 
     /**
@@ -59,17 +65,17 @@ public class ChoixEtudiant implements Serializable {
      *
      * @return the id etudiant
      */
-    public final Long getIdEtudiant() {
-        return this.idEtudiant;
+    public final Long getId_etudiant() {
+        return this.id_etudiant;
     }
 
     /**
      * Sets the id etudiant.
      *
-     * @param idEtudiant the new id etudiant
+     * @param id_etudiant the new id etudiant
      */
-    public final void setIdEtudiant(final Long idEtudiant) {
-        this.idEtudiant = idEtudiant;
+    public final void setId_etudiant(final Long id_etudiant) {
+        this.id_etudiant = id_etudiant;
     }
 
     /**
@@ -77,26 +83,17 @@ public class ChoixEtudiant implements Serializable {
      *
      * @return the id entreprise
      */
-    public final Long getIdEntreprise() {
-        return this.idEntreprise;
+    public final Long getId_entreprise() {
+        return this.id_entreprise;
     }
 
     /**
      * Sets the id entreprise.
      *
-     * @param idEntreprise the new id entreprise
+     * @param id_entreprise the new id entreprise
      */
-    public final void setIdEntreprise(final Long idEntreprise) {
-        this.idEntreprise = idEntreprise;
-    }
-
-    /**
-     * Gets the serialversionuid.
-     *
-     * @return the serialversionuid
-     */
-    public static final long getSerialversionuid() {
-        return serialVersionUID;
+    public final void setId_entreprise(final Long id_entreprise) {
+        this.id_entreprise = id_entreprise;
     }
 
     /**
@@ -116,4 +113,32 @@ public class ChoixEtudiant implements Serializable {
     public final void setOrdre(final int ordre) {
         this.ordre = ordre;
     }
+
+    /**
+     * Gets the duree.
+     *
+     * @return the duree
+     */
+    public final int getDuree() {
+        return this.duree;
+    }
+
+    /**
+     * Sets the duree.
+     *
+     * @param duree the new duree
+     */
+    public final void setDuree(final int duree) {
+        this.duree = duree;
+    }
+
+    /**
+     * Gets the serialversionuid.
+     *
+     * @return the serialversionuid
+     */
+    public static final long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
 }

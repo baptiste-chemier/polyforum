@@ -27,11 +27,11 @@ public class ChoixEtudiantServiceImpl implements ChoixEtudiantService {
      */
     @Override
     public void enregistrerChoixEtudiant(final ChoixEtudiant choixEtudiant) {
-        final Long idEtu = this.choixEtudiantDao.getIdEtudiantById(choixEtudiant.getIdEtudiant());
-        final Long idEnt = this.choixEtudiantDao.getIdEntrepriseById(choixEtudiant.getIdEntreprise());
+        final Long idEtu = this.choixEtudiantDao.getIdEtudiantById(choixEtudiant.getId_etudiant());
+        final Long idEnt = this.choixEtudiantDao.getIdEntrepriseById(choixEtudiant.getId_entreprise());
 
         if (idEnt != null && idEtu != null) {
-            this.choixEtudiantDao.addChoixEtudiant(new ChoixEtudiant(idEtu, idEnt, choixEtudiant.getOrdre()));
+            this.choixEtudiantDao.addChoixEtudiant(new ChoixEtudiant(idEtu, idEnt, choixEtudiant.getOrdre(), choixEtudiant.getDuree()));
         }
     }
 
@@ -51,6 +51,15 @@ public class ChoixEtudiantServiceImpl implements ChoixEtudiantService {
     @Override
     public List<Utilisateur> getListEntreprise() {
         return this.choixEtudiantDao.getListEntreprise();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.ChoixEtudiantService#listerEntrepriseNonAjoutee(java.lang.Long)
+     */
+    @Override
+    public List<Utilisateur> listerEntrepriseNonAjoutee(final Long id) {
+        return this.choixEtudiantDao.listerEntrepriseNonAjoutee(id);
     }
 
 }

@@ -3,6 +3,7 @@ package com.application.polytech.dao;
 import java.util.List;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -59,9 +60,11 @@ public class ChoixEntrepriseDaoImpl extends AbstractDao implements ChoixEntrepri
      */
     @Override
     public List<Utilisateur> getListEtudiantByIdEntreprise(final Long id) {
-        final Criteria criteria = this.getSession().createCriteria(ChoixEntreprise.class);
-        criteria.add(Restrictions.eq("idEntreprise", id));
-        return criteria.list();
+        final Query query = this.getSession()
+                .createSQLQuery("SELECT * " + "FROM Choix_Entreprise " + "INNER JOIN Utilisateur ON Choix_Entreprise.id_entreprise=Utilisateur.id " + "WHERE id_entreprise = :id");
+        query.setLong("id", id);
+
+        return query.list();
     }
 
     /*
@@ -73,5 +76,27 @@ public class ChoixEntrepriseDaoImpl extends AbstractDao implements ChoixEntrepri
         final Criteria criteria = this.getSession().createCriteria(Utilisateur.class);
         criteria.add(Restrictions.eq("idProfil", 1L));
         return criteria.list();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.ChoixEntrepriseDao#getListEntreprise()
+     */
+    @Override
+    public List<ChoixEntreprise> getListEntreprise() {
+        final Criteria criteria = this.getSession().createCriteria(ChoixEntreprise.class);
+        return criteria.list();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.ChoixEntrepriseDao#listerEtudiantNonAjoutee(java.lang.Long)
+     */
+    @Override
+    public List<Utilisateur> listerEtudiantNonAjoutee(final Long id) {
+        final Query query = this.getSession()
+                .createSQLQuery("SELECT * FROM Utilisateur WHERE id NOT IN ( " + "SELECT id_etudiant FROM choix_entreprise WHERE id_entreprise = :id ) " + "AND id_profil = '1'");
+        query.setLong("id", id);
+        return query.list();
     }
 }

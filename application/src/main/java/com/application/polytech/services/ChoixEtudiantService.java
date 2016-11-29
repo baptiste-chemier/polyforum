@@ -32,4 +32,12 @@ public interface ChoixEtudiantService {
      */
     public List<Utilisateur> getListEntreprise();
 
+    /**
+     * Lister entreprise non ajoutee.
+     *
+     * @param id the id
+     * @return the list
+     */
+    public List<Utilisateur> listerEntrepriseNonAjoutee(Long id);
+
 }

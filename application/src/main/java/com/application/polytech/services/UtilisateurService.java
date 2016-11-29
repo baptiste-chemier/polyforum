@@ -1,5 +1,6 @@
 package com.application.polytech.services;
 
+import java.util.Date;
 import java.util.List;
 
 import com.application.polytech.model.Utilisateur;
@@ -61,5 +62,14 @@ public interface UtilisateurService {
      * @param filePath the file path
      */
     public void importerUtilisateurExcel(final String filePath);
+
+    /**
+     * Checks if is dispo.
+     *
+     * @param dateFin the date fin
+     * @param utilisateur the utilisateur
+     * @return true, if is dispo
+     */
+    public boolean isDispo(final Date dateFin, final Utilisateur utilisateur);
 
 }
