@@ -66,7 +66,21 @@ public interface UtilisateurDao {
     /**
      * Compter nombre entreprise.
      *
-     * @return the int
+     * @return the long
      */
     public Long compterNombreEntreprise();
+
+    /**
+     * Gets the all etudiant.
+     *
+     * @return the all etudiant
+     */
+    public List<Utilisateur> getAllEtudiant();
+
+    /**
+     * Gets the all entreprise.
+     *
+     * @return the all entreprise
+     */
+    public List<Utilisateur> getAllEntreprise();
 }
