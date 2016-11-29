@@ -7,10 +7,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="choice in choiceCtrl.choises">
+            <tr ng-repeat="choice in choiceCtrl.choices">
                 <td>{{choice.prenom}} {{choice.nom}}</td>
                 <td>
-                    <a href="" title="Ajouter" ng-click="choiceCtrl.ajoutEntrepriseMesChoix(choice.id)">
+                    <a href="" title="Ajouter" ng-click="choiceCtrl.ajoutEntrepriseMesChoix(choice.id, $index)">
                         <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                     </a>
                 </td>
@@ -23,12 +23,17 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <td>{{choiceCtrl.titreColoneMesChoix}}</td>
+                <td colspan="2">{{choiceCtrl.titreColoneMesChoix}}</td>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="myChoice in choiceCtrl.myChoices">
-                <td>{{myChoice.idEntreprise}}</td>
+                <td>
+                    <a href="" title="Supprimer" ng-click="choiceCtrl.ajoutEntrepriseMesChoix(choice.id)">
+                        <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
+                    </a>
+                </td>
+                <td>{{myChoice.nom}} {{myChoice.prenom}}</td>
             </tr>
         </tbody>
     </table>

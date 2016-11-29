@@ -482,13 +482,8 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
         $rootScope.title = "Mes choix";
 
         $rootScope.user = UserService.currentUser;
-        ajoutEntrepriseMesChoix;
-<<<<<<< HEAD
 
-        // On rÃ©fÃ©rence les mÃ©thodes exposÃ©es
-=======
-        
->>>>>>> 80c051ff07303c4a1a5f724457b2c246b88f53ad
+
         choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
 
         if ($rootScope.user.isStudent) {
@@ -502,7 +497,7 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
 
             choicesPromise.success(function (data) {
                 if (data.length > 0) { //si la liste n'est pas vide
-                    choiceCtrl.choises = data;
+                    choiceCtrl.choices = data;
                 }
             }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
                 choiceCtrl.error = data; //On affiche l'erreur brute     
@@ -520,25 +515,18 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
 
         }
 
-        function ajoutEntrepriseMesChoix(id_entreprise) {
-<<<<<<< HEAD
-            alert(id_entreprise);
-            ChoixEtudiant.saveChoix(1, id_entreprise, 15).success(function (response) {
-=======
-            ChoixEtudiant.saveChoix(UserService.currentUser.id, id_entreprise,15).success(function(response){
->>>>>>> 80c051ff07303c4a1a5f724457b2c246b88f53ad
-                myChoicesPromise.success(function (data) {
-                    if (data.length > 0) { //si la liste n'est pas vide
-                        choiceCtrl.myChoices = data;
-                    }
-                    $location.path("meschoix");
-                }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
-                    choiceCtrl.error = data; //On affiche l'erreur brute     
-                    //alert(usersCtrl.error);
-                });
+        function ajoutEntrepriseMesChoix(id_entreprise, index) {
+
+            ChoixEtudiant.saveChoix(parseInt(UserService.currentUser.id), id_entreprise,15).success(function(){
+                var entreprise = choiceCtrl.choices[index];
+                choiceCtrl.choices.splice(index, 1);
+                choiceCtrl.myChoices.push(entreprise);
+                
+            });/*.success(function(data){
+                console.log(data);
             }).error(function (response) {
                 alert("error");
-            });
+            });*/
 
         }
 

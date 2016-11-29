@@ -167,7 +167,7 @@ services.factory('ChoixEtudiant', ['$http', 'Config',
         function saveChoix(id_etudiant, id_entreprise, ordre) {
             var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlsaveChoixEtudiant;
             
-            return $http.post(url, {"idEtudiant": id_etudiant, "idEntreprise": id_entreprise, "ordre":ordre});
+            return $http.post(url, {"id_etudiant": id_etudiant, "id_entreprise": id_entreprise, "ordre":ordre, "duree":10});
         }
         
         function getChoix(idEtu) {
