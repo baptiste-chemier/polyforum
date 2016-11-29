@@ -10,6 +10,8 @@ import com.application.polytech.model.EntretienDTO;
  */
 public interface EntretienDao {
 
+    public void addEntretien(final Entretien entretien);
+
     /**
      * Gets the all.
      *

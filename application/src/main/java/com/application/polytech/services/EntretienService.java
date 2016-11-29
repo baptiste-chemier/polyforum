@@ -9,6 +9,8 @@ import com.application.polytech.model.Entretien;
  */
 public interface EntretienService {
 
+    public void addEntretien(final Entretien entretien);
+
     /**
      * Gets the all.
      *
