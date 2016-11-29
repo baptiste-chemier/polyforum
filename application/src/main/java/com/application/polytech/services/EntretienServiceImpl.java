@@ -70,6 +70,8 @@ public class EntretienServiceImpl implements EntretienService {
         final List<EntretienDTO> listEntretienDTO = this.entretienDao.recupererMatrice();
         final List<Entretien> entretiens = this.decouperMatrice(listEntretienDTO, idForum);
 
+        this.deleteAll();
+
         for (final Entretien entretien : entretiens) {
             this.entretienDao.addEntretien(entretien);
         }
@@ -81,6 +83,7 @@ public class EntretienServiceImpl implements EntretienService {
      *
      * @param listEntretienDTO the list entretien DTO
      * @param idForum the id forum
+     * @return the list
      */
     private List<Entretien> decouperMatrice(final List<EntretienDTO> listEntretienDTO, final Long idForum) {
         final List<Entreprise> entreprises = new ArrayList<>();
@@ -171,8 +174,21 @@ public class EntretienServiceImpl implements EntretienService {
         return null;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.EntretienService#addEntretien(com.application.polytech.model.Entretien)
+     */
     @Override
     public void addEntretien(final Entretien entretien) {
         this.entretienDao.addEntretien(entretien);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.EntretienService#deleteAll()
+     */
+    @Override
+    public void deleteAll() {
+        this.entretienDao.deleteAll();
     }
 }
