@@ -70,7 +70,11 @@
                                 <i class="fa fa-book fa-lg"></i> Mes Choix
                             </a>
                         </li>
-
+                        <li ng-show="user.isCompany">
+                            <a href="#/meschoixEntreprise">
+                                <i class="fa fa-book fa-lg"></i> Mes Choix
+                            </a>
+                        </li>
                         <li ng-show="user.isTeacher">
                             <a href="#/config/1"><i class="fa fa-cog fa-lg"></i> Configuration</a>
                         </li> 

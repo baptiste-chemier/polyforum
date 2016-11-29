@@ -29,7 +29,11 @@ services.factory('Config', [function () {
             
             //Config
             urlConfig:'/forum',
-            urlUpdateConfig:'/modifier'
+            urlUpdateConfig:'/modifier', 
+            
+            //Choix Entreprise
+            urlChoixEntreprise: '/choixEntreprise',
+            urlGetChoixEntrepriseNonAJouter: '/listerEtudiantNonAjoutee'
 
         };
     }]);
@@ -231,4 +235,41 @@ services.factory('ConfigService', ['$http', 'Config',
         }
 
 
+    }]);
+
+services.factory('ChoixCompany', ['$http', 'Config',
+    function ($http, Config) {
+        //Liste des mÃ©thodes exposÃ©es
+        var choixRest = {
+            saveChoix: saveChoix,
+            getChoix: getChoix,
+            getChoixNonAjouter: getChoixNonAjouter,
+            deleteChoix: deleteChoix
+        };
+
+        return choixRest;
+
+        function saveChoix(id_etudiant, id_entreprise, ordre) {
+            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlsaveChoixEtudiant;
+
+            return $http.post(url, {"id_etudiant": id_etudiant, "id_entreprise": id_entreprise, "ordre": ordre, "duree": 10});
+        }
+
+        function getChoix(idEtu) {
+            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlGetteurChoixEtudiant + "/" + idEtu;
+            ;
+            return $http.get(url);
+        }
+
+        function getChoixNonAjouter(id_entreprise) {
+            var url = Config.urlServer + Config.urlChoixEntreprise + Config.urlGetChoixEntrepriseNonAJouter + "/" + id_entreprise;
+            ;
+            return $http.get(url);
+        }
+
+        function deleteChoix(id_entreprise, id_etudiant) {
+            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlDeleteChoixEtudiant + "/" + id_etudiant + "/" + id_entreprise;
+
+            return $http.get(url);
+        }
     }]);

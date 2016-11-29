@@ -518,7 +518,7 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
 
         function ajoutEntrepriseMesChoix(id_entreprise, index) {
 
-            ChoixEtudiant.saveChoix(parseInt(UserService.currentUser.id), id_entreprise,15).success(function(){
+            ChoixEtudiant.saveChoix(parseInt(UserService.currentUser.id), id_entreprise,1).success(function(){
                 var entreprise = choiceCtrl.choices[index];
                 choiceCtrl.choices.splice(index, 1);
                 choiceCtrl.myChoices.push(entreprise);
@@ -626,4 +626,66 @@ controllers.controller("ConfigCtrl", ['$rootScope', 'ConfigService', '$routePara
                 configCtrl.error = "Erreur de saisie !";
             }
         }
+    }]);
+
+controllers.controller('CompanyChoiceCtrl', ['$rootScope', '$location', 'ChoixCompany', 'UserService', 'UsersRest',
+    function ($rootScope, $location, ChoixCompany, UserService, UsersRest) {
+        var companyChoiceCtrl = this;
+
+        $rootScope.title = "Mes choix";
+
+        $rootScope.user = UserService.currentUser;
+
+
+        companyChoiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
+        companyChoiceCtrl.deleteEntrepriseMesChoix = deleteEntrepriseMesChoix;
+
+        if ($rootScope.user.isStudent) {
+            companyChoiceCtrl.titreColoneAChoisir = "Les étudiants présent";
+            companyChoiceCtrl.titreColoneMesChoix = "Les étudiants que je souhaite voir";
+
+            //Récupère une promise
+            var choicesPromise = ChoixCompany.getChoixNonAjouter(UserService.currentUser.id);
+            var myChoicesPromise = ChoixCompany.getChoix(UserService.currentUser.id);
+
+
+            choicesPromise.success(function (data) {
+                if (data.length > 0) { //si la liste n'est pas vide
+                    companyChoiceCtrl.choices = data;
+                }
+            }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
+                companyChoiceCtrl.error = data; //On affiche l'erreur brute     
+                //alert(usersCtrl.error);
+            });
+
+            myChoicesPromise.success(function (data) {
+                if (data.length > 0) { //si la liste n'est pas vide
+                    companyChoiceCtrl.myChoices = data;
+                }
+            }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
+                companyChoiceCtrl.error = data; //On affiche l'erreur brute     
+                //alert(usersCtrl.error);
+            });
+
+        }
+
+        function ajoutEntrepriseMesChoix(id_entreprise, index) {
+
+            ChoixEtudiant.saveChoix(parseInt(UserService.currentUser.id), id_entreprise, 1).success(function () {
+                var entreprise = choiceCtrl.choices[index];
+                choiceCtrl.choices.splice(index, 1);
+                choiceCtrl.myChoices.push(entreprise);
+
+            });
+        }
+
+        function deleteEntrepriseMesChoix(id_entreprise, index) {
+            ChoixEtudiant.deleteChoix(id_entreprise, parseInt(UserService.currentUser.id)).success(function () {
+                var entreprise = choiceCtrl.myChoices[index];
+                choiceCtrl.myChoices.splice(index, 1);
+                choiceCtrl.choices.push(entreprise);
+
+            });
+        }
+
     }]);
