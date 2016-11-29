@@ -472,7 +472,6 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
         $rootScope.user = UserService.currentUser;
         ajoutEntrepriseMesChoix;
         
-        // On rÃ©fÃ©rence les mÃ©thodes exposÃ©es
         choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
         
         if ($rootScope.user.isStudent) {
@@ -480,8 +479,8 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
             choiceCtrl.titreColoneMesChoix = "Les Entreprises que je veux voir";
             
             //Récupère une promise
-            var choicesPromise = ChoixEtudiant.getAllChoix();
-            var myChoicesPromise = ChoixEtudiant.getChoix(UserService.currentUser.id); //ATENTION ID EN DUR
+            var choicesPromise = ChoixEtudiant.getChoixNonAjouter(UserService.currentUser.id);
+            var myChoicesPromise = ChoixEtudiant.getChoix(UserService.currentUser.id);
 
 
             choicesPromise.success(function (data) {
@@ -505,12 +504,12 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
         }
         
         function ajoutEntrepriseMesChoix(id_entreprise) {
-            alert(id_entreprise);
-            ChoixEtudiant.saveChoix(1, id_entreprise,15).success(function(response){
+            ChoixEtudiant.saveChoix(UserService.currentUser.id, id_entreprise,15).success(function(response){
                 myChoicesPromise.success(function (data) {
                     if (data.length > 0) { //si la liste n'est pas vide
                         choiceCtrl.myChoices = data;
                     }
+                    $location.path("meschoix");
                 }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
                     choiceCtrl.error = data; //On affiche l'erreur brute     
                     //alert(usersCtrl.error);
