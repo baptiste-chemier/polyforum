@@ -521,3 +521,94 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
         }
 
     }]);
+
+controllers.controller("ConfigCtrl", ['$rootScope', 'ConfigService', '$routeParams','$location',
+    function ($rootScope, ConfigService, $routeParams, $location) {
+        
+        $rootScope.title = "Paramètres du Forum";
+        // DÃ©finition du scope
+        var configCtrl = this;
+        
+        configCtrl.id = $routeParams.id;
+        configCtrl.titleH1 = "Polyforum";
+        
+        // On reference les methodes exposees
+        configCtrl.validateConfig = validateConfig;
+        configCtrl.cancel = cancel;
+        
+        var d = new Date();
+        d.setHours(14);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        configCtrl.time = d;
+
+        configCtrl.timeOpened = false;
+
+        // Affiche le datepicker
+        configCtrl.opentimeOpened = function () {
+            configCtrl.timeOpened = true;
+        };
+
+        var fin = new Date();
+        fin.setHours(18);
+        fin.setMinutes(0);
+        fin.setSeconds(0);
+        configCtrl.timefin = fin;
+
+        configCtrl.timeClosed = false;
+
+        // Affiche le datepicker
+        configCtrl.opentimeClosed = function () {
+            configCtrl.timeClosed = true;
+        };
+        
+        
+        var configR = ConfigService.getConfig($routeParams.id);
+        configR.success(function (data, status) {
+            if (status === 200) {
+                configCtrl.config = data;
+                var dtDeb = new Date(data.dateDebutForum);
+                var dtFin = new Date(data.dateFinForum);
+                configCtrl.timefin = dtFin;
+                configCtrl.time = dtDeb;
+
+            }
+        }).error(function (data) {
+            configCtrl.error = data;
+            alert(configCtrl.error);
+        });
+        
+        // On a cliquÃ© sur le bouton Annuler
+        function cancel() {
+            $location.path('/accueil');
+        }
+
+        function validateConfig(id, form) {
+            // Si tout a ete saisi, pas de zone oubliee
+            if (form.$valid) {
+                // On recupere l'objet employee dans le scope de la vue
+                var config = configCtrl.config;
+
+                config.dateDebutForum = configCtrl.time.getTime();
+                config.dateFinForum = configCtrl.timefin.getTime();
+
+                if (id) {
+                    //Mise à jour de la config
+                    ConfigService.updateConfig(config, configCtrl.id).success(function (data, status) {
+                        if (status === 200) {
+                            $location.path('/accueil');
+                        }
+                    }).error(function (data) {
+                        configCtrl.error = data;
+                        alert(configCtrl.error);
+                    });
+                }
+
+                else {
+                    configCtrl.error = "Erreur de saisie !";
+                }
+            } else { // On affiche un message d'erreur type
+                configCtrl.error = "Erreur de saisie !";
+            }
+        }
+    }]);

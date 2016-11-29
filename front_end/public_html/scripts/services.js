@@ -24,7 +24,11 @@ services.factory('Config', [function () {
             urlChoixEtudiant:'/choixEtudiant',
             urlGetteurChoixEtudiant: '/lister', 
             urlsaveChoixEtudiant: '/ajouter', 
-            urlGetChoixEtudiantNonAJouter:'/listerEntrepriseNonAjoutee'
+            urlGetChoixEtudiantNonAJouter:'/listerEntrepriseNonAjoutee', 
+            
+            //Config
+            urlConfig:'/forum',
+            urlUpdateConfig:'/modifier'
 
         };
     }]);
@@ -187,6 +191,30 @@ services.factory('PlanningRest', ['$http', 'Config',
         };
 
         return planningRest;
+
+
+    }]);
+
+services.factory('ConfigService', ['$http', 'Config',
+    function ($http, Config) {
+        //Liste des methodes exposees
+        var userRest = {
+            getConfig: getConfig,
+            updateConfig: updateConfig,
+        };
+
+        return userRest;
+
+        function getConfig(id) {
+            var url = Config.urlServer + Config.urlConfig + "/" + id;
+
+            return $http.get(url);
+        }
+
+        function updateConfig(config, id) {
+            var url = Config.urlServer + Config.urlConfig + Config.urlUpdateConfig + '/' + id;
+            return $http.put(url, config); 
+        }
 
 
     }]);
