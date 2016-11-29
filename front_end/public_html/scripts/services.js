@@ -23,7 +23,12 @@ services.factory('Config', [function () {
             urlDeleteSalle: '/supprimer', 
             urlChoixEtudiant:'/choixEtudiant',
             urlGetteurChoixEtudiant: '/lister', 
-            urlsaveChoixEtudiant: '/ajouter'
+            urlsaveChoixEtudiant: '/ajouter', 
+            urlGetChoixEtudiantNonAJouter:'/listerEntrepriseNonAjoutee', 
+            
+            //Config
+            urlConfig:'/forum',
+            urlUpdateConfig:'/modifier'
 
         };
     }]);
@@ -49,7 +54,6 @@ services.factory('UsersRest', ['$http', 'Config',
 
         function getUsers() {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteurUser;
-
             return $http.get(url);
         }
 
@@ -149,7 +153,8 @@ services.factory('ChoixEtudiant', ['$http', 'Config',
         var choixRest = {
             getAllChoix: getAllChoix, 
             saveChoix:saveChoix,
-            getChoix:getChoix
+            getChoix:getChoix, 
+            getChoixNonAjouter:getChoixNonAjouter
         };
 
         return choixRest;
@@ -169,16 +174,53 @@ services.factory('ChoixEtudiant', ['$http', 'Config',
             var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlGetteurChoixEtudiant + "/" + idEtu;;
             return $http.get(url);
         }
+        
+        function getChoixNonAjouter(idEtu) {
+            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlGetChoixEtudiantNonAJouter + "/" + idEtu;
+            ;
+            return $http.get(url);
+        }
     }]);
 
 services.factory('PlanningRest', ['$http', 'Config',
     function ($http, Config) {
         //Liste des mÃ©thodes exposÃ©es
         var planningRest = {
- 
+             getEntreprises: getEntreprises
         };
 
         return planningRest;
+        
+        function getEntreprises() {
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteurUser;
+            return $http.get(url);
+        }
+
+
+
+
+    }]);
+
+services.factory('ConfigService', ['$http', 'Config',
+    function ($http, Config) {
+        //Liste des methodes exposees
+        var userRest = {
+            getConfig: getConfig,
+            updateConfig: updateConfig,
+        };
+
+        return userRest;
+
+        function getConfig(id) {
+            var url = Config.urlServer + Config.urlConfig + "/" + id;
+
+            return $http.get(url);
+        }
+
+        function updateConfig(config, id) {
+            var url = Config.urlServer + Config.urlConfig + Config.urlUpdateConfig + '/' + id;
+            return $http.put(url, config); 
+        }
 
 
     }]);

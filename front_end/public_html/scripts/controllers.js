@@ -27,11 +27,27 @@ controllers.controller('Apropos', ['$rootScope', '$location',
         $rootScope.title = "A propos";
     }]);
 
-controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest','$location', '$route',
+controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest', '$location', '$route',
     function ($rootScope, PlanningRest, $location, $route) {
         var planningCtrl = this;
 
         $rootScope.title = "Planning";
+
+        planningCtrl.test = "5%";
+               
+        planningCtrl.track = ['track-one-session','track-two-session','track-three-session','track-four-session','track-five-session'];
+        
+        var entreprisesPromise = PlanningRest.getEntreprises();
+
+        entreprisesPromise.success(function (data) {
+            if (data.length > 0) { //si la liste n'est pas vide
+                planningCtrl.entreprises = data;
+            }
+        }).error(function (data) { //Si la requete provoque une erreur (code 404)
+            planningCtrl.error = data; //On affiche l'erreur brute     
+            //alert(usersCtrl.error);
+        });
+
     }]);
 
 controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest', '$location', '$route',
@@ -45,10 +61,6 @@ controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest', '$location', '$r
         // On référence les méthodes exposées
         usersCtrl.deleteUser = deleteUser;
 
-        /* Si la requete aboutit (code 200) on affecte le jSon retourne
-         * A  la variable employeesCtrl.employees qui sera affiche
-         * par la vue employees.html
-         */
         usersPromise.success(function (data) {
             if (data.length > 0) { //si la liste n'est pas vide
                 usersCtrl.users = data;
@@ -146,7 +158,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
         function cancel() {
             $location.path('/users');
         }
-  
+
         /**
          * On a clique sur le bouton valider
          * @param {type} id : id de l'employe modifie
@@ -157,9 +169,9 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
             if (form.$valid) {
                 // On recupere l'objet employee dans le scope de la vue
                 var user = userCtrl.user;
-                              
+
                 user.dateDebutDispo = userCtrl.time.getTime();
-                user.dateFinDispo   = userCtrl.timefin.getTime();
+                user.dateFinDispo = userCtrl.timefin.getTime();
 
                 // si on a un id => c'est une modification
                 if (id) {
@@ -291,7 +303,7 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
             // Si tout a été saisi, pas de zone oubliée
             if (form.$valid) {
                 // On récupère l'objet employee dans le scope de la vue
-                
+
                 var salle = salleCtrl.salle;
 
                 // Récupération du service sélectionné
@@ -300,7 +312,7 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
                 // si on a un id => c'est une modification
                 if (id) {
                     // Demande de mise à jour de l'employé
-                    SallesRest.updateSalle(salle,salleCtrl.id).success(function (data, status) {
+                    SallesRest.updateSalle(salle, salleCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle l
                         // iste des employés
                         // Sinon on affiche l'erreur
@@ -350,7 +362,7 @@ controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
         var loginCtr = this;
 
         $rootScope.title = "Connexion";
-        
+
         $rootScope.userService = UserService;
 
         $rootScope.user = UserService.currentUser;
@@ -435,7 +447,7 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
                 var user = monCompteCtrl.user;
 
                 user.dateDebutDispo = userCtrl.time.getTime();
-                user.dateFinDispo   = userCtrl.timefin.getTime();
+                user.dateFinDispo = userCtrl.timefin.getTime();
 
                 // si on a un id => c'est une modification
                 if (id) {
@@ -468,20 +480,24 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
         var choiceCtrl = this;
 
         $rootScope.title = "Mes choix";
-        
+
         $rootScope.user = UserService.currentUser;
         ajoutEntrepriseMesChoix;
-        
+<<<<<<< HEAD
+
         // On rÃ©fÃ©rence les mÃ©thodes exposÃ©es
-        choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
+=======
         
+>>>>>>> 80c051ff07303c4a1a5f724457b2c246b88f53ad
+        choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
+
         if ($rootScope.user.isStudent) {
             choiceCtrl.titreColoneAChoisir = "Les Entreprises présentes";
             choiceCtrl.titreColoneMesChoix = "Les Entreprises que je veux voir";
-            
+
             //Récupère une promise
-            var choicesPromise = ChoixEtudiant.getAllChoix();
-            var myChoicesPromise = ChoixEtudiant.getChoix(UserService.currentUser.id); //ATENTION ID EN DUR
+            var choicesPromise = ChoixEtudiant.getChoixNonAjouter(UserService.currentUser.id);
+            var myChoicesPromise = ChoixEtudiant.getChoix(UserService.currentUser.id);
 
 
             choicesPromise.success(function (data) {
@@ -492,7 +508,7 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
                 choiceCtrl.error = data; //On affiche l'erreur brute     
                 //alert(usersCtrl.error);
             });
-            
+
             myChoicesPromise.success(function (data) {
                 if (data.length > 0) { //si la liste n'est pas vide
                     choiceCtrl.myChoices = data;
@@ -501,24 +517,120 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
                 choiceCtrl.error = data; //On affiche l'erreur brute     
                 //alert(usersCtrl.error);
             });
-            
+
         }
-        
+
         function ajoutEntrepriseMesChoix(id_entreprise) {
+<<<<<<< HEAD
             alert(id_entreprise);
-            ChoixEtudiant.saveChoix(1, id_entreprise,15).success(function(response){
+            ChoixEtudiant.saveChoix(1, id_entreprise, 15).success(function (response) {
+=======
+            ChoixEtudiant.saveChoix(UserService.currentUser.id, id_entreprise,15).success(function(response){
+>>>>>>> 80c051ff07303c4a1a5f724457b2c246b88f53ad
                 myChoicesPromise.success(function (data) {
                     if (data.length > 0) { //si la liste n'est pas vide
                         choiceCtrl.myChoices = data;
                     }
+                    $location.path("meschoix");
                 }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
                     choiceCtrl.error = data; //On affiche l'erreur brute     
                     //alert(usersCtrl.error);
                 });
-            }).error(function(response) {
+            }).error(function (response) {
                 alert("error");
             });
 
         }
 
+    }]);
+
+controllers.controller("ConfigCtrl", ['$rootScope', 'ConfigService', '$routeParams','$location',
+    function ($rootScope, ConfigService, $routeParams, $location) {
+        
+        $rootScope.title = "Paramètres du Forum";
+        // DÃ©finition du scope
+        var configCtrl = this;
+        
+        configCtrl.id = $routeParams.id;
+        configCtrl.titleH1 = "Polyforum";
+        
+        // On reference les methodes exposees
+        configCtrl.validateConfig = validateConfig;
+        configCtrl.cancel = cancel;
+        
+        var d = new Date();
+        d.setHours(14);
+        d.setMinutes(0);
+        d.setSeconds(0);
+        configCtrl.time = d;
+
+        configCtrl.timeOpened = false;
+
+        // Affiche le datepicker
+        configCtrl.opentimeOpened = function () {
+            configCtrl.timeOpened = true;
+        };
+
+        var fin = new Date();
+        fin.setHours(18);
+        fin.setMinutes(0);
+        fin.setSeconds(0);
+        configCtrl.timefin = fin;
+
+        configCtrl.timeClosed = false;
+
+        // Affiche le datepicker
+        configCtrl.opentimeClosed = function () {
+            configCtrl.timeClosed = true;
+        };
+        
+        
+        var configR = ConfigService.getConfig($routeParams.id);
+        configR.success(function (data, status) {
+            if (status === 200) {
+                configCtrl.config = data;
+                var dtDeb = new Date(data.dateDebutForum);
+                var dtFin = new Date(data.dateFinForum);
+                configCtrl.timefin = dtFin;
+                configCtrl.time = dtDeb;
+
+            }
+        }).error(function (data) {
+            configCtrl.error = data;
+            alert(configCtrl.error);
+        });
+        
+        // On a cliquÃ© sur le bouton Annuler
+        function cancel() {
+            $location.path('/accueil');
+        }
+
+        function validateConfig(id, form) {
+            // Si tout a ete saisi, pas de zone oubliee
+            if (form.$valid) {
+                // On recupere l'objet employee dans le scope de la vue
+                var config = configCtrl.config;
+
+                config.dateDebutForum = configCtrl.time.getTime();
+                config.dateFinForum = configCtrl.timefin.getTime();
+
+                if (id) {
+                    //Mise à jour de la config
+                    ConfigService.updateConfig(config, configCtrl.id).success(function (data, status) {
+                        if (status === 200) {
+                            $location.path('/accueil');
+                        }
+                    }).error(function (data) {
+                        configCtrl.error = data;
+                        alert(configCtrl.error);
+                    });
+                }
+
+                else {
+                    configCtrl.error = "Erreur de saisie !";
+                }
+            } else { // On affiche un message d'erreur type
+                configCtrl.error = "Erreur de saisie !";
+            }
+        }
     }]);

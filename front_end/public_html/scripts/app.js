@@ -65,6 +65,10 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider',
                     templateUrl: 'partials/mesChoix.html',
                     controller: 'ChoiceCtrl as choiceCtrl'
                 })
+                .when('/config/:id', {
+                    templateUrl: 'partials/config.html',
+                    controller: 'ConfigCtrl as configCtrl'
+                })
                 .otherwise({
                     templateUrl: 'partials/login.html',
                     controller: 'LoginCtrl as loginCtrl'
