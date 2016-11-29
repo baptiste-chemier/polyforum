@@ -20,7 +20,10 @@ services.factory('Config', [function () {
             urlGetteurSalle: '/lister',
             urlUpdateSalle: '/modifier',
             urlAddSalle: '/ajouter',
-            urlDeleteSalle: '/supprimer'
+            urlDeleteSalle: '/supprimer', 
+            urlChoixEtudiant:'/choixEtudiant',
+            urlGetteurChoixEtudiant: '/lister', 
+            urlsaveChoixEtudiant: '/ajouter'
 
         };
     }]);
@@ -138,4 +141,44 @@ services.factory('LoginRest', ['$http', 'Config',
             var url = Config.urlServer + Config.urlProfil + Config.urlGetteurProfil + "/" + idProfil;
             return $http.get(url);
         }
+    }]);
+
+services.factory('ChoixEtudiant', ['$http', 'Config',
+    function ($http, Config) {
+        //Liste des mÃ©thodes exposÃ©es
+        var choixRest = {
+            getAllChoix: getAllChoix, 
+            saveChoix:saveChoix,
+            getChoix:getChoix
+        };
+
+        return choixRest;
+
+        function getAllChoix() {
+            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlGetteurChoixEtudiant;
+            return $http.get(url);
+        }
+        
+        function saveChoix(id_etudiant, id_entreprise, ordre) {
+            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlsaveChoixEtudiant;
+            
+            return $http.post(url, {"idEtudiant": id_etudiant, "idEntreprise": id_entreprise, "ordre":ordre});
+        }
+        
+        function getChoix(idEtu) {
+            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlGetteurChoixEtudiant + "/" + idEtu;;
+            return $http.get(url);
+        }
+    }]);
+
+services.factory('PlanningRest', ['$http', 'Config',
+    function ($http, Config) {
+        //Liste des mÃ©thodes exposÃ©es
+        var planningRest = {
+ 
+        };
+
+        return planningRest;
+
+
     }]);

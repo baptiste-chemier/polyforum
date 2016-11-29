@@ -27,6 +27,13 @@ controllers.controller('Apropos', ['$rootScope', '$location',
         $rootScope.title = "A propos";
     }]);
 
+controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest','$location', '$route',
+    function ($rootScope, PlanningRest, $location, $route) {
+        var planningCtrl = this;
+
+        $rootScope.title = "Planning";
+    }]);
+
 controllers.controller('UsersCtrl', ['$rootScope', 'UsersRest', '$location', '$route',
     function ($rootScope, UsersRest, $location, $route) {
         $rootScope.title = "Utilisateurs";
@@ -139,7 +146,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
         function cancel() {
             $location.path('/users');
         }
-
+  
         /**
          * On a clique sur le bouton valider
          * @param {type} id : id de l'employe modifie
@@ -244,10 +251,8 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
         // On référence les méthodes exposées
         salleCtrl.validateSalle = validateSalle;
         salleCtrl.cancel = cancel;
-        salleCtrl.reset = reset;
+        //salleCtrl.reset = reset;
 
-
-        salleCtrl.log = "yesy";
         // On récupère l'id de la salle
         salleCtrl.id = $routeParams.id;
 
@@ -286,15 +291,14 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
             // Si tout a été saisi, pas de zone oubliée
             if (form.$valid) {
                 // On récupère l'objet employee dans le scope de la vue
+                
                 var salle = salleCtrl.salle;
-
 
                 // Récupération du service sélectionné
                 //employee.department = employeeCtrl.selectedOptionDep;
 
                 // si on a un id => c'est une modification
                 if (id) {
-                    salleCtrl.log = "modif";
                     // Demande de mise à jour de l'employé
                     SallesRest.updateSalle(salle,salleCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle l
@@ -334,11 +338,11 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
             $location.path('/salles');
         }
 
-        function reset() {
-            salleCtrl.salle = {id: null, username: '', address: '', email: ''};
-            $rootScope.myForm.$setPristine(); //reset Form
-
-        }
+//        function reset() {
+//            salleCtrl.salle = { username: '', address: '', email: ''};
+//            $rootScope.myForm.$setPristine(); //reset Form
+//
+//        }
     }]);
 
 controllers.controller("LoginCtrl", ['$rootScope', 'UserService',
@@ -455,6 +459,66 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
             } else { // On affiche un message d'erreur type
                 monCompteCtrl.error = "Erreur de saisie !";
             }
+        }
+
+    }]);
+
+controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant', 'UserService', 'UsersRest',
+    function ($rootScope, $location, ChoixEtudiant, UserService, UsersRest) {
+        var choiceCtrl = this;
+
+        $rootScope.title = "Mes choix";
+        
+        $rootScope.user = UserService.currentUser;
+        ajoutEntrepriseMesChoix;
+        
+        // On rÃ©fÃ©rence les mÃ©thodes exposÃ©es
+        choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
+        
+        if ($rootScope.user.isStudent) {
+            choiceCtrl.titreColoneAChoisir = "Les Entreprises présentes";
+            choiceCtrl.titreColoneMesChoix = "Les Entreprises que je veux voir";
+            
+            //Récupère une promise
+            var choicesPromise = ChoixEtudiant.getAllChoix();
+            var myChoicesPromise = ChoixEtudiant.getChoix(UserService.currentUser.id); //ATENTION ID EN DUR
+
+
+            choicesPromise.success(function (data) {
+                if (data.length > 0) { //si la liste n'est pas vide
+                    choiceCtrl.choises = data;
+                }
+            }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
+                choiceCtrl.error = data; //On affiche l'erreur brute     
+                //alert(usersCtrl.error);
+            });
+            
+            myChoicesPromise.success(function (data) {
+                if (data.length > 0) { //si la liste n'est pas vide
+                    choiceCtrl.myChoices = data;
+                }
+            }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
+                choiceCtrl.error = data; //On affiche l'erreur brute     
+                //alert(usersCtrl.error);
+            });
+            
+        }
+        
+        function ajoutEntrepriseMesChoix(id_entreprise) {
+            alert(id_entreprise);
+            ChoixEtudiant.saveChoix(1, id_entreprise,15).success(function(response){
+                myChoicesPromise.success(function (data) {
+                    if (data.length > 0) { //si la liste n'est pas vide
+                        choiceCtrl.myChoices = data;
+                    }
+                }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
+                    choiceCtrl.error = data; //On affiche l'erreur brute     
+                    //alert(usersCtrl.error);
+                });
+            }).error(function(response) {
+                alert("error");
+            });
+
         }
 
     }]);
