@@ -10,6 +10,11 @@ import com.application.polytech.model.EntretienDTO;
  */
 public interface EntretienDao {
 
+    /**
+     * Adds the entretien.
+     *
+     * @param entretien the entretien
+     */
     public void addEntretien(final Entretien entretien);
 
     /**
@@ -25,4 +30,9 @@ public interface EntretienDao {
      * @return the list
      */
     public List<EntretienDTO> recupererMatrice();
+
+    /**
+     * Delete all.
+     */
+    public void deleteAll();
 }

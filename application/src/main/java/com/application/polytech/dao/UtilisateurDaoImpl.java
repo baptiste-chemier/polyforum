@@ -185,8 +185,34 @@ public class UtilisateurDaoImpl extends AbstractDao implements UtilisateurDao {
         return utilisateur;
     }
 
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.UtilisateurDao#compterNombreEntreprise()
+     */
     @Override
     public Long compterNombreEntreprise() {
         return (Long) this.getSession().createQuery("SELECT count(*) FROM Utilisateur WHERE id_profil = '3'").uniqueResult();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.UtilisateurDao#getAllEtudiant()
+     */
+    @Override
+    public List<Utilisateur> getAllEtudiant() {
+        final Criteria criteria = this.getSession().createCriteria(Utilisateur.class);
+        criteria.add(Restrictions.eq("idProfil", 1L));
+        return criteria.list();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.UtilisateurDao#getAllEntreprise()
+     */
+    @Override
+    public List<Utilisateur> getAllEntreprise() {
+        final Criteria criteria = this.getSession().createCriteria(Utilisateur.class);
+        criteria.add(Restrictions.eq("idProfil", 3L));
+        return criteria.list();
     }
 }

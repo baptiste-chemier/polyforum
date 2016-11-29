@@ -74,6 +74,26 @@ public class UtilisateurController {
     }
 
     /**
+     * Gets the all etudiant.
+     *
+     * @return the all etudiant
+     */
+    @RequestMapping(value = "/listerEtudiant", method = RequestMethod.GET)
+    public @ResponseBody List<Utilisateur> getAllEtudiant() {
+        return this.utilisateurService.getAllEtudiant();
+    }
+
+    /**
+     * Gets the all entreprise.
+     *
+     * @return the all entreprise
+     */
+    @RequestMapping(value = "/listerEntreprise", method = RequestMethod.GET)
+    public @ResponseBody List<Utilisateur> getAllEntreprise() {
+        return this.utilisateurService.getAllEntreprise();
+    }
+
+    /**
      * Delete utilisateur.
      *
      * @param id the id
@@ -110,7 +130,7 @@ public class UtilisateurController {
     /**
      * Compter nombre entreprise.
      *
-     * @return the int
+     * @return the long
      */
     @RequestMapping(value = "/compterNombreEntreprise", method = RequestMethod.GET)
     public @ResponseBody Long compterNombreEntreprise() {

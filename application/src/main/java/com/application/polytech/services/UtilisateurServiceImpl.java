@@ -117,4 +117,22 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     public Long compterNombreEntreprise() {
         return this.utilisateurDao.compterNombreEntreprise();
     }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.UtilisateurService#getAllEtudiant()
+     */
+    @Override
+    public List<Utilisateur> getAllEtudiant() {
+        return this.utilisateurDao.getAllEtudiant();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.UtilisateurService#getAllEntreprise()
+     */
+    @Override
+    public List<Utilisateur> getAllEntreprise() {
+        return this.utilisateurDao.getAllEntreprise();
+    }
 }

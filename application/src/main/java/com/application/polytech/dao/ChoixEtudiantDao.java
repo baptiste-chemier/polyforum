@@ -62,4 +62,12 @@ public interface ChoixEtudiantDao {
      * @return the list
      */
     public List<Utilisateur> listerEntrepriseNonAjoutee(Long id);
+
+    /**
+     * Delete choix etudiant.
+     *
+     * @param idEtudiant the id etudiant
+     * @param idEntreprise the id entreprise
+     */
+    public void deleteChoixEtudiant(Long idEtudiant, Long idEntreprise);
 }

@@ -39,4 +39,12 @@ public interface ChoixEntrepriseService {
      * @return the list
      */
     public List<Utilisateur> listerEtudiantNonAjoutee(Long id);
+
+    /**
+     * Delete choix entreprise.
+     *
+     * @param idEntreprise the id entreprise
+     * @param idEtudiant the id etudiant
+     */
+    public void deleteChoixEntreprise(Long idEntreprise, Long idEtudiant);
 }

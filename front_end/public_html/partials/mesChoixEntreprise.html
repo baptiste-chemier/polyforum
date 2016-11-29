@@ -3,20 +3,20 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <td colspan="2">{{choiceCtrl.titreColoneAChoisir}}</td>
+                <td colspan="2">{{companyChoiceCtrl.titreColoneAChoisir}}</td>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="choice in choiceCtrl.choices">
+            <tr ng-repeat="choice in companyChoiceCtrl.choices">
                 <td>{{choice.prenom}} {{choice.nom}}</td>
                 <td>
-                    <a href="" title="Ajouter" ng-click="choiceCtrl.ajoutEntrepriseMesChoix(choice.id, $index)">
+                    <a href="" title="Ajouter" ng-click="companyChoiceCtrl.ajoutEntrepriseMesChoix(choice.id, $index)">
                         <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                     </a>
                 </td>
             </tr>
         </tbody>
-        
+
     </table>
 </div>
 <div class="col-sm-6">
