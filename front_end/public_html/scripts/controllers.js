@@ -188,12 +188,11 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
                 user.dateFinDispo = userCtrl.timefin.getTime();
                 
                 user.idProfil = userCtrl.selectedOptionProfil.id;
-                user.password = userCtrl.user.nom + userCtrl.user.prenom
+                user.password = userCtrl.user.nom + userCtrl.user.prenom;
 
                 // si on a un id => c'est une modification
                 if (id) {
                     // Demande de mise a  jour de l'employe
-                    userCtrl.log = "modif";
                     UsersRest.updateUser(user, userCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle liste des employes
                         // Sinon on affiche l'erreur
