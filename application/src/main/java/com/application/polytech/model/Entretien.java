@@ -54,6 +54,8 @@ public class Entretien implements Serializable {
     @Transient
     private int duree;
 
+    public Entretien() {}
+
     /**
      * Instantiates a new entretien.
      *
