@@ -106,4 +106,14 @@ public class UtilisateurController {
     public @ResponseBody void importerUtilisateurExcel() {
         this.utilisateurService.importerUtilisateurExcel("C:/fichePolyforum.xlsx");
     }
+
+    /**
+     * Compter nombre entreprise.
+     *
+     * @return the int
+     */
+    @RequestMapping(value = "/compterNombreEntreprise", method = RequestMethod.GET)
+    public @ResponseBody Long compterNombreEntreprise() {
+        return this.utilisateurService.compterNombreEntreprise();
+    }
 }
