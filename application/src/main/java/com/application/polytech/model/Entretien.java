@@ -34,9 +34,9 @@ public class Entretien implements Serializable {
     @Column(name = "id_entreprise", nullable = false)
     private Long idEntreprise;
 
-    /** The id utilisateur. */
-    @Column(name = "id_utilisateur", nullable = false)
-    private Long idUtilisateur;
+    /** The id etudiant. */
+    @Column(name = "id_etudiant", nullable = false)
+    private Long idEtudiant;
 
     /** The id salle. */
     @Column(name = "id_salle", nullable = false)
@@ -54,21 +54,24 @@ public class Entretien implements Serializable {
     @Transient
     private int duree;
 
+    /**
+     * Instantiates a new entretien.
+     */
     public Entretien() {}
 
     /**
      * Instantiates a new entretien.
      *
      * @param idEntreprise the id entreprise
-     * @param idUtilisateur the id utilisateur
+     * @param idEtudiant the id etudiant
      * @param idSalle the id salle
      * @param dateDebut the date debut
      * @param dateFin the date fin
      */
-    public Entretien(final Long idEntreprise, final Long idUtilisateur, final Long idSalle, final Date dateDebut, final Date dateFin) {
+    public Entretien(final Long idEntreprise, final Long idEtudiant, final Long idSalle, final Date dateDebut, final Date dateFin) {
         super();
         this.idEntreprise = idEntreprise;
-        this.idUtilisateur = idUtilisateur;
+        this.idEtudiant = idEtudiant;
         this.idSalle = idSalle;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
@@ -120,21 +123,21 @@ public class Entretien implements Serializable {
     }
 
     /**
-     * Gets the id utilisateur.
+     * Gets the id etudiant.
      *
-     * @return the id utilisateur
+     * @return the id etudiant
      */
-    public final Long getIdUtilisateur() {
-        return this.idUtilisateur;
+    public final Long getIdEtudiant() {
+        return this.idEtudiant;
     }
 
     /**
-     * Sets the id utilisateur.
+     * Sets the id etudiant.
      *
-     * @param idUtilisateur the new id utilisateur
+     * @param idEtudiant the new id etudiant
      */
-    public final void setIdUtilisateur(final Long idUtilisateur) {
-        this.idUtilisateur = idUtilisateur;
+    public final void setIdEtudiant(final Long idEtudiant) {
+        this.idEtudiant = idEtudiant;
     }
 
     /**

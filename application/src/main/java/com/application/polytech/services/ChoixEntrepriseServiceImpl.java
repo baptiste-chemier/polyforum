@@ -61,4 +61,13 @@ public class ChoixEntrepriseServiceImpl implements ChoixEntrepriseService {
     public List<Utilisateur> listerEtudiantNonAjoutee(final Long id) {
         return this.choixEntrepriseDao.listerEtudiantNonAjoutee(id);
     }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.ChoixEntrepriseService#deleteChoixEntreprise(java.lang.Long, java.lang.Long)
+     */
+    @Override
+    public void deleteChoixEntreprise(final Long idEntreprise, final Long idEtudiant) {
+        this.choixEntrepriseDao.deleteChoixEntreprise(idEntreprise, idEtudiant);
+    }
 }

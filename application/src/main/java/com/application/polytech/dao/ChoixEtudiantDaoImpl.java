@@ -111,4 +111,16 @@ public class ChoixEtudiantDaoImpl extends AbstractDao implements ChoixEtudiantDa
         query.setResultTransformer(Transformers.aliasToBean(Utilisateur.class));
         return query.list();
     }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.ChoixEtudiantDao#deleteChoixEtudiant(java.lang.Long, java.lang.Long)
+     */
+    @Override
+    public void deleteChoixEtudiant(final Long idEtudiant, final Long idEntreprise) {
+        final Query query = this.getSession().createSQLQuery("DELETE FROM choix_etudiant WHERE id_etudiant = :idEtudiant AND id_entreprise = :idEntreprise");
+        query.setLong("idEtudiant", idEtudiant);
+        query.setLong("idEntreprise", idEntreprise);
+        query.executeUpdate();
+    }
 }

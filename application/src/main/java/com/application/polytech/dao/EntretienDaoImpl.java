@@ -18,6 +18,10 @@ import com.application.polytech.model.EntretienDTO;
 @Repository("entretienDao")
 public class EntretienDaoImpl extends AbstractDao implements EntretienDao {
 
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.EntretienDao#addEntretien(com.application.polytech.model.Entretien)
+     */
     @Override
     public void addEntretien(final Entretien entretien) {
         this.persist(entretien);
@@ -47,5 +51,15 @@ public class EntretienDaoImpl extends AbstractDao implements EntretienDao {
 
         query.setResultTransformer(Transformers.aliasToBean(EntretienDTO.class));
         return query.list();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.EntretienDao#deleteAll()
+     */
+    @Override
+    public void deleteAll() {
+        final Query query = this.getSession().createSQLQuery("DELETE FROM Entretien");
+        query.executeUpdate();
     }
 }

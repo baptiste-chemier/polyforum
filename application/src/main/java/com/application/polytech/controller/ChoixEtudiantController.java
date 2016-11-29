@@ -41,6 +41,17 @@ public class ChoixEtudiantController {
     }
 
     /**
+     * Delete choix etudiant.
+     *
+     * @param idEtudiant the id etudiant
+     * @param idEntreprise the id entreprise
+     */
+    @RequestMapping(value = "/supprimer/{idEtudiant}/{idEntreprise}", method = RequestMethod.GET)
+    public @ResponseBody void deleteChoixEtudiant(@PathVariable("idEtudiant") final Long idEtudiant, @PathVariable("idEntreprise") final Long idEntreprise) {
+        this.choixEtudiantService.deleteChoixEtudiant(idEtudiant, idEntreprise);
+    }
+
+    /**
      * Gets the list entreprise by id etudiant.
      *
      * @param id the id
