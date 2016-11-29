@@ -5,6 +5,10 @@ import java.util.List;
 import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
+import org.hibernate.type.DateType;
+import org.hibernate.type.LongType;
+import org.hibernate.type.StringType;
 import org.springframework.stereotype.Repository;
 
 import com.application.polytech.model.ChoixEntreprise;
@@ -61,9 +65,12 @@ public class ChoixEntrepriseDaoImpl extends AbstractDao implements ChoixEntrepri
     @Override
     public List<Utilisateur> getListEtudiantByIdEntreprise(final Long id) {
         final Query query = this.getSession()
-                .createSQLQuery("SELECT * " + "FROM Choix_Entreprise " + "INNER JOIN Utilisateur ON Choix_Entreprise.id_entreprise=Utilisateur.id " + "WHERE id_entreprise = :id");
+                .createSQLQuery(
+                        "SELECT id, nom, prenom, email, telephone, id_profil as idProfil, date_debut_dispo as dateDebutDispo, date_fin_dispo as dateFinDispo FROM choix_entreprise e INNER JOIN utilisateur u ON u.id = e.id_etudiant WHERE e.id_entreprise = :id")
+                .addScalar("id", LongType.INSTANCE).addScalar("nom", StringType.INSTANCE).addScalar("prenom", StringType.INSTANCE).addScalar("email", StringType.INSTANCE)
+                .addScalar("telephone", StringType.INSTANCE).addScalar("idProfil", LongType.INSTANCE).addScalar("dateDebutDispo", DateType.INSTANCE).addScalar("dateFinDispo", DateType.INSTANCE);
         query.setLong("id", id);
-
+        query.setResultTransformer(Transformers.aliasToBean(Utilisateur.class));
         return query.list();
     }
 
@@ -95,8 +102,13 @@ public class ChoixEntrepriseDaoImpl extends AbstractDao implements ChoixEntrepri
     @Override
     public List<Utilisateur> listerEtudiantNonAjoutee(final Long id) {
         final Query query = this.getSession()
-                .createSQLQuery("SELECT * FROM Utilisateur WHERE id NOT IN ( " + "SELECT id_etudiant FROM choix_entreprise WHERE id_entreprise = :id ) " + "AND id_profil = '1'");
+                .createSQLQuery(
+                        "SELECT id, nom, prenom, email, telephone, id_profil as idProfil, date_debut_dispo as dateDebutDispo, date_fin_dispo as dateFinDispo FROM Utilisateur WHERE id NOT IN ( "
+                                + "SELECT id_entreprise FROM choix_etudiant WHERE id_etudiant = :id ) AND id_profil = '3'")
+                .addScalar("id", LongType.INSTANCE).addScalar("nom", StringType.INSTANCE).addScalar("prenom", StringType.INSTANCE).addScalar("email", StringType.INSTANCE)
+                .addScalar("telephone", StringType.INSTANCE).addScalar("idProfil", LongType.INSTANCE).addScalar("dateDebutDispo", DateType.INSTANCE).addScalar("dateFinDispo", DateType.INSTANCE);
         query.setLong("id", id);
+        query.setResultTransformer(Transformers.aliasToBean(Utilisateur.class));
         return query.list();
     }
 }
