@@ -33,17 +33,12 @@
                             <table class="schedule-table">
                                 <thead><tr>
                                         <th> </th>
-                                        <th ng-repeat="entreprise in planningCtrl.entreprises" width="*" ng-class="planningCtrl.track[$index%planningCtrl.track.length]">{{entreprise.nom}}</th>
-                                      <!--  <th width="{{planningCtrl.test}}" class="track-one-session">One</th>
-                                        <th width="20%" class="track-two-session">Two</th>
-                                        <th width="20%" class="track-three-session">Three</th>
-                                        <th width="20%" class="track-four-session">Four</th>
-                                        <th width="20%" class="track-five-session">Five</th> -->
-                                    </tr></thead>
+                                        <th ng-repeat="entreprise in planningCtrl.entreprises" width="*" ng-class="planningCtrl.track[$index%planningCtrl.track.length]" >{{entreprise.nom}}</th>
+                                </tr></thead>
                                 <tbody>                                  
                                     <tr>
                                         <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>08:00</td>
+                                            <div class="visible-xs-inline">Starts at </div>08:00</td>
                                         <td colspan="5" class="other">Registration</td>
                                     </tr>
                                     <tr>
