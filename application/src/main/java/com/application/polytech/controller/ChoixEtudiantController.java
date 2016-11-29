@@ -60,4 +60,15 @@ public class ChoixEtudiantController {
     public @ResponseBody List<Utilisateur> getListEntreprise() {
         return this.choixEtudiantService.getListEntreprise();
     }
+
+    /**
+     * Lister entreprise non ajoutee.
+     *
+     * @param id the id
+     * @return the list
+     */
+    @RequestMapping(value = "/listerEntrepriseNonAjoutee/{idEtudiant}", method = RequestMethod.GET)
+    public @ResponseBody List<Utilisateur> listerEntrepriseNonAjoutee(@PathVariable("idEtudiant") final Long id) {
+        return this.choixEtudiantService.listerEntrepriseNonAjoutee(id);
+    }
 }

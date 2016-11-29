@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.application.polytech.model.Connexion;
 import com.application.polytech.model.Utilisateur;
-import com.application.polytech.model.UtilisateurDTO;
 import com.application.polytech.services.UtilisateurService;
 
 /**
@@ -86,12 +86,12 @@ public class UtilisateurController {
     /**
      * Connecter.
      *
-     * @param utilisateurDto the utilisateur dto
+     * @param connexion the connexion
      * @return the utilisateur
      */
     @RequestMapping(value = "/connecter", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Utilisateur connecter(@RequestBody final UtilisateurDTO utilisateurDto) {
-        final Utilisateur utilisateur = this.utilisateurService.connecter(utilisateurDto.getEmail(), utilisateurDto.getPassword());
+    public @ResponseBody Utilisateur connecter(@RequestBody final Connexion connexion) {
+        final Utilisateur utilisateur = this.utilisateurService.connecter(connexion.getEmail(), connexion.getPassword());
         if (utilisateur != null) {
             return utilisateur;
         } else {
@@ -105,5 +105,15 @@ public class UtilisateurController {
     @RequestMapping(value = "/importerUtilisateurExcel", method = RequestMethod.GET)
     public @ResponseBody void importerUtilisateurExcel() {
         this.utilisateurService.importerUtilisateurExcel("C:/fichePolyforum.xlsx");
+    }
+
+    /**
+     * Compter nombre entreprise.
+     *
+     * @return the int
+     */
+    @RequestMapping(value = "/compterNombreEntreprise", method = RequestMethod.GET)
+    public @ResponseBody Long compterNombreEntreprise() {
+        return this.utilisateurService.compterNombreEntreprise();
     }
 }

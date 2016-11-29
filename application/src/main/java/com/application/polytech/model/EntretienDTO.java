@@ -2,62 +2,48 @@ package com.application.polytech.model;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
- * The Class ChoixEntreprise.
+ * The Class EntretienDTO.
  */
-@Entity
-@Table(name = "choix_entreprise")
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class ChoixEntreprise implements Serializable {
+public class EntretienDTO implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
     /** The id entreprise. */
-    @Id
-    @Column(name = "id_entreprise", nullable = false)
     private Long id_entreprise;
 
     /** The id etudiant. */
-    @Id
-    @Column(name = "id_etudiant", nullable = false)
     private Long id_etudiant;
 
     /** The ordre. */
-    @Column(name = "ordre", nullable = false)
     private int ordre;
 
     /** The duree. */
-    @Column(name = "duree", nullable = false)
     private int duree;
 
     /**
-     * Instantiates a new choix entreprise.
+     * Instantiates a new entretien DTO.
      */
-    public ChoixEntreprise() {
-
+    public EntretienDTO() {
+        super();
     }
 
     /**
-     * Instantiates a new choix entreprise.
+     * Instantiates a new entretien DTO.
      *
      * @param id_entreprise the id entreprise
      * @param id_etudiant the id etudiant
      * @param ordre the ordre
-     * @param duree the duree
      */
-    public ChoixEntreprise(final Long id_entreprise, final Long id_etudiant, final int ordre, final int duree) {
+    public EntretienDTO(final Long id_entreprise, final Long id_etudiant, final int ordre) {
+        super();
         this.id_entreprise = id_entreprise;
         this.id_etudiant = id_etudiant;
         this.ordre = ordre;
-        this.duree = duree;
     }
 
     /**

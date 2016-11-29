@@ -5,10 +5,10 @@ import java.io.Serializable;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
- * The Class UtilisateurDTO.
+ * The Class Connexion.
  */
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class UtilisateurDTO implements Serializable {
+public class Connexion implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;

@@ -48,4 +48,19 @@ public interface ChoixEntrepriseDao {
      */
     public List<Utilisateur> getListEtudiant();
 
+    /**
+     * Gets the list entreprise.
+     *
+     * @return the list entreprise
+     */
+    public List<ChoixEntreprise> getListEntreprise();
+
+    /**
+     * Lister etudiant non ajoutee.
+     *
+     * @param id the id
+     * @return the list
+     */
+    public List<Utilisateur> listerEtudiantNonAjoutee(Long id);
+
 }

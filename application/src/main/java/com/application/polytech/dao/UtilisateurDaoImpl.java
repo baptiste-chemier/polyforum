@@ -184,4 +184,9 @@ public class UtilisateurDaoImpl extends AbstractDao implements UtilisateurDao {
 
         return utilisateur;
     }
+
+    @Override
+    public Long compterNombreEntreprise() {
+        return (Long) this.getSession().createQuery("SELECT count(*) FROM Utilisateur WHERE id_profil = '3'").uniqueResult();
+    }
 }
