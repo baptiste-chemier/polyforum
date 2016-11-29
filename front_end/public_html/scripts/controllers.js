@@ -483,7 +483,6 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
 
         $rootScope.user = UserService.currentUser;
 
-
         choiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
         choiceCtrl.deleteEntrepriseMesChoix = deleteEntrepriseMesChoix;
 

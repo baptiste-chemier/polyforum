@@ -206,6 +206,7 @@ h1 {
 body {
     margin: 0px;
     padding: 0px;
+    overflow-x: hidden;
 }
 .main-content .top {
     top:0;

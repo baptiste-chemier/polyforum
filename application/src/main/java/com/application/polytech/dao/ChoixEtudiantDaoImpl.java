@@ -104,11 +104,23 @@ public class ChoixEtudiantDaoImpl extends AbstractDao implements ChoixEtudiantDa
         final Query query = this.getSession()
                 .createSQLQuery(
                         "SELECT id, nom, prenom, email, telephone, id_profil as idProfil, date_debut_dispo as dateDebutDispo, date_fin_dispo as dateFinDispo FROM Utilisateur WHERE id NOT IN ( "
-                                + "SELECT id_entreprise FROM choix_etudiant WHERE id_etudiant = :id ) " + "AND id_profil = '3'")
+                                + "SELECT id_entreprise FROM choix_etudiant WHERE id_etudiant = :id ) AND id_profil = '3'")
                 .addScalar("id", LongType.INSTANCE).addScalar("nom", StringType.INSTANCE).addScalar("prenom", StringType.INSTANCE).addScalar("email", StringType.INSTANCE)
                 .addScalar("telephone", StringType.INSTANCE).addScalar("idProfil", LongType.INSTANCE).addScalar("dateDebutDispo", DateType.INSTANCE).addScalar("dateFinDispo", DateType.INSTANCE);
         query.setLong("id", id);
         query.setResultTransformer(Transformers.aliasToBean(Utilisateur.class));
         return query.list();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.ChoixEtudiantDao#deleteChoixEtudiant(java.lang.Long, java.lang.Long)
+     */
+    @Override
+    public void deleteChoixEtudiant(final Long idEtudiant, final Long idEntreprise) {
+        final Query query = this.getSession().createSQLQuery("DELETE FROM choix_etudiant WHERE id_etudiant = :idEtudiant AND id_entreprise = :idEntreprise");
+        query.setLong("idEtudiant", idEtudiant);
+        query.setLong("idEntreprise", idEntreprise);
+        query.executeUpdate();
     }
 }

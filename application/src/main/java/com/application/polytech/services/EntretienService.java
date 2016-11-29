@@ -10,6 +10,13 @@ import com.application.polytech.model.Entretien;
 public interface EntretienService {
 
     /**
+     * Adds the entretien.
+     *
+     * @param entretien the entretien
+     */
+    public void addEntretien(final Entretien entretien);
+
+    /**
      * Gets the all.
      *
      * @return the all
@@ -22,5 +29,10 @@ public interface EntretienService {
      * @param idForum the id forum
      */
     public void genererPlanning(final Long idForum);
+
+    /**
+     * Delete all.
+     */
+    public void deleteAll();
 
 }

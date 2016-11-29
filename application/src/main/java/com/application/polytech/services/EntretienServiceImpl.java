@@ -1,5 +1,6 @@
 package com.application.polytech.services;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -67,7 +68,13 @@ public class EntretienServiceImpl implements EntretienService {
     public void genererPlanning(final Long idForum) {
 
         final List<EntretienDTO> listEntretienDTO = this.entretienDao.recupererMatrice();
-        this.decouperMatrice(listEntretienDTO, idForum);
+        final List<Entretien> entretiens = this.decouperMatrice(listEntretienDTO, idForum);
+
+        this.deleteAll();
+
+        for (final Entretien entretien : entretiens) {
+            this.entretienDao.addEntretien(entretien);
+        }
 
     }
 
@@ -76,8 +83,9 @@ public class EntretienServiceImpl implements EntretienService {
      *
      * @param listEntretienDTO the list entretien DTO
      * @param idForum the id forum
+     * @return the list
      */
-    private void decouperMatrice(final List<EntretienDTO> listEntretienDTO, final Long idForum) {
+    private List<Entretien> decouperMatrice(final List<EntretienDTO> listEntretienDTO, final Long idForum) {
         final List<Entreprise> entreprises = new ArrayList<>();
         Entreprise entreprise = new Entreprise();
         final List<Entretien> entretiens = new ArrayList<>();
@@ -116,10 +124,12 @@ public class EntretienServiceImpl implements EntretienService {
             }
         }
 
-        for (final Entretien entretien : entretiens) {
-            System.out.println("Entretien : " + entretien.getId() + " | " + entretien.getIdEntreprise() + " | " + entretien.getIdUtilisateur() + " | " + entretien.getIdSalle() + " | "
-                    + entretien.getDateDebut() + " | " + entretien.getDateFin());
-        }
+        return entretiens;
+        //
+        // for (final Entretien entretien : entretiens) {
+        // System.out.println("Entretien : " + entretien.getId() + " | " + entretien.getIdEntreprise() + " | " + entretien.getIdUtilisateur() + " | " + entretien.getIdSalle() + " | "
+        // + entretien.getDateDebut() + " | " + entretien.getDateFin());
+        // }
     }
 
     /**
@@ -135,25 +145,50 @@ public class EntretienServiceImpl implements EntretienService {
     private Entretien creerEntretien(final Entreprise entreprise, final List<Salle> salles, final EntretienDTO entretienDTO, final Utilisateur etudiant, final Long idForum) {
         final Forum forum = this.forumService.getForumById(idForum);
 
-        for (final Salle salle : salles) {
-            if (salle.getEntreprises().size() < salle.getCapacite()) {
-                if (!entreprise.aUneSalle()) {
+        if (!entreprise.aUneSalle()) {
+            for (final Salle salle : salles) {
+                if (salle.getEntreprises().size() < salle.getCapacite()) {
                     salle.getEntreprises().add(entreprise);
                     entreprise.setaUneSalle(true);
                     entreprise.setIdSalle(salle.getId());
                     final long tempsEnMilliseconde = forum.getDateDebutForum().getTime();
                     final Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
                     salle.setDernierEntretien(finEntretien);
-
-                    return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), forum.getDateDebutForum(), finEntretien);
-                } else {
-                    final long tempsEnMilliseconde = salle.getDernierEntretien().getTime();
-                    final Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
-
-                    return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), forum.getDateDebutForum(), finEntretien);
+                    return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), forum.getDateDebutForum(), new Timestamp(finEntretien.getTime()));
+                } else if (salle.getEntreprises().size() == salle.getCapacite()) {
+                    if (entreprise.aUneSalle()) {
+                        final long tempsEnMilliseconde = salle.getDernierEntretien().getTime();
+                        final Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
+                        salle.setDernierEntretien(finEntretien);
+                        return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
+                    }
                 }
             }
+        } else {
+            final Salle s = this.salleService.getSalleById(entreprise.getIdSalle());
+            final long tempsEnMilliseconde = s.getDernierEntretien().getTime();
+            final Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
+            s.setDernierEntretien(finEntretien);
+            return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
         }
         return null;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.EntretienService#addEntretien(com.application.polytech.model.Entretien)
+     */
+    @Override
+    public void addEntretien(final Entretien entretien) {
+        this.entretienDao.addEntretien(entretien);
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.EntretienService#deleteAll()
+     */
+    @Override
+    public void deleteAll() {
+        this.entretienDao.deleteAll();
     }
 }
