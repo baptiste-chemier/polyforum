@@ -26,6 +26,11 @@ services.factory('Config', [function () {
             urlsaveChoixEtudiant: '/ajouter', 
             urlGetChoixEtudiantNonAJouter:'/listerEntrepriseNonAjoutee', 
             
+            //Planning
+            urlPlanning: '/entretien',
+            urlGenererPlanning: '/genererPlanning',
+            urlListerPlanning: 'lister',
+            
             //Config
             urlConfig:'/forum',
             urlUpdateConfig:'/modifier'
@@ -47,7 +52,8 @@ services.factory('UsersRest', ['$http', 'Config',
             getUser: getUser,
             updateUser: updateUser,
             addUser: addUser,
-            deleteUser: deleteUser
+            deleteUser: deleteUser,
+            getProfil: getProfil
         };
 
         return userRest;
@@ -59,7 +65,6 @@ services.factory('UsersRest', ['$http', 'Config',
 
         function getUser(id) {
             var url = Config.urlServer + Config.urlUtilisateur + "/" + id;
-
             return $http.get(url);
         }
 
@@ -76,6 +81,11 @@ services.factory('UsersRest', ['$http', 'Config',
 
         function deleteUser(id) {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlDeleteUser + "/" + id;
+            return $http.get(url);
+        }
+        
+        function getProfil(){
+            var url = Config.urlServer + "/profil/" + "/lister";
             return $http.get(url);
         }
 
@@ -186,19 +196,28 @@ services.factory('PlanningRest', ['$http', 'Config',
     function ($http, Config) {
         //Liste des mÃ©thodes exposÃ©es
         var planningRest = {
-             getEntreprises: getEntreprises
+             getEntreprises: getEntreprises,
+             genererPlanning :genererPlanning,
+             listerPlanning : listerPlanning
         };
 
         return planningRest;
+        
         
         function getEntreprises() {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteurUser;
             return $http.get(url);
         }
 
-
-
-
+        function genererPlanning(){
+            var url = Config.urlServer + Config.urlPlanning + Config.urlGenererPlanning;
+            return $http.get(url);
+        }
+        
+        function listerPlanning(){
+            var url = Config.urlServer + Config.urlPlanning + Config.urlListerPlanning + "/" + 1;
+            return $http.get(url);
+        }
     }]);
 
 services.factory('ConfigService', ['$http', 'Config',
