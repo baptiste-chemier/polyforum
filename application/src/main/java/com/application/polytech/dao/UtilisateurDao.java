@@ -62,4 +62,11 @@ public interface UtilisateurDao {
      * @return the list
      */
     public List<Utilisateur> lireFichierExcel(final String filePath);
+
+    /**
+     * Compter nombre entreprise.
+     *
+     * @return the int
+     */
+    public Long compterNombreEntreprise();
 }

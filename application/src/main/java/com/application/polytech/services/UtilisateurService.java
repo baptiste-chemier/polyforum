@@ -72,4 +72,11 @@ public interface UtilisateurService {
      */
     public boolean isDispo(final Date dateFin, final Utilisateur utilisateur);
 
+    /**
+     * Compter nombre entreprise.
+     *
+     * @return the int
+     */
+    public Long compterNombreEntreprise();
+
 }

@@ -108,4 +108,13 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         }
         return true;
     }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.services.UtilisateurService#compterNombreEntreprise()
+     */
+    @Override
+    public Long compterNombreEntreprise() {
+        return this.utilisateurDao.compterNombreEntreprise();
+    }
 }
