@@ -62,7 +62,7 @@
                         </li>
                         <li ng-if="user.isLoggedIn 
                             ">
-                            <a href="#/monCompte/1">
+                            <a href="#/monCompte/{{user.id}}">
                                 <i class="fa fa-sign-in fa-lg"></i> Mon compte
                             </a>
                         </li>
@@ -92,7 +92,7 @@
 
                         <li ng-if="user.isTeacher  == 'true'">
                             <a href="#/users">
-                                <i class="fa fa-users fa-lg"></i> Utilisateur
+                                <i class="fa fa-users fa-lg"></i> Utilisateurs
                             </a>
                         </li>
                         <li ng-if="user.isLoggedIn  == 'true'">
