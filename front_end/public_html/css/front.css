@@ -10,7 +10,13 @@ h1 {
     color:#009bdc;
     font-weight: bold;
 }
-
+h2 {
+    margin: 10px 5px;
+    font-size: 15px;
+    padding: 10px 10px;
+    color:#009bdc;
+    font-weight: bold;
+}
 .form-horizontal .form-group {
     margin-right: 0px;
 }
@@ -340,4 +346,58 @@ body {
 .rowInfosConnection span {
     font-weight: bold;
     color:#009bdc;
+}
+
+/*******************************************************************
+********************************************************************
+****************************** Accueil *****************************
+/*******************************************************************
+********************************************************************/
+.accueil h2 {
+    line-height: 50px;
+    margin: 10px -20px;   
+    color: #ffffff;    
+}
+.rowAccueil{
+    margin: 10px 0px;
+}
+@media (min-width: 320px) {
+    .accueil h2 {
+        margin: 10px 0px;
+    }
+    .rowBienvenue {
+        margin: 0px 15px !important;
+    }
+}
+div.bienvenue {
+    background-color: #eeeeee;
+    box-shadow: 4px 4px #bbbbbb;
+    line-height: 30px;
+}
+p.bienvenue {
+    
+    text-align: justify;
+}
+
+.configuration h2 {
+    background-color: #303F9F;
+    box-shadow: 4px 4px #1A237E;
+} 
+
+.monCompte h2 {
+    background-color: #C2185B;
+     box-shadow: 4px 4px #880E4F;
+}
+
+.mesChoix h2 {
+    background-color: #0097A7;
+    box-shadow: 4px 4px #006064;
+}
+.accueil .salles h2 {
+    background-color: #F57C00;
+    box-shadow: 4px 4px #E65100;
+}
+.accueil .utilisateurs h2 {
+    background-color: #D32F2F;
+    box-shadow: 4px 4px #B71C1C;
 }
