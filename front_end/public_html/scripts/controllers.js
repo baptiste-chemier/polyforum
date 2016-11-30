@@ -216,8 +216,8 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
                 // On recupere l'objet employee dans le scope de la vue
                 var user = userCtrl.user;
 
-                user.dateDebutDispo = userCtrl.time.getTime();
-                user.dateFinDispo = userCtrl.timefin.getTime();
+                //user.dateDebutDispo = userCtrl.time.getTime();
+                //user.dateFinDispo = userCtrl.timefin.getTime();
 
                 user.idProfil = userCtrl.selectedOptionProfil.id;
                 user.password = userCtrl.user.nom + userCtrl.user.prenom;
