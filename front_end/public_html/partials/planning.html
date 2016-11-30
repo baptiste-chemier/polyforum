@@ -2,29 +2,23 @@
 <div class="planning">
     <h1>Planning</h1>
      
-<!--<table class="table-responsive table table-bordered table-striped">
+<table class="table-responsive table table-bordered table-striped">
         <thead>
             <tr>
                 <th>Identifiant / e-mail</th>
                 <th>Nom</th>                      
                 <th>Prénom</th>
-                <th>Actions</th>
-                
+               
             </tr>
         </thead>
            <tbody>
-            <tr ng-repeat="user in usersCtrl.users">
-                <td><a href="mailto:{{user.email}}">{{user.email}}</a></td>
-                <td>{{user.nom}}</td>
-                <td>{{user.prenom}}</td>
-                <td><a href="#/updateUser/{{user.id}}" title="Modifier">
-                        <i class="fa fa-pencil-square-o fa-3" aria-hidden="true"></i>
-                    </a> 
-                    &nbsp; &nbsp;
-                    <a href="" confirmed-click="usersCtrl.deleteUser(user.id)" ng-confirm-box-click="Deleting confirmed ?" title="Supprimer"><i class="fa fa-times fa-3" aria-hidden="true"></i></a></td>
+            <tr ng-repeat="liste in usersCtrl.liste">
+                <td>{{liste.idEntreprise}}</td>
+                <td>{{liste.idEtudiant}}</td>
+                <td>{{liste.dateDebut}}</td>
             </tr>
         </tbody>
-    </table>-->
+    </table>
 
         <div class="section"><div class="container"><div role="tabpanel">
                     <div id="top" class="block__id"></div>

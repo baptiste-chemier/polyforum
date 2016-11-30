@@ -32,16 +32,29 @@ controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest', '$location
         var planningCtrl = this;
 
         $rootScope.title = "Planning";
+        
+        // On référence les méthodes exposées
+        planningCtrl.genererPlanning = genererPlanning;
 
-        planningCtrl.test = "5%";
-               
         planningCtrl.track = ['track-one-session','track-two-session','track-three-session','track-four-session','track-five-session'];
         
         var entreprisesPromise = PlanningRest.getEntreprises();
+        var generationPromise = PlanningRest.genenerPlanning();
+        var listePromise = PlanningRest.listerPlanning();
+        
 
         entreprisesPromise.success(function (data) {
             if (data.length > 0) { //si la liste n'est pas vide
                 planningCtrl.entreprises = data;
+            }
+        }).error(function (data) { //Si la requete provoque une erreur (code 404)
+            planningCtrl.error = data; //On affiche l'erreur brute     
+            //alert(usersCtrl.error);
+        });
+        
+       listePromise.success(function (data) {
+            if (data.length > 0) { //si la liste n'est pas vide
+                planningCtrl.liste = data;
             }
         }).error(function (data) { //Si la requete provoque une erreur (code 404)
             planningCtrl.error = data; //On affiche l'erreur brute     
@@ -104,6 +117,11 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
 
         // On recupere l'id de l'employe
         userCtrl.id = $routeParams.id;
+        
+        // Récupère la liste des profils
+        UsersRest.getProfil().success(function (data) {
+            userCtrl.profils = data;
+        });
 
         // Si l'id est dÃ©fini, c'est modification
         // sinon ce sera un ajout
@@ -146,7 +164,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
             userR.success(function (data, status) {
                 if (status === 200) {
                     userCtrl.user = data;
-
+                    userCtrl.selectedOptionProfil = userCtrl.user.idProfil;
                 }
             }).error(function (data) {
                 userCtrl.error = data;
@@ -159,11 +177,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
             $location.path('/users');
         }
 
-        /**
-         * On a clique sur le bouton valider
-         * @param {type} id : id de l'employe modifie
-         * @param {type} form : le formulaire complet
-         */
+
         function validateUser(id, form) {
             // Si tout a ete saisi, pas de zone oubliee
             if (form.$valid) {
@@ -172,11 +186,13 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
 
                 user.dateDebutDispo = userCtrl.time.getTime();
                 user.dateFinDispo = userCtrl.timefin.getTime();
+                
+                user.idProfil = userCtrl.selectedOptionProfil.id;
+                user.password = userCtrl.user.nom + userCtrl.user.prenom;
 
                 // si on a un id => c'est une modification
                 if (id) {
                     // Demande de mise a  jour de l'employe
-                    userCtrl.log = "add";
                     UsersRest.updateUser(user, userCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle liste des employes
                         // Sinon on affiche l'erreur
@@ -221,10 +237,6 @@ controllers.controller('SallesCtrl', ['$rootScope', 'SallesRest', '$location', '
         // On référence les méthodes exposées
         sallesCtrl.deleteSalle = deleteSalle;
 
-        /* Si la requête aboutit (code 200) on affecte le jSon retourné
-         * à la variable sallesCtrl.salles qui sera affichée
-         * par la vue salles.html
-         */
         sallesPromise.success(function (data) {
             if (data.length > 0) { //si la liste n'est pas vide
                 sallesCtrl.salles = data;
@@ -279,9 +291,6 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
 
         SallesRest.getSalles();
 
-        // S'il s'agit d'une demande de modification, il faut lire l'employé,
-        // positionner les listes déroulantes (jobs et services) en fonction
-        // des valeurs de l'employé
         if (salleCtrl.id > 0) {
             var salleS = SallesRest.getSalle($routeParams.id);
             salleS.success(function (data, status) {
@@ -294,11 +303,7 @@ controllers.controller('SalleCtrl', ['$rootScope', 'SallesRest', '$routeParams',
             });
         }
 
-        /**
-         * On a cliqué sur le bouton valider
-         * @param {type} id : id de l'employé modifié
-         * @param {type} form : le formulaire complet
-         */
+
         function validateSalle(id, form) {
             // Si tout a été saisi, pas de zone oubliée
             if (form.$valid) {
@@ -415,9 +420,7 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
             monCompteCtrl.timeClosed = true;
         };
 
-        // S'il s'agit d'une demande de modification, il faut lire l'employÃ©,
-        // positionner les listes dÃ©roulantes (jobs et services) en fonction
-        // des valeurs de l'employÃ©
+
         if (monCompteCtrl.id > 0) {
             var userR = UsersRest.getUser($routeParams.id);
             userR.success(function (data, status) {
@@ -435,11 +438,6 @@ controllers.controller('MonCompteCtrl', ['$rootScope', 'UsersRest', '$routeParam
             $location.path('accueil');
         }
 
-        /**
-         * On a cliquÃ© sur le bouton valider
-         * @param {type} id : id de l'employÃ© modifiÃ©
-         * @param {type} form : le formulaire complet
-         */
         function validateUser(id, form) {
             // Si tout a Ã©tÃ© saisi, pas de zone oubliÃ©e
             if (form.$valid) {
