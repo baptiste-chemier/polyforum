@@ -665,6 +665,14 @@ controllers.controller('CompanyChoiceCtrl', ['$rootScope', '$location', 'ChoixCo
 
         $rootScope.user = UserService.currentUser;
 
+        $rootScope.data = {
+            ordre: null,
+            availableOrdre: [
+                {id: '1', name: 'Je veux le voir'},
+                {id: '2', name: 'Je suis interessé'},
+                {id: '3', name: 'Je veux le voir absolument'}
+            ]
+        };
 
         companyChoiceCtrl.ajoutEntrepriseMesChoix = ajoutEntrepriseMesChoix;
         companyChoiceCtrl.deleteEntrepriseMesChoix = deleteEntrepriseMesChoix;
@@ -693,26 +701,46 @@ controllers.controller('CompanyChoiceCtrl', ['$rootScope', '$location', 'ChoixCo
                 }
             }).error(function (data) { //Si la requÃªte a provoquÃ© une erreur (code 404)
                 companyChoiceCtrl.error = data; //On affiche l'erreur brute     
-                //alert(usersCtrl.error);
             });
 
         }
 
-        function ajoutEntrepriseMesChoix(id_entreprise, index) {
+        function ajoutEntrepriseMesChoix(id_etudiant, index) {
+            var ordre = angular.element('#id_ordre_'+index).val();
+            var duree = angular.element('#duree_'+index).val();
+            var error = false;
+            
+            companyChoiceCtrl.error = "";
+            if (duree > 30) {
+                companyChoiceCtrl.error += "Les entretiens ne peuvent durer plus de 30 minutes \n";
+                angular.element('#duree_'+index).val(30);
+                error = true;
+            } else if (duree === "") {
+                companyChoiceCtrl.error += "Vous devez saisir une durée pour les entretiens (maximum 30 minutes) \n";
+                error = true;
+            }
+            
+            if (ordre === "") {
+                companyChoiceCtrl.error += "Vous devez selectionner une priorité pour les entretiens \n";
+                error = true;
+            }
 
-            ChoixEtudiant.saveChoix(parseInt(UserService.currentUser.id), id_entreprise, 1).success(function () {
-                var entreprise = choiceCtrl.choices[index];
-                choiceCtrl.choices.splice(index, 1);
-                choiceCtrl.myChoices.push(entreprise);
+            if (!error) {
+                ChoixCompany.saveChoix(id_etudiant, parseInt(UserService.currentUser.id), ordre, duree).success(function () {
+                 var entreprise = companyChoiceCtrl.choices[index];
+                 companyChoiceCtrl.choices.splice(index, 1);
+                 companyChoiceCtrl.myChoices.push(entreprise);
+                 
+                 }); 
+            }
 
-            });
         }
 
-        function deleteEntrepriseMesChoix(id_entreprise, index) {
-            ChoixEtudiant.deleteChoix(id_entreprise, parseInt(UserService.currentUser.id)).success(function () {
-                var entreprise = choiceCtrl.myChoices[index];
-                choiceCtrl.myChoices.splice(index, 1);
-                choiceCtrl.choices.push(entreprise);
+        function deleteEntrepriseMesChoix(id_etudiant, index) {
+            ChoixCompany.deleteChoix(parseInt(UserService.currentUser.id), id_etudiant).success(function () {
+                var entreprise = companyChoiceCtrl.myChoices[index];
+                companyChoiceCtrl.myChoices.splice(index, 1);
+                companyChoiceCtrl.choices.push(entreprise);
 
             });
         }

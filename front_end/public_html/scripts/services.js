@@ -39,7 +39,10 @@ services.factory('Config', [function () {
             
             //Choix Entreprise
             urlChoixEntreprise: '/choixEntreprise',
-            urlGetChoixEntrepriseNonAJouter: '/listerEtudiantNonAjoutee'
+            urlGetChoixEntrepriseNonAJouter: '/listerEtudiantNonAjoutee',
+            urlGetteurChoixEntreprise: '/lister', 
+            urlDeleteChoixEntreprise:'/supprimer', 
+            urlsaveChoixEntreprise: '/ajouter'
 
         };
     }]);
@@ -275,15 +278,15 @@ services.factory('ChoixCompany', ['$http', 'Config',
 
         return choixRest;
 
-        function saveChoix(id_etudiant, id_entreprise, ordre) {
-            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlsaveChoixEtudiant;
+        function saveChoix(id_etudiant, id_entreprise, ordre, duree) {
+            var url = Config.urlServer + Config.urlChoixEntreprise + Config.urlsaveChoixEntreprise;
 
-            return $http.post(url, {"id_etudiant": id_etudiant, "id_entreprise": id_entreprise, "ordre": ordre, "duree": 10});
+            return $http.post(url, {"id_etudiant": id_etudiant, "id_entreprise": id_entreprise, "ordre": ordre, "duree": duree});
         }
 
-        function getChoix(idEtu) {
-            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlGetteurChoixEtudiant + "/" + idEtu;
-            ;
+        function getChoix(id_entreprise) {
+            var url = Config.urlServer + Config.urlChoixEntreprise + Config.urlGetteurChoixEntreprise + "/" + id_entreprise;
+
             return $http.get(url);
         }
 
@@ -294,7 +297,7 @@ services.factory('ChoixCompany', ['$http', 'Config',
         }
 
         function deleteChoix(id_entreprise, id_etudiant) {
-            var url = Config.urlServer + Config.urlChoixEtudiant + Config.urlDeleteChoixEtudiant + "/" + id_etudiant + "/" + id_entreprise;
+            var url = Config.urlServer + Config.urlChoixEntreprise + Config.urlDeleteChoixEntreprise + "/" + id_entreprise + "/" + id_etudiant;
 
             return $http.get(url);
         }

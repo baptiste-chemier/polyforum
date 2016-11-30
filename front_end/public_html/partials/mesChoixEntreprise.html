@@ -1,14 +1,30 @@
-
+<div class="form-group" >
+    <div class="col-sm-6 col-sm-offset-3" ng-show="companyChoiceCtrl.error" >
+        <div class="alert-danger" role="alert">
+            <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+            {{companyChoiceCtrl.error}}
+        </div>
+    </div>
+</div>
 <div class="col-sm-6">
     <table class="table table-striped">
         <thead>
             <tr>
-                <td colspan="2">{{companyChoiceCtrl.titreColoneAChoisir}}</td>
+                <td colspan="3">{{companyChoiceCtrl.titreColoneAChoisir}}</td>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="choice in companyChoiceCtrl.choices">
                 <td>{{choice.prenom}} {{choice.nom}}</td>
+                <td>
+                    <input name="duree" id="{{'duree_'+$index}}" type="text" class="form-control" placeholder="Durée en minutes" required />
+                </td>
+                <td>
+                    <select name="ordre" id="{{'id_ordre_'+$index}}"  class="form-control">
+                        <option value="">Priorité</option>
+                        <option ng-repeat="option in data.availableOrdre" value="{{option.id}}">{{option.name}}</option>
+                    </select>
+                </td>
                 <td>
                     <a href="" title="Ajouter" ng-click="companyChoiceCtrl.ajoutEntrepriseMesChoix(choice.id, $index)">
                         <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
@@ -23,13 +39,13 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <td colspan="2">{{choiceCtrl.titreColoneMesChoix}}</td>
+                <td colspan="2">{{companyChoiceCtrl.titreColoneMesChoix}}</td>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="myChoice in choiceCtrl.myChoices">
+            <tr ng-repeat="myChoice in companyChoiceCtrl.myChoices">
                 <td>
-                    <a href="" title="Supprimer" ng-click="choiceCtrl.deleteEntrepriseMesChoix(myChoice.id, $index)">
+                    <a href="" title="Supprimer" ng-click="companyChoiceCtrl.deleteEntrepriseMesChoix(myChoice.id, $index)">
                         <i class="fa fa-arrow-circle-left" aria-hidden="true"></i>
                     </a>
                 </td>

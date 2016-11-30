@@ -56,31 +56,32 @@
                                 <i class="fa fa-arrow-right fa-lg"></i> Connexion
                             </a>
                         </li>
-                        <li ng-show="user.isLoggedIn">
-                            <a href="#">
+                        <li ng-if="user.isLoggedIn ">
+                            <a href="#/accueil">
                                 <i class="fa fa-home fa-lg"></i> Accueil
                             </a>
                         </li>
-                        <li ng-show="user.isLoggedIn">
+                        <li ng-if="user.isLoggedIn 
+                            ">
                             <a href="#/monCompte/1">
                                 <i class="fa fa-sign-in fa-lg"></i> Mon compte
                             </a>
                         </li>
-                        <li ng-show="user.isStudent">
+                        <li ng-if="user.isStudent == 'true'">
                             <a href="#/meschoix">
                                 <i class="fa fa-book fa-lg"></i> Mes Choix
                             </a>
                         </li>
-                        <li ng-show="user.isCompany">
+                        <li ng-if="user.isCompany">
                             <a href="#/meschoixEntreprise">
                                 <i class="fa fa-book fa-lg"></i> Mes Choix
                             </a>
                         </li>
-                        <li ng-show="user.isTeacher">
+                        <li ng-if="user.isTeacher  == 'true'">
                             <a href="#/config/1"><i class="fa fa-cog fa-lg"></i> Configuration</a>
                         </li> 
 
-                        <li ng-show="user.isTeacher">
+                        <li ng-if="user.isTeacher  == 'true'">
                             <a href="#/salles"><i class="fa fa-map-marker fa-lg"></i> Salles </a>
                         </li>
 
@@ -90,12 +91,12 @@
                             </a>
                         </li>
 
-                        <li ng-show="user.isTeacher">
+                        <li ng-if="user.isTeacher  == 'true'">
                             <a href="#/users">
                                 <i class="fa fa-users fa-lg"></i> Utilisateur
                             </a>
                         </li>
-                        <li ng-show="user.isLoggedIn">
+                        <li ng-if="user.isLoggedIn  == 'true'">
                             <a href="#/apropos">
                                 <i class="fa fa-info-circle fa-lg"></i> A Propos
                             </a>
