@@ -1,6 +1,5 @@
 package com.application.polytech.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -95,18 +94,6 @@ public class UtilisateurServiceImpl implements UtilisateurService {
         for (final Utilisateur utilisateur : utilisateurs) {
             this.utilisateurDao.addUtilisateur(utilisateur);
         }
-    }
-
-    /*
-     * (non-Javadoc)
-     * @see com.application.polytech.services.UtilisateurService#isDispo(java.util.Date, com.application.polytech.model.Utilisateur)
-     */
-    @Override
-    public boolean isDispo(final Date dateFin, final Utilisateur utilisateur) {
-        if (utilisateur.getDateDebutDispo().before(dateFin)) {
-            return false;
-        }
-        return true;
     }
 
     /*

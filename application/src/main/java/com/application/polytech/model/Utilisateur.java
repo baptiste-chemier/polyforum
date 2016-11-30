@@ -1,7 +1,6 @@
 package com.application.polytech.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -48,14 +47,6 @@ public class Utilisateur implements Serializable {
     /** The id profil. */
     @Column(name = "id_profil", nullable = false)
     private Long idProfil;
-
-    /** The date debut dispo. */
-    @Column(name = "date_debut_dispo")
-    private Date dateDebutDispo;
-
-    /** The date fin dispo. */
-    @Column(name = "date_fin_dispo")
-    private Date dateFinDispo;
 
     /** The password. */
     @Column(name = "password", nullable = false)
@@ -167,42 +158,6 @@ public class Utilisateur implements Serializable {
      */
     public final void setIdProfil(final Long idProfil) {
         this.idProfil = idProfil;
-    }
-
-    /**
-     * Gets the date debut dispo.
-     *
-     * @return the date debut dispo
-     */
-    public final Date getDateDebutDispo() {
-        return this.dateDebutDispo;
-    }
-
-    /**
-     * Sets the date debut dispo.
-     *
-     * @param dateDebutDispo the new date debut dispo
-     */
-    public final void setDateDebutDispo(final Date dateDebutDispo) {
-        this.dateDebutDispo = dateDebutDispo;
-    }
-
-    /**
-     * Gets the date fin dispo.
-     *
-     * @return the date fin dispo
-     */
-    public final Date getDateFinDispo() {
-        return this.dateFinDispo;
-    }
-
-    /**
-     * Sets the date fin dispo.
-     *
-     * @param dateFinDispo the new date fin dispo
-     */
-    public final void setDateFinDispo(final Date dateFinDispo) {
-        this.dateFinDispo = dateFinDispo;
     }
 
     /**
