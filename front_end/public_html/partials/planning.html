@@ -1,328 +1,57 @@
 <link href="css/planning.css" rel="stylesheet"> 
 <div class="planning">
     <h1>Planning</h1>
-     
-<table class="table-responsive table table-bordered table-striped">
+
+    <table class="table-responsive table table-bordered table-striped">
         <thead>
             <tr>
-                <th>Identifiant / e-mail</th>
-                <th>Nom</th>                      
-                <th>Prénom</th>
-               
+                <th>Identifiant</th>
+                <th>IdEtu</th>
+                <th>Datedebut</th>                      
+                <th>Datefin</th>
+
             </tr>
         </thead>
-           <tbody>
-            <tr ng-repeat="liste in usersCtrl.liste">
+        <tbody>
+            <tr ng-repeat="liste in planningCtrl.liste">
                 <td>{{liste.idEntreprise}}</td>
                 <td>{{liste.idEtudiant}}</td>
-                <td>{{liste.dateDebut}}</td>
+                <td>{{liste.dateDebut.getHours()}}:{{('0' + liste.dateDebut.getMinutes()).slice(-2)}}</td>
+                <td>{{liste.dateFin.getHours()}}:{{('0' + liste.dateFin.getMinutes()).slice(-2)}}</td>
             </tr>
         </tbody>
     </table>
 
-        <div class="section"><div class="container"><div role="tabpanel">
-                    <div id="top" class="block__id"></div>
-                    <div id="day-tabs-content" class="tab-content">
-                        <div class="day tab-pane active" id="day-one" role="tabpanel">
-                            <table class="schedule-table">
-                                <thead><tr>
-                                        <th> </th>
-                                        <th ng-repeat="entreprise in planningCtrl.entreprises" width="*" ng-class="planningCtrl.track[$index%planningCtrl.track.length]" >{{entreprise.nom}}</th>
-                                </tr></thead>
-                                <tbody>                                  
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>08:00</td>
-                                        <td colspan="5" class="other">Registration</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>09:30</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">09:30 - 09:40</div>Welcome</td>
-                                        <td class="gap track-two-session" rowspan="2"> 
-                                        </td>
-                                        <td class="gap track-three-session" rowspan="2"> 
-                                        </td>
-                                        <td class="gap track-four-session" rowspan="2"> 
-                                        </td>
-                                        <td class="gap track-five-session" rowspan="2"> 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>09:40</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">09:40 - 10:30</div>
-                                            <h2>Keynote</h2>
-                                                <p>Miško Hevery and Jules Kremer</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>10:30</td>
-                                        <td colspan="5" class="break">Morning Break</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>11:00</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">11:00 - 11:20</div>
-                                            <h2>Mobile apps? Trust no one... except me</h2>
-                                                <p>Jeff Cross</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-two-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">11:00 - 11:45</div>
-                                            <h2>Secure your Angular applications</h2>
-                                                <p>Gleb Bahmutov</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-three-session" rowspan="4">
-                                            <div class="visible-xs-inline time-period">11:00 - 12:45</div>
-                                            <h2>Mini Workshop: New Data Architecture in Angular 2</h2>
-                                                <p>Gerard Sans</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="gap track-four-session"> 
-                                        </td>
-                                        <td class="gap track-five-session"> 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>11:25</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">11:25 - 11:45</div>
-                                            <h2>Rescue your mobile experience!</h2>
-                                                <p>Alex Rickabaugh</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>11:50</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">11:50 - 12:15</div>
-                                            <h2>Angular 2.0 Animations</h2>
-                                                <p>Matias Niemela</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-two-session">
-                                            <div class="visible-xs-inline time-period">11:50 - 12:15</div>
-                                            <h2>One Code to rule them all: Cross-platform development with Angular 2, Cordova &amp; Electron</h2>
-                                                <p>Christian Weyer and Thorsten Hans</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-four-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">11:50 - 12:45</div>
-                                           <h2>Office Hours</h2>
-                                                <p>Julie Ralph, Kara Erickson, Todd Motto, Christoph Burgdorf, Joe Eames and Martin Probst</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-five-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">11:50 - 12:45</div>
-                                            <h2>Panel Q&amp;A: Architecture</h2>
-                                                <p>Ben Lesh, Miško Hevery, Uri Goldstein and Victor Savkin</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>12:20</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">12:20 - 12:45</div>
-                                            <h2>Angular Material 2</h2>
-                                                <p>Jeremy Elbourn and Kara Erickson</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-two-session">
-                                            <div class="visible-xs-inline time-period">12:20 - 12:45</div>
-                                           <h2>SEO best practices and requirements for modern sites</h2>
-                                                <p>John Mueller</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>12:45</td>
-                                        <td colspan="5" class="break">Lunch Break</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>13:45</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">13:45 - 13:50</div>Welcome back</td>
-                                        <td class="track-two-session">
-                                            <div class="visible-xs-inline time-period">13:45 - 13:50</div>Welcome back</td>
-                                        <td class="gap track-three-session" rowspan="3"> 
-                                        </td>
-                                        <td class="track-four-session" rowspan="3">
-                                            <div class="visible-xs-inline time-period">13:45 - 14:35</div>
-                                            <h2>Office Hours</h2>
-                                                <p>Miško Hevery, Jen Looper, Pascal Precht, Gerard Sans, Sani Yusuf, Gleb Bahmutov and John Mueller</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-five-session" rowspan="3">
-                                            <div class="visible-xs-inline time-period">13:45 - 14:35</div>
-                                            <h2>Panel Q&amp;A: User Interface</h2>
-                                                <p>Jeremy Elbourn, Thomas Burleson, Matias Niemela, Aysegul Yonet, Kara Erickson and Marcy Sutton</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>13:50</td>
-                                        <td class="track-one-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">13:50 - 14:35</div>
-                                            <h2>The Angular 2 Compiler</h2>
-                                                <p>Tobias Bosch</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-two-session">
-                                            <div class="visible-xs-inline time-period">13:50 - 14:10</div>
-                                            <h2>Cross Site Request Funkery: Securing Your Angular Apps From Evil Doers</h2>
-                                                <p>Dave Smith</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>14:15</td>
-                                        <td class="track-two-session">
-                                            <div class="visible-xs-inline time-period">14:15 - 14:35</div>
-                                            <h2>Why common sense is not enough: user testing and prototyping</h2>
-                                                <p>Ekaterina Orlova</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>14:40</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">14:40 - 15:05</div>
-                                            <h2>Building Progressive Web Apps and Hybrid Apps with Ionic</h2>
-                                                <p>Adam Bradley and Brandy Carney</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-two-session">
-                                            <div class="visible-xs-inline time-period">14:40 - 15:05</div>
-                                            <h2>Go beast mode with realtime reactive interfaces in Angular 2 and Firebase (observables)</h2>
-                                                <p>Lukas Ruebbelke</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-three-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">14:40 - 15:35</div>
-                                            <h2>Mini Workshop: Consumer IoT with Angular 2 Workshop (Part 1)</h2>
-                                                <p>Gil Fink and Uri Shaked</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-four-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">14:40 - 15:25</div>
-                                           <h2>Office Hours</h2>
-                                                <p>Alex Rickabaugh, Jeff Cross, Dave Smith, Aaron Frost, Igor Kamenetsky, Raul Jimenez, Jason Bedard and Jesús Rodríguez Rodríguez</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-five-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">14:40 - 15:35</div>
-                                            <h2>Panel Q&amp;A: Testing</h2>
-                                                <p>Julie Ralph, Ekaterina Orlova, Carmen Popoviciu, Joe Eames and Gerard Sans</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>15:10</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">15:10 - 15:35</div>
-                                            <h2>Redux with AngularJS</h2>
-                                                <p>Pavithra Kodmad</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-two-session">
-                                            <div class="visible-xs-inline time-period">15:10 - 15:35</div>
-                                            <h2>Storytelling with your data</h2>
-                                                <p>Aysegul Yonet</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>15:35</td>
-                                        <td colspan="5" class="break">Afternoon Break</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>16:05</td>
-                                        <td class="track-one-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">16:05 - 16:50</div>
-                                            <h2>Optimizing Angular 2 Apps</h2>
-                                                <p>Martin Probst</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-two-session">
-                                            <div class="visible-xs-inline time-period">16:05 - 16:25</div>
-                                           <h2>Learning the New Tech Lingua Franca: Social Media</h2>
-                                                <p>Tracy Lee</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-three-session" rowspan="3">
-                                            <div class="visible-xs-inline time-period">16:05 - 17:20</div>
-                                           <h2>Mini Workshop: Consumer IoT with Angular 2 Workshop (Part 2)</h2>
-                                                <p>Gil Fink and Uri Shaked</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-four-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">16:05 - 16:50</div>
-                                            <h2>Office Hours</h2>
-                                                <p>Victor Savkin, Ben Lesh, Jeremy Elbourn, Anas Firdousi, Tim Ruffles, Thomas Burleson and Igor Minar</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-five-session" rowspan="2">
-                                            <div class="visible-xs-inline time-period">16:05 - 16:50</div>
-                                            <h2>Panel Q&amp;A: Mobile &amp; Progressive Web Apps</h2>
-                                                <p>Brandy Carney, Adam Bradley, Jen Looper, Jeff Cross and Alex Rickabaugh</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>16:30</td>
-                                        <td class="cancelled">
-                                            <div class="visible-xs-inline time-period">16:30 - 16:50</div>
-                                            <h2>Cancelled: Creating consumable components</h2><p>Due to unforeseen circumstances this session has been cancelled.</p><p>Scott Moss</p>
-                                            <p class="clearfix"></p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>16:55</td>
-                                        <td class="track-one-session">
-                                            <div class="visible-xs-inline time-period">16:55 - 17:20</div>
-                                           <h2>Why I am betting my future on Angular 2</h2>
-                                                <p>Shai Reznik</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="track-two-session">
-                                            <div class="visible-xs-inline time-period">16:55 - 17:20</div>
-                                            <h2>Neural Networks and Machine Learning. Building Intelligent Angular Applications</h2>
-                                                <p>Carmen Popoviciu</p>
-                                                <p class="clearfix"></p>
-                                        </td>
-                                        <td class="gap track-four-session"> 
-                                        </td>
-                                        <td class="gap track-five-session"> 
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="time">
-                                            <div class="visible-xs-inline">Starts at </div>17:20</td>
-                                        <td colspan="5" class="other">Close of First Day / Party</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+    <table class="table-responsive table table-bordered table-striped">
+        <tbody>
+            <tr ng-repeat="(key, value) in planningCtrl.test | groupBy: 'idEntreprise'">
+                <td>{{key}}</td>
+                <td ng-repeat="player in value">{{ player.idEtudiant}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="section"><div class="container"><div role="tabpanel">
+                <div id="top" class="sr__id"></div>
+                <div id="day-tabs-content" class="tab-content">
+                    <div class="day tab-pane active" id="day-one" role="tabpanel">
+                        <table class="schedule-table table-responsive table">
+                         <!--   <thead><tr>
+                                    <th> </th>
+                                    <th ng-repeat="entreprise in planningCtrl.entreprises" width="*" ng-class="planningCtrl.track[$index % planningCtrl.track.length]" >{{entreprise.nom}}</th>
+                                </tr></thead> -->
+                            <tbody>
+                                <tr class="time" ng-repeat="(key, value) in planningCtrl.test | groupBy: 'idEntreprise'">
+                                    <td>{{key}}</td>
+                                    <td ng-class="planningCtrl.track[$index % planningCtrl.track.length]" ng-repeat="player in value">
+                                        <h2>{{ player.idEtudiant}}</h2>
+                                        <p>{{player.dateDebut.getHours()+':'+('0' + player.dateDebut.getMinutes()).slice(-2)}}</p>
+                                        <p class="clearfix">{{player.dateFin.getHours()+':'+('0' + player.dateFin.getMinutes()).slice(-2)}}</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                </div></div></div>
+                </div>
+            </div></div></div>
 </div>

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 /* 
  * DÃ©claration du module controllers qui rassemblera tous les contrÃ´leurs
@@ -32,16 +32,12 @@ controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest', '$location
         var planningCtrl = this;
 
         $rootScope.title = "Planning";
-        
-        // On référence les méthodes exposées
-        planningCtrl.genererPlanning = genererPlanning;
 
-        planningCtrl.track = ['track-one-session','track-two-session','track-three-session','track-four-session','track-five-session'];
-        
+        planningCtrl.track = ['track-one-session', 'track-two-session', 'track-three-session', 'track-four-session', 'track-five-session'];
+
         var entreprisesPromise = PlanningRest.getEntreprises();
-        var generationPromise = PlanningRest.genenerPlanning();
+        var generationPromise = PlanningRest.genererPlanning();
         var listePromise = PlanningRest.listerPlanning();
-        
 
         entreprisesPromise.success(function (data) {
             if (data.length > 0) { //si la liste n'est pas vide
@@ -51,14 +47,50 @@ controllers.controller('PlanningCtrl', ['$rootScope', 'PlanningRest', '$location
             planningCtrl.error = data; //On affiche l'erreur brute     
             //alert(usersCtrl.error);
         });
-        
-       listePromise.success(function (data) {
+
+        generationPromise.success(function (data) {
             if (data.length > 0) { //si la liste n'est pas vide
-                planningCtrl.liste = data;
+                planningCtrl.planning = data;
             }
         }).error(function (data) { //Si la requete provoque une erreur (code 404)
             planningCtrl.error = data; //On affiche l'erreur brute     
             //alert(usersCtrl.error);
+        });
+
+        listePromise.success(function (data) {
+            if (data.length > 0) { //si la liste n'est pas vide
+                planningCtrl.liste = data;
+                data.forEach(function (entretien) {
+                    // var test = new Date(entretien.dateDebut);
+                    entretien.dateDebut = new Date(entretien.dateDebut);
+                    entretien.dateFin = new Date(entretien.dateFin);
+                });
+
+                planningCtrl.test = data;
+                planningCtrl.test.forEach(function (noms) {
+                    var entreprise = PlanningRest.getUserById(noms.idEntreprise);
+                    entreprise.success(function (entreprise) {
+                        if (entreprise) { //si la liste n'est pas vide
+                            noms.idEntreprise = entreprise.nom + ' ' + entreprise.prenom;
+
+                        }
+                    }).error(function (data) {
+                        planningCtrl.error = data;
+                    });
+
+                    var etudiant = PlanningRest.getUserById(noms.idEtudiant);
+                    etudiant.success(function (etudiant) {
+                        if (etudiant) { //si la liste n'est pas vide
+                            noms.idEtudiant = etudiant.nom + ' ' + etudiant.prenom;
+
+                        }
+                    }).error(function (data) {
+                        planningCtrl.error = data;
+                    });
+                });
+            }
+        }).error(function (data) { //Si la requete provoque une erreur (code 404)
+            planningCtrl.error = data; //On affiche l'erreur brute     
         });
 
     }]);
@@ -117,7 +149,7 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
 
         // On recupere l'id de l'employe
         userCtrl.id = $routeParams.id;
-        
+
         // Récupère la liste des profils
         UsersRest.getProfil().success(function (data) {
             userCtrl.profils = data;
@@ -186,13 +218,13 @@ controllers.controller('UserCtrl', ['$rootScope', 'UsersRest', '$routeParams',
 
                 user.dateDebutDispo = userCtrl.time.getTime();
                 user.dateFinDispo = userCtrl.timefin.getTime();
-                
+
                 user.idProfil = userCtrl.selectedOptionProfil.id;
                 user.password = userCtrl.user.nom + userCtrl.user.prenom;
 
                 // si on a un id => c'est une modification
                 if (id) {
-                    // Demande de mise a  jour de l'employe
+                    // Demande de mise a  jour de l'employe 
                     UsersRest.updateUser(user, userCtrl.id).success(function (data, status) {
                         // Si c'est OK on consulte la nouvelle liste des employes
                         // Sinon on affiche l'erreur
@@ -515,14 +547,14 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
 
         function ajoutEntrepriseMesChoix(id_entreprise, index) {
 
-            ChoixEtudiant.saveChoix(parseInt(UserService.currentUser.id), id_entreprise,1).success(function(){
+            ChoixEtudiant.saveChoix(parseInt(UserService.currentUser.id), id_entreprise, 1).success(function () {
                 var entreprise = choiceCtrl.choices[index];
                 choiceCtrl.choices.splice(index, 1);
                 choiceCtrl.myChoices.push(entreprise);
-                
+
             });
         }
-        
+
         function deleteEntrepriseMesChoix(id_entreprise, index) {
             ChoixEtudiant.deleteChoix(id_entreprise, parseInt(UserService.currentUser.id)).success(function () {
                 var entreprise = choiceCtrl.myChoices[index];
@@ -534,20 +566,20 @@ controllers.controller('ChoiceCtrl', ['$rootScope', '$location', 'ChoixEtudiant'
 
     }]);
 
-controllers.controller("ConfigCtrl", ['$rootScope', 'ConfigService', '$routeParams','$location',
+controllers.controller("ConfigCtrl", ['$rootScope', 'ConfigService', '$routeParams', '$location',
     function ($rootScope, ConfigService, $routeParams, $location) {
-        
+
         $rootScope.title = "Paramètres du Forum";
         // DÃ©finition du scope
         var configCtrl = this;
-        
+
         configCtrl.id = $routeParams.id;
         configCtrl.titleH1 = "Polyforum";
-        
+
         // On reference les methodes exposees
         configCtrl.validateConfig = validateConfig;
         configCtrl.cancel = cancel;
-        
+
         var d = new Date();
         d.setHours(14);
         d.setMinutes(0);
@@ -573,8 +605,8 @@ controllers.controller("ConfigCtrl", ['$rootScope', 'ConfigService', '$routePara
         configCtrl.opentimeClosed = function () {
             configCtrl.timeClosed = true;
         };
-        
-        
+
+
         var configR = ConfigService.getConfig($routeParams.id);
         configR.success(function (data, status) {
             if (status === 200) {
@@ -589,7 +621,7 @@ controllers.controller("ConfigCtrl", ['$rootScope', 'ConfigService', '$routePara
             configCtrl.error = data;
             alert(configCtrl.error);
         });
-        
+
         // On a cliquÃ© sur le bouton Annuler
         function cancel() {
             $location.path('/accueil');

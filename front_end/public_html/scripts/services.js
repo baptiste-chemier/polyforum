@@ -10,6 +10,7 @@ services.factory('Config', [function () {
             urlServer: 'http://localhost:8080/Polyforum',
             urlUtilisateur: '/utilisateur',
             urlGetteurUser: '/lister',
+            urlGetteurEntreprise: '/listerEntreprise',
             urlUpdateUser: '/modifier',
             urlAddUser: '/ajouter',
             urlDeleteUser: '/supprimer',
@@ -30,7 +31,7 @@ services.factory('Config', [function () {
             //Planning
             urlPlanning: '/entretien',
             urlGenererPlanning: '/genererPlanning',
-            urlListerPlanning: 'lister',
+            urlListerPlanning: '/lister',
             
             //Config
             urlConfig:'/forum',
@@ -212,25 +213,31 @@ services.factory('PlanningRest', ['$http', 'Config',
         //Liste des mÃ©thodes exposÃ©es
         var planningRest = {
              getEntreprises: getEntreprises,
-             genererPlanning :genererPlanning,
-             listerPlanning : listerPlanning
+             genererPlanning: genererPlanning,
+             listerPlanning : listerPlanning,
+             getUserById : getUserById
         };
 
         return planningRest;
         
         
         function getEntreprises() {
-            var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteurUser;
+            var url = Config.urlServer + Config.urlUtilisateur + Config.urlGetteurEntreprise;
             return $http.get(url);
         }
 
         function genererPlanning(){
-            var url = Config.urlServer + Config.urlPlanning + Config.urlGenererPlanning;
+            var url = Config.urlServer + Config.urlPlanning + Config.urlGenererPlanning  + "/" + 1;
             return $http.get(url);
         }
         
         function listerPlanning(){
-            var url = Config.urlServer + Config.urlPlanning + Config.urlListerPlanning + "/" + 1;
+            var url = Config.urlServer + Config.urlPlanning + Config.urlListerPlanning;
+            return $http.get(url);
+        }
+        
+        function getUserById(id) {
+            var url = Config.urlServer + Config.urlUtilisateur +"/" + id;
             return $http.get(url);
         }
     }]);

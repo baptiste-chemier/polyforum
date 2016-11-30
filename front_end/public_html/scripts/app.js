@@ -5,6 +5,7 @@ var app = angular.module('app', [
     'ui.bootstrap', 
     'controllers',
     'directives',
+    'angular.filter',
     'services']);
 
 app.config(['$routeProvider', '$httpProvider', '$locationProvider',
