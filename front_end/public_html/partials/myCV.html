@@ -1,0 +1,21 @@
+<h1 >Votre CV</h1>
+
+<div class="row fullRow text-center">
+    <p>
+        Vous pouvez ajouter ici un CV qui vous sera utile le jour du forum à Polytech
+    </p>
+    
+</div>
+
+<div class="row text-center">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <form class="form-inline" action="http://localhost:8080/FileUploaderRESTService-1/rest/upload" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input name="file" id="filename" type="file" class="form-control"/>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+            <a href="#monCompte/{{user.id}}" class="btn btn-danger">Retour</a>
+        </form>
+    </div>
+</div>
