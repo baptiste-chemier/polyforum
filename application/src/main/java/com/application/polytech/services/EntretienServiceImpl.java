@@ -90,6 +90,7 @@ public class EntretienServiceImpl implements EntretienService {
         Entreprise entreprise = new Entreprise();
         final List<Entretien> entretiens = new ArrayList<>();
         Long idTemp = null;
+        final Forum forum = this.forumService.getForumById(idForum);
 
         final List<Salle> salles = this.salleService.getAll();
 
@@ -108,7 +109,11 @@ public class EntretienServiceImpl implements EntretienService {
                 if (etudiant != null) {
                     entreprise.getListeEtudiants().add(etudiant);
                     final Entretien entretien = this.creerEntretien(entreprise, salles, entretienDTO, etudiant, idForum);
-                    entretiens.add(entretien);
+                    if (entretien != null) {
+                        if (!entretien.getDateDebut().equals(forum.getDateFinForum())) {
+                            entretiens.add(entretien);
+                        }
+                    }
                 }
             } else {
                 Utilisateur etudiant = new Utilisateur();
@@ -116,7 +121,11 @@ public class EntretienServiceImpl implements EntretienService {
                 if (etudiant != null) {
                     entreprise.getListeEtudiants().add(etudiant);
                     final Entretien entretien = this.creerEntretien(entreprise, salles, entretienDTO, etudiant, idForum);
-                    entretiens.add(entretien);
+                    if (entretien != null) {
+                        if (!entretien.getDateDebut().equals(forum.getDateFinForum())) {
+                            entretiens.add(entretien);
+                        }
+                    }
                 }
                 if (listEntretienDTO.get(listEntretienDTO.size() - 1).equals(entretienDTO)) {
                     entreprises.add(entreprise);
@@ -125,11 +134,6 @@ public class EntretienServiceImpl implements EntretienService {
         }
 
         return entretiens;
-        //
-        // for (final Entretien entretien : entretiens) {
-        // System.out.println("Entretien : " + entretien.getId() + " | " + entretien.getIdEntreprise() + " | " + entretien.getIdUtilisateur() + " | " + entretien.getIdSalle() + " | "
-        // + entretien.getDateDebut() + " | " + entretien.getDateFin());
-        // }
     }
 
     /**
@@ -144,6 +148,7 @@ public class EntretienServiceImpl implements EntretienService {
      */
     private Entretien creerEntretien(final Entreprise entreprise, final List<Salle> salles, final EntretienDTO entretienDTO, final Utilisateur etudiant, final Long idForum) {
         final Forum forum = this.forumService.getForumById(idForum);
+        final Date dateFin = forum.getDateFinForum();
 
         if (!entreprise.aUneSalle()) {
             for (final Salle salle : salles) {
@@ -152,24 +157,43 @@ public class EntretienServiceImpl implements EntretienService {
                     entreprise.setaUneSalle(true);
                     entreprise.setIdSalle(salle.getId());
                     final long tempsEnMilliseconde = forum.getDateDebutForum().getTime();
-                    final Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
-                    salle.setDernierEntretien(finEntretien);
-                    return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), forum.getDateDebutForum(), new Timestamp(finEntretien.getTime()));
+                    Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
+                    if (finEntretien.after(dateFin)) {
+                        finEntretien = dateFin;
+                        salle.setDernierEntretien(finEntretien);
+                        return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), forum.getDateDebutForum(), new Timestamp(finEntretien.getTime()));
+                    } else {
+                        salle.setDernierEntretien(finEntretien);
+                        return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), forum.getDateDebutForum(), new Timestamp(finEntretien.getTime()));
+                    }
                 } else if (salle.getEntreprises().size() == salle.getCapacite()) {
                     if (entreprise.aUneSalle()) {
                         final long tempsEnMilliseconde = salle.getDernierEntretien().getTime();
-                        final Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
-                        salle.setDernierEntretien(finEntretien);
-                        return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
+                        Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
+                        if (finEntretien.after(dateFin)) {
+                            finEntretien = dateFin;
+                            salle.setDernierEntretien(finEntretien);
+                            return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
+                        } else {
+                            salle.setDernierEntretien(finEntretien);
+                            return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
+                        }
                     }
                 }
             }
         } else {
             final Salle s = this.salleService.getSalleById(entreprise.getIdSalle());
             final long tempsEnMilliseconde = s.getDernierEntretien().getTime();
-            final Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
+            Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
             s.setDernierEntretien(finEntretien);
-            return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
+            if (finEntretien.after(dateFin)) {
+                finEntretien = dateFin;
+                s.setDernierEntretien(finEntretien);
+                return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
+            } else {
+                s.setDernierEntretien(finEntretien);
+                return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
+            }
         }
         return null;
     }

@@ -2,7 +2,6 @@ package com.application.polytech.dao;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -63,8 +62,6 @@ public class UtilisateurDaoImpl extends AbstractDao implements UtilisateurDao {
             }
 
             utilisateurModifie.setTelephone(utilisateur.getTelephone());
-            utilisateurModifie.setDateDebutDispo(utilisateur.getDateDebutDispo());
-            utilisateurModifie.setDateFinDispo(utilisateur.getDateFinDispo());
         }
         this.getSession().update(utilisateurModifie);
     }
@@ -171,16 +168,6 @@ public class UtilisateurDaoImpl extends AbstractDao implements UtilisateurDao {
 
         final String telephone = row.getCell(5).getStringCellValue();
         utilisateur.setTelephone(telephone);
-
-        try {
-            final String dateDebutDispo = row.getCell(6).getStringCellValue();
-            utilisateur.setDateDebutDispo(formatter.parse(dateDebutDispo));
-
-            final String dateFinDispo = row.getCell(7).getStringCellValue();
-            utilisateur.setDateFinDispo(formatter.parse(dateFinDispo));
-        } catch (final ParseException e) {
-            e.printStackTrace();
-        }
 
         return utilisateur;
     }
