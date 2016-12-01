@@ -1,8 +1,8 @@
 package com.application.polytech.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+import java.util.HashMap;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -18,14 +18,23 @@ public class Entreprise implements Serializable {
     /** The id entreprise. */
     private Long idEntreprise;
 
-    /** The liste etudiants. */
-    private List<Utilisateur> listeEtudiants = new ArrayList<Utilisateur>();
-
-    /** The a une salle. */
-    private boolean aUneSalle;
+    /** The etudiants. */
+    private HashMap<Long, Etudiant> etudiants = new HashMap<Long, Etudiant>();
 
     /** The id salle. */
     private Long idSalle;
+
+    /** The dernier entretien. */
+    private Date dernierEntretien = null;
+
+    /**
+     * Instantiates a new entreprise.
+     *
+     * @param idEntreprise the id entreprise
+     */
+    public Entreprise(final Long idEntreprise) {
+        this.idEntreprise = idEntreprise;
+    }
 
     /**
      * Gets the id entreprise.
@@ -50,17 +59,17 @@ public class Entreprise implements Serializable {
      *
      * @return the liste etudiants
      */
-    public final List<Utilisateur> getListeEtudiants() {
-        return this.listeEtudiants;
+    public final HashMap<Long, Etudiant> getListeEtudiants() {
+        return this.etudiants;
     }
 
     /**
      * Sets the liste etudiants.
      *
-     * @param listeEtudiants the new liste etudiants
+     * @param etudiants the etudiants
      */
-    public final void setListeEtudiants(final List<Utilisateur> listeEtudiants) {
-        this.listeEtudiants = listeEtudiants;
+    public final void setListeEtudiants(final HashMap<Long, Etudiant> etudiants) {
+        this.etudiants = etudiants;
     }
 
     /**
@@ -70,24 +79,6 @@ public class Entreprise implements Serializable {
      */
     public static final long getSerialversionuid() {
         return serialVersionUID;
-    }
-
-    /**
-     * A une salle.
-     *
-     * @return true, if successful
-     */
-    public final boolean aUneSalle() {
-        return this.aUneSalle;
-    }
-
-    /**
-     * Sets the a une salle.
-     *
-     * @param aUneSalle the new a une salle
-     */
-    public final void setaUneSalle(final boolean aUneSalle) {
-        this.aUneSalle = aUneSalle;
     }
 
     /**
@@ -106,5 +97,41 @@ public class Entreprise implements Serializable {
      */
     public final void setIdSalle(final Long idSalle) {
         this.idSalle = idSalle;
+    }
+
+    /**
+     * Gets the etudiants.
+     *
+     * @return the etudiants
+     */
+    public final HashMap<Long, Etudiant> getEtudiants() {
+        return this.etudiants;
+    }
+
+    /**
+     * Sets the etudiants.
+     *
+     * @param etudiants the etudiants
+     */
+    public final void setEtudiants(final HashMap<Long, Etudiant> etudiants) {
+        this.etudiants = etudiants;
+    }
+
+    /**
+     * Gets the dernier entretien.
+     *
+     * @return the dernier entretien
+     */
+    public final Date getDernierEntretien() {
+        return this.dernierEntretien;
+    }
+
+    /**
+     * Sets the dernier entretien.
+     *
+     * @param dernierEntretien the new dernier entretien
+     */
+    public final void setDernierEntretien(final Date dernierEntretien) {
+        this.dernierEntretien = dernierEntretien;
     }
 }

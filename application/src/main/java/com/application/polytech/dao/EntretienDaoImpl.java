@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
 import org.hibernate.type.IntegerType;
 import org.hibernate.type.LongType;
@@ -61,5 +62,16 @@ public class EntretienDaoImpl extends AbstractDao implements EntretienDao {
     public void deleteAll() {
         final Query query = this.getSession().createSQLQuery("DELETE FROM Entretien");
         query.executeUpdate();
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see com.application.polytech.dao.EntretienDao#recupererEntretienEtudiantAvecRdv(java.lang.Long)
+     */
+    @Override
+    public List<Entretien> recupererEntretienEtudiantAvecRdv(final Long idEtudiant) {
+        final Criteria criteria = this.getSession().createCriteria(Entretien.class);
+        criteria.add(Restrictions.eq("idEtudiant", idEtudiant));
+        return criteria.list();
     }
 }

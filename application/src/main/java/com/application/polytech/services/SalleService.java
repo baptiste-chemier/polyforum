@@ -1,7 +1,9 @@
 package com.application.polytech.services;
 
+import java.util.HashMap;
 import java.util.List;
 
+import com.application.polytech.model.Entreprise;
 import com.application.polytech.model.Salle;
 
 /**
@@ -45,4 +47,12 @@ public interface SalleService {
      * @param id the id
      */
     public void deleteSalle(Long id);
+
+    /**
+     * Affecter salle.
+     *
+     * @param salles the salles
+     * @param entreprises the entreprises
+     */
+    public void affecterSalle(HashMap<Long, Salle> salles, HashMap<Long, Entreprise> entreprises);
 }

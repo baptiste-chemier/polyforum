@@ -35,4 +35,12 @@ public interface EntretienDao {
      * Delete all.
      */
     public void deleteAll();
+
+    /**
+     * Recuperer entretien etudiant avec rdv.
+     *
+     * @param idEtudiant the id etudiant
+     * @return the list
+     */
+    public List<Entretien> recupererEntretienEtudiantAvecRdv(Long idEtudiant);
 }

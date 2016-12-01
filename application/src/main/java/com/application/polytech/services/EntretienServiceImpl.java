@@ -3,6 +3,7 @@ package com.application.polytech.services;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +14,9 @@ import com.application.polytech.dao.EntretienDao;
 import com.application.polytech.model.Entreprise;
 import com.application.polytech.model.Entretien;
 import com.application.polytech.model.EntretienDTO;
+import com.application.polytech.model.Etudiant;
 import com.application.polytech.model.Forum;
 import com.application.polytech.model.Salle;
-import com.application.polytech.model.Utilisateur;
 
 /**
  * The Class EntretienServiceImpl.
@@ -67,135 +68,140 @@ public class EntretienServiceImpl implements EntretienService {
     @Override
     public void genererPlanning(final Long idForum) {
 
-        final List<EntretienDTO> listEntretienDTO = this.entretienDao.recupererMatrice();
-        final List<Entretien> entretiens = this.decouperMatrice(listEntretienDTO, idForum);
-
-        this.deleteAll();
-
-        for (final Entretien entretien : entretiens) {
-            this.entretienDao.addEntretien(entretien);
-        }
-
-    }
-
-    /**
-     * Decouper matrice.
-     *
-     * @param listEntretienDTO the list entretien DTO
-     * @param idForum the id forum
-     * @return the list
-     */
-    private List<Entretien> decouperMatrice(final List<EntretienDTO> listEntretienDTO, final Long idForum) {
-        final List<Entreprise> entreprises = new ArrayList<>();
-        Entreprise entreprise = new Entreprise();
-        final List<Entretien> entretiens = new ArrayList<>();
-        Long idTemp = null;
         final Forum forum = this.forumService.getForumById(idForum);
 
-        final List<Salle> salles = this.salleService.getAll();
+        final List<Salle> listSalles = this.salleService.getAll();
+        final HashMap<Long, Salle> salles = new HashMap<Long, Salle>();
+        for (final Salle salle : listSalles) {
+            salles.put(salle.getId(), salle);
+        }
 
-        for (final EntretienDTO entretienDTO : listEntretienDTO) {
-            if (idTemp == null || idTemp != entretienDTO.getId_entreprise()) {
+        // On vide la table entretien avant de générer le nouveau planning
+        this.deleteAll();
 
-                if (idTemp != null) {
-                    entreprises.add(entreprise);
-                }
+        // On récupère la table de corrélation des choix
+        final List<EntretienDTO> listeEntretienDTO = this.entretienDao.recupererMatrice();
 
-                idTemp = entretienDTO.getId_entreprise();
-                entreprise = new Entreprise();
-                entreprise.setIdEntreprise(idTemp);
-                Utilisateur etudiant = new Utilisateur();
-                etudiant = this.utilisateurService.getUtilisateurById(entretienDTO.getId_etudiant());
-                if (etudiant != null) {
-                    entreprise.getListeEtudiants().add(etudiant);
-                    final Entretien entretien = this.creerEntretien(entreprise, salles, entretienDTO, etudiant, idForum);
-                    if (entretien != null) {
-                        if (!entretien.getDateDebut().equals(forum.getDateFinForum())) {
-                            entretiens.add(entretien);
-                        }
-                    }
-                }
-            } else {
-                Utilisateur etudiant = new Utilisateur();
-                etudiant = this.utilisateurService.getUtilisateurById(entretienDTO.getId_etudiant());
-                if (etudiant != null) {
-                    entreprise.getListeEtudiants().add(etudiant);
-                    final Entretien entretien = this.creerEntretien(entreprise, salles, entretienDTO, etudiant, idForum);
-                    if (entretien != null) {
-                        if (!entretien.getDateDebut().equals(forum.getDateFinForum())) {
-                            entretiens.add(entretien);
-                        }
-                    }
-                }
-                if (listEntretienDTO.get(listEntretienDTO.size() - 1).equals(entretienDTO)) {
-                    entreprises.add(entreprise);
-                }
+        // On sépare chaque entreprise avec ses étudiants
+        final HashMap<Long, Entreprise> entreprises = this.decouperMatriceParEntreprise(listeEntretienDTO, forum);
+        // La map d'entreprise possède une liste d'entreprise avec leur liste d'étudiants
+
+        // Si la map d'entreprise et la liste de salles existent
+        if (!entreprises.isEmpty() && !salles.isEmpty()) {
+            this.salleService.affecterSalle(salles, entreprises);
+        }
+        // La map d'enterprise possède une liste d'entreprise avec leur liste d'étudiants et l'id de leur salle
+
+        final List<Entretien> entretiens = this.creerEntretien(listeEntretienDTO, entreprises, salles, forum);
+
+        for (final Entretien entretien : entretiens) {
+            if (entretien != null) {
+                this.entretienDao.addEntretien(entretien);
             }
         }
 
-        return entretiens;
     }
 
     /**
      * Creer entretien.
      *
-     * @param entreprise the entreprise
+     * @param listeEntretienDTO the liste entretien DTO
+     * @param entreprises the entreprises
      * @param salles the salles
-     * @param entretienDTO the entretien DTO
-     * @param etudiant the etudiant
-     * @param idForum the id forum
-     * @return the entretien
+     * @param forum the forum
+     * @return the list
      */
-    private Entretien creerEntretien(final Entreprise entreprise, final List<Salle> salles, final EntretienDTO entretienDTO, final Utilisateur etudiant, final Long idForum) {
-        final Forum forum = this.forumService.getForumById(idForum);
-        final Date dateFin = forum.getDateFinForum();
+    private List<Entretien> creerEntretien(final List<EntretienDTO> listeEntretienDTO, final HashMap<Long, Entreprise> entreprises, final HashMap<Long, Salle> salles, final Forum forum) {
+        final List<Entretien> entretiens = new ArrayList<>();
+        long tempsEnMilliseconde = 0L;
+        Date finEntretien = null;
 
-        if (!entreprise.aUneSalle()) {
-            for (final Salle salle : salles) {
-                if (salle.getEntreprises().size() < salle.getCapacite()) {
-                    salle.getEntreprises().add(entreprise);
-                    entreprise.setaUneSalle(true);
-                    entreprise.setIdSalle(salle.getId());
-                    final long tempsEnMilliseconde = forum.getDateDebutForum().getTime();
-                    Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
-                    if (finEntretien.after(dateFin)) {
-                        finEntretien = dateFin;
-                        salle.setDernierEntretien(finEntretien);
-                        return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), forum.getDateDebutForum(), new Timestamp(finEntretien.getTime()));
-                    } else {
-                        salle.setDernierEntretien(finEntretien);
-                        return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), forum.getDateDebutForum(), new Timestamp(finEntretien.getTime()));
+        // On parcourt la liste d'entretienDTO
+        for (final EntretienDTO entretienDTO : listeEntretienDTO) {
+            // Si la map d'entreprise contient l'idEntreprise de l'entretienDTO
+            if (entreprises.containsKey(entretienDTO.getId_entreprise())) {
+                final Entreprise entreprise = entreprises.get(entretienDTO.getId_entreprise());
+                // final Salle salle = salles.get(entreprise.getIdSalle());
+                // Si la liste d'étudiants de l'entreprise contient l'idEtudiant de l'entretien DTO
+                if (entreprise.getListeEtudiants().containsKey(entretienDTO.getId_etudiant())) {
+                    final Etudiant etudiant = entreprise.getListeEtudiants().get(entretienDTO.getId_etudiant());
+                    // Si la dateDebutDispo de l'étudiant = la dateFinDispo de l'étudiant : l'étudiant n'a aucun entretien
+                    // Si la salle n'a pas d'entretien : on peut ajouter l'entretien
+                    if (entreprise.getDernierEntretien() == null) {
+                        tempsEnMilliseconde = etudiant.getDateDebutDispo().getTime();
+                        finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
+                        if (finEntretien.after(forum.getDateFinForum())) {
+                            finEntretien = forum.getDateFinForum();
+                        }
+                        etudiant.setDateFinDispo(finEntretien);
+                        if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
+                            entretiens.add(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(), new Timestamp(etudiant.getDateDebutDispo().getTime()),
+                                    new Timestamp(etudiant.getDateFinDispo().getTime())));
+                        }
+                        entreprise.setDernierEntretien(finEntretien);
                     }
-                } else if (salle.getEntreprises().size() == salle.getCapacite()) {
-                    if (entreprise.aUneSalle()) {
-                        final long tempsEnMilliseconde = salle.getDernierEntretien().getTime();
-                        Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
-                        if (finEntretien.after(dateFin)) {
-                            finEntretien = dateFin;
-                            salle.setDernierEntretien(finEntretien);
-                            return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
-                        } else {
-                            salle.setDernierEntretien(finEntretien);
-                            return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
+                    // Si la salle a déjà des entretiens
+                    else {
+                        // On parcourt la liste d'entretien de la salle
+                        // Si l'étudiant a une dateDebutDispo postérieur à la dateFin de l'entretien : on peut ajouter l'entretien
+                        if (etudiant.getDateDebutDispo().after(entreprise.getDernierEntretien())) {
+                            tempsEnMilliseconde = etudiant.getDateDebutDispo().getTime();
+                            finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
+                            if (finEntretien.after(forum.getDateFinForum())) {
+                                finEntretien = forum.getDateFinForum();
+                            }
+                            etudiant.setDateFinDispo(finEntretien);
+                            if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
+                                entretiens.add(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(), new Timestamp(etudiant.getDateDebutDispo().getTime()),
+                                        new Timestamp(etudiant.getDateFinDispo().getTime())));
+                            }
+                            entreprise.setDernierEntretien(finEntretien);
+                        }
+                        // Si l'étudiant a une dateDebutDispo inférieur à la dateFin de l'entretien : on doit modifier l'entretien
+                        else {
+                            etudiant.setDateDebutDispo(entreprise.getDernierEntretien());
+                            tempsEnMilliseconde = etudiant.getDateDebutDispo().getTime();
+                            finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
+                            if (finEntretien.after(forum.getDateFinForum())) {
+                                finEntretien = forum.getDateFinForum();
+                            }
+                            etudiant.setDateFinDispo(finEntretien);
+                            if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
+                                entretiens.add(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(), new Timestamp(etudiant.getDateDebutDispo().getTime()),
+                                        new Timestamp(etudiant.getDateFinDispo().getTime())));
+                            }
+                            entreprise.setDernierEntretien(finEntretien);
                         }
                     }
                 }
             }
-        } else {
-            final Salle s = this.salleService.getSalleById(entreprise.getIdSalle());
-            final long tempsEnMilliseconde = s.getDernierEntretien().getTime();
-            Date finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
-            s.setDernierEntretien(finEntretien);
-            if (finEntretien.after(dateFin)) {
-                finEntretien = dateFin;
-                s.setDernierEntretien(finEntretien);
-                return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
-            } else {
-                s.setDernierEntretien(finEntretien);
-                return new Entretien(entreprise.getIdEntreprise(), etudiant.getId(), entreprise.getIdSalle(), new Timestamp(tempsEnMilliseconde), new Timestamp(finEntretien.getTime()));
-            }
         }
-        return null;
+        return entretiens;
+    }
+
+    /**
+     * Decouper matrice par entreprise.
+     *
+     * @param listeEntretienDTO the liste entretien DTO
+     * @param forum the forum
+     * @return the hash map
+     */
+    private HashMap<Long, Entreprise> decouperMatriceParEntreprise(final List<EntretienDTO> listeEntretienDTO, final Forum forum) {
+        final HashMap<Long, Entreprise> entreprises = new HashMap<Long, Entreprise>();
+
+        // On parcourt la liste d'entretienDTO
+        for (final EntretienDTO entretienDTO : listeEntretienDTO) {
+            // Si l'entreprise n'existe pas dans la map d'entreprises
+            if (!entreprises.containsKey(entretienDTO.getId_entreprise())) {
+                entreprises.put(entretienDTO.getId_entreprise(), new Entreprise(entretienDTO.getId_entreprise()));
+            }
+
+            final Etudiant etudiant = new Etudiant(entretienDTO.getId_etudiant(), forum.getDateDebutForum(), forum.getDateDebutForum());
+            final Entreprise entreprise = entreprises.get(entretienDTO.getId_entreprise());
+            entreprise.getListeEtudiants().put(entretienDTO.getId_etudiant(), etudiant);
+        }
+
+        return entreprises;
     }
 
     /*
@@ -214,5 +220,15 @@ public class EntretienServiceImpl implements EntretienService {
     @Override
     public void deleteAll() {
         this.entretienDao.deleteAll();
+    }
+
+    /**
+     * Recuperer entretien etudiant avec rdv.
+     *
+     * @param idEtudiant the id etudiant
+     * @return the list
+     */
+    public List<Entretien> recupererEntretienEtudiantAvecRdv(final Long idEtudiant) {
+        return this.entretienDao.recupererEntretienEtudiantAvecRdv(idEtudiant);
     }
 }

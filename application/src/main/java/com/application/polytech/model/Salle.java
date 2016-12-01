@@ -1,9 +1,7 @@
 package com.application.polytech.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.HashMap;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,15 +40,7 @@ public class Salle implements Serializable {
 
     /** The entreprises. */
     @Transient
-    private final List<Entreprise> entreprises = new ArrayList<Entreprise>();
-
-    /** The entretiens. */
-    @Transient
-    private final List<Entretien> entretiens = new ArrayList<Entretien>();
-
-    /** The dernier entretien. */
-    @Transient
-    private Date dernierEntretien = new Date();
+    private final HashMap<Long, Entreprise> entreprises = new HashMap<Long, Entreprise>();
 
     /**
      * Gets the id.
@@ -120,34 +110,7 @@ public class Salle implements Serializable {
      *
      * @return the entreprises
      */
-    public final List<Entreprise> getEntreprises() {
+    public final HashMap<Long, Entreprise> getEntreprises() {
         return this.entreprises;
-    }
-
-    /**
-     * Gets the entretiens.
-     *
-     * @return the entretiens
-     */
-    public final List<Entretien> getEntretiens() {
-        return this.entretiens;
-    }
-
-    /**
-     * Gets the dernier entretien.
-     *
-     * @return the dernier entretien
-     */
-    public final Date getDernierEntretien() {
-        return this.dernierEntretien;
-    }
-
-    /**
-     * Sets the dernier entretien.
-     *
-     * @param nouvelEntretien the new dernier entretien
-     */
-    public final void setDernierEntretien(final Date nouvelEntretien) {
-        this.dernierEntretien = nouvelEntretien;
     }
 }
