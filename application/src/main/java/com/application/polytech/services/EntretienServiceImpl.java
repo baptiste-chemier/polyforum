@@ -1,7 +1,6 @@
 package com.application.polytech.services;
 
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -92,14 +91,7 @@ public class EntretienServiceImpl implements EntretienService {
         }
         // La map d'enterprise possède une liste d'entreprise avec leur liste d'étudiants et l'id de leur salle
 
-        final List<Entretien> entretiens = this.creerEntretien(listeEntretienDTO, entreprises, salles, forum);
-
-        for (final Entretien entretien : entretiens) {
-            if (entretien != null) {
-                this.entretienDao.addEntretien(entretien);
-            }
-        }
-
+        this.creerEntretien(listeEntretienDTO, entreprises, salles, forum);
     }
 
     /**
@@ -109,10 +101,8 @@ public class EntretienServiceImpl implements EntretienService {
      * @param entreprises the entreprises
      * @param salles the salles
      * @param forum the forum
-     * @return the list
      */
-    private List<Entretien> creerEntretien(final List<EntretienDTO> listeEntretienDTO, final HashMap<Long, Entreprise> entreprises, final HashMap<Long, Salle> salles, final Forum forum) {
-        final List<Entretien> entretiens = new ArrayList<>();
+    private void creerEntretien(final List<EntretienDTO> listeEntretienDTO, final HashMap<Long, Entreprise> entreprises, final HashMap<Long, Salle> salles, final Forum forum) {
         long tempsEnMilliseconde = 0L;
         Date finEntretien = null;
 
@@ -121,11 +111,21 @@ public class EntretienServiceImpl implements EntretienService {
             // Si la map d'entreprise contient l'idEntreprise de l'entretienDTO
             if (entreprises.containsKey(entretienDTO.getId_entreprise())) {
                 final Entreprise entreprise = entreprises.get(entretienDTO.getId_entreprise());
-                // final Salle salle = salles.get(entreprise.getIdSalle());
                 // Si la liste d'étudiants de l'entreprise contient l'idEtudiant de l'entretien DTO
                 if (entreprise.getListeEtudiants().containsKey(entretienDTO.getId_etudiant())) {
                     final Etudiant etudiant = entreprise.getListeEtudiants().get(entretienDTO.getId_etudiant());
-                    // Si la dateDebutDispo de l'étudiant = la dateFinDispo de l'étudiant : l'étudiant n'a aucun entretien
+                    // Si l'étudiant existe
+                    if (etudiant != null) {
+                        final List<Entretien> entretienEtudiant = this.recupererEntretienEtudiantAvecRdv(etudiant.getIdEtudiant());
+
+                        // On parcourt la liste des entretiens de l'étudiant
+                        for (final Entretien entretien : entretienEtudiant) {
+                            // Si la dateDebutDispo est inférieur a une des dateFin d'entretien
+                            if (etudiant.getDateDebutDispo().before(entretien.getDateFin())) {
+                                etudiant.setDateDebutDispo(entretien.getDateFin());
+                            }
+                        }
+                    }
                     // Si la salle n'a pas d'entretien : on peut ajouter l'entretien
                     if (entreprise.getDernierEntretien() == null) {
                         tempsEnMilliseconde = etudiant.getDateDebutDispo().getTime();
@@ -135,14 +135,13 @@ public class EntretienServiceImpl implements EntretienService {
                         }
                         etudiant.setDateFinDispo(finEntretien);
                         if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
-                            entretiens.add(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(), new Timestamp(etudiant.getDateDebutDispo().getTime()),
-                                    new Timestamp(etudiant.getDateFinDispo().getTime())));
+                            this.entretienDao.addEntretien(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(),
+                                    new Timestamp(etudiant.getDateDebutDispo().getTime()), new Timestamp(etudiant.getDateFinDispo().getTime())));
                         }
                         entreprise.setDernierEntretien(finEntretien);
                     }
                     // Si la salle a déjà des entretiens
                     else {
-                        // On parcourt la liste d'entretien de la salle
                         // Si l'étudiant a une dateDebutDispo postérieur à la dateFin de l'entretien : on peut ajouter l'entretien
                         if (etudiant.getDateDebutDispo().after(entreprise.getDernierEntretien())) {
                             tempsEnMilliseconde = etudiant.getDateDebutDispo().getTime();
@@ -152,8 +151,8 @@ public class EntretienServiceImpl implements EntretienService {
                             }
                             etudiant.setDateFinDispo(finEntretien);
                             if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
-                                entretiens.add(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(), new Timestamp(etudiant.getDateDebutDispo().getTime()),
-                                        new Timestamp(etudiant.getDateFinDispo().getTime())));
+                                this.entretienDao.addEntretien(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(),
+                                        new Timestamp(etudiant.getDateDebutDispo().getTime()), new Timestamp(etudiant.getDateFinDispo().getTime())));
                             }
                             entreprise.setDernierEntretien(finEntretien);
                         }
@@ -167,8 +166,8 @@ public class EntretienServiceImpl implements EntretienService {
                             }
                             etudiant.setDateFinDispo(finEntretien);
                             if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
-                                entretiens.add(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(), new Timestamp(etudiant.getDateDebutDispo().getTime()),
-                                        new Timestamp(etudiant.getDateFinDispo().getTime())));
+                                this.entretienDao.addEntretien(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(),
+                                        new Timestamp(etudiant.getDateDebutDispo().getTime()), new Timestamp(etudiant.getDateFinDispo().getTime())));
                             }
                             entreprise.setDernierEntretien(finEntretien);
                         }
@@ -176,7 +175,6 @@ public class EntretienServiceImpl implements EntretienService {
                 }
             }
         }
-        return entretiens;
     }
 
     /**
