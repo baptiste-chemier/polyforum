@@ -91,7 +91,7 @@ public class EntretienServiceImpl implements EntretienService {
         }
         // La map d'enterprise possède une liste d'entreprise avec leur liste d'étudiants et l'id de leur salle
 
-        this.creerEntretien(listeEntretienDTO, entreprises, salles, forum);
+        this.accorderEntretien(listeEntretienDTO, entreprises, salles, forum);
     }
 
     /**
@@ -102,10 +102,7 @@ public class EntretienServiceImpl implements EntretienService {
      * @param salles the salles
      * @param forum the forum
      */
-    private void creerEntretien(final List<EntretienDTO> listeEntretienDTO, final HashMap<Long, Entreprise> entreprises, final HashMap<Long, Salle> salles, final Forum forum) {
-        long tempsEnMilliseconde = 0L;
-        Date finEntretien = null;
-
+    private void accorderEntretien(final List<EntretienDTO> listeEntretienDTO, final HashMap<Long, Entreprise> entreprises, final HashMap<Long, Salle> salles, final Forum forum) {
         // On parcourt la liste d'entretienDTO
         for (final EntretienDTO entretienDTO : listeEntretienDTO) {
             // Si la map d'entreprise contient l'idEntreprise de l'entretienDTO
@@ -127,54 +124,33 @@ public class EntretienServiceImpl implements EntretienService {
                         }
                     }
                     // Si la salle n'a pas d'entretien : on peut ajouter l'entretien
-                    if (entreprise.getDernierEntretien() == null) {
-                        tempsEnMilliseconde = etudiant.getDateDebutDispo().getTime();
-                        finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
-                        if (finEntretien.after(forum.getDateFinForum())) {
-                            finEntretien = forum.getDateFinForum();
-                        }
-                        etudiant.setDateFinDispo(finEntretien);
-                        if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
-                            this.entretienDao.addEntretien(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(),
-                                    new Timestamp(etudiant.getDateDebutDispo().getTime()), new Timestamp(etudiant.getDateFinDispo().getTime())));
-                        }
-                        entreprise.setDernierEntretien(finEntretien);
+                    if (entreprise.getDernierEntretien() == null || etudiant.getDateDebutDispo().after(entreprise.getDernierEntretien())) {
+                        this.creerEntretien(forum, entretienDTO, entreprise, etudiant);
                     }
-                    // Si la salle a déjà des entretiens
+                    // Si l'étudiant a une dateDebutDispo inférieur à la dateFin de l'entretien : on doit modifier l'entretien
                     else {
-                        // Si l'étudiant a une dateDebutDispo postérieur à la dateFin de l'entretien : on peut ajouter l'entretien
-                        if (etudiant.getDateDebutDispo().after(entreprise.getDernierEntretien())) {
-                            tempsEnMilliseconde = etudiant.getDateDebutDispo().getTime();
-                            finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
-                            if (finEntretien.after(forum.getDateFinForum())) {
-                                finEntretien = forum.getDateFinForum();
-                            }
-                            etudiant.setDateFinDispo(finEntretien);
-                            if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
-                                this.entretienDao.addEntretien(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(),
-                                        new Timestamp(etudiant.getDateDebutDispo().getTime()), new Timestamp(etudiant.getDateFinDispo().getTime())));
-                            }
-                            entreprise.setDernierEntretien(finEntretien);
-                        }
-                        // Si l'étudiant a une dateDebutDispo inférieur à la dateFin de l'entretien : on doit modifier l'entretien
-                        else {
-                            etudiant.setDateDebutDispo(entreprise.getDernierEntretien());
-                            tempsEnMilliseconde = etudiant.getDateDebutDispo().getTime();
-                            finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
-                            if (finEntretien.after(forum.getDateFinForum())) {
-                                finEntretien = forum.getDateFinForum();
-                            }
-                            etudiant.setDateFinDispo(finEntretien);
-                            if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
-                                this.entretienDao.addEntretien(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(),
-                                        new Timestamp(etudiant.getDateDebutDispo().getTime()), new Timestamp(etudiant.getDateFinDispo().getTime())));
-                            }
-                            entreprise.setDernierEntretien(finEntretien);
-                        }
+                        etudiant.setDateDebutDispo(entreprise.getDernierEntretien());
+                        this.creerEntretien(forum, entretienDTO, entreprise, etudiant);
                     }
                 }
             }
         }
+    }
+
+    public void creerEntretien(final Forum forum, final EntretienDTO entretienDTO, final Entreprise entreprise, final Etudiant etudiant) {
+        long tempsEnMilliseconde;
+        Date finEntretien;
+        tempsEnMilliseconde = etudiant.getDateDebutDispo().getTime();
+        finEntretien = new Date(tempsEnMilliseconde + entretienDTO.getDuree() * this.ONE_MINUTE_IN_MILLIS);
+        if (finEntretien.after(forum.getDateFinForum())) {
+            finEntretien = forum.getDateFinForum();
+        }
+        etudiant.setDateFinDispo(finEntretien);
+        if (!etudiant.getDateDebutDispo().equals(etudiant.getDateFinDispo())) {
+            this.entretienDao.addEntretien(new Entretien(entreprise.getIdEntreprise(), etudiant.getIdEtudiant(), entreprise.getIdSalle(), new Timestamp(etudiant.getDateDebutDispo().getTime()),
+                    new Timestamp(etudiant.getDateFinDispo().getTime())));
+        }
+        entreprise.setDernierEntretien(finEntretien);
     }
 
     /**
