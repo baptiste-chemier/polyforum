@@ -27,9 +27,13 @@ public class ChoixEntrepriseServiceImpl implements ChoixEntrepriseService {
      */
     @Override
     public void enregistrerChoixEntreprise(final ChoixEntreprise choixEntreprise) {
+        // On teste si l'id correspond bien à une entreprise
         final Long idEnt = this.choixEntrepriseDao.getIdEntrepriseById(choixEntreprise.getId_entreprise());
+
+        // On teste si l'id correspond bien à un étudiant
         final Long idEtu = this.choixEntrepriseDao.getIdEtudiantById(choixEntreprise.getId_etudiant());
 
+        // Si l'étudiant et l'entreprise existent
         if (idEnt != null && idEtu != null) {
             this.choixEntrepriseDao.addChoixEntreprise(new ChoixEntreprise(idEnt, idEtu, choixEntreprise.getOrdre(), choixEntreprise.getDuree()));
         }

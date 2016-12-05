@@ -9,7 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
@@ -49,10 +48,6 @@ public class Entretien implements Serializable {
     /** The date fin. */
     @Column(name = "date_fin", nullable = false)
     private Date dateFin;
-
-    /** The duree. */
-    @Transient
-    private int duree;
 
     /**
      * Instantiates a new entretien.
@@ -192,23 +187,5 @@ public class Entretien implements Serializable {
      */
     public final void setDateFin(final Date dateFin) {
         this.dateFin = dateFin;
-    }
-
-    /**
-     * Gets the duree.
-     *
-     * @return the duree
-     */
-    public final int getDuree() {
-        return this.duree;
-    }
-
-    /**
-     * Sets the duree.
-     *
-     * @param duree the new duree
-     */
-    public final void setDuree(final int duree) {
-        this.duree = duree;
     }
 }

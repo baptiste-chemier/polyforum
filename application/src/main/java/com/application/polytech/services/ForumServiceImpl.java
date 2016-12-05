@@ -45,8 +45,10 @@ public class ForumServiceImpl implements ForumService {
      */
     @Override
     public void updateForum(final Long id, final Date dateDebutForum, final Date dateFinForum, final String email) {
+        // On récupère forum à modifier
         final Forum forumModifie = this.forumDao.getForumById(id);
 
+        // Si le forum existe bien en base
         if (forumModifie != null) {
             forumModifie.setDateDebutForum(dateDebutForum);
             forumModifie.setDateFinForum(dateFinForum);
