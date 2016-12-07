@@ -61,8 +61,7 @@
                                 <i class="fa fa-home fa-lg"></i> Accueil
                             </a>
                         </li>
-                        <li ng-if="user.isLoggedIn 
-                            ">
+                        <li ng-if="user.isLoggedIn ">
                             <a href="#/monCompte/{{user.id}}">
                                 <i class="fa fa-sign-in fa-lg"></i> Mon compte
                             </a>
@@ -72,7 +71,7 @@
                                 <i class="fa fa-book fa-lg"></i> Mes Choix
                             </a>
                         </li>
-                        <li ng-if="user.isCompany">
+                        <li ng-if="user.isCompany == 'true'">
                             <a href="#/meschoixEntreprise">
                                 <i class="fa fa-book fa-lg"></i> Mes Choix
                             </a>
@@ -85,7 +84,7 @@
                             <a href="#/salles"><i class="fa fa-map-marker fa-lg"></i> Salles </a>
                         </li>
 
-                        <li >
+                        <li ng-if="user.isLoggedIn ">
                             <a href="#/planning">
                                 <i class="fa fa-calendar fa-lg"></i> Planning
                             </a>

@@ -51,7 +51,8 @@ app.config(['$routeProvider', '$httpProvider', '$locationProvider',
                 })
                 //Accueil
                 .when('/accueil', {
-                    templateUrl: 'partials/accueil.html'
+                    templateUrl: 'partials/accueil.html',
+                    controller: 'MainCtrl as mainCtrl'
                 })
                   .when('/planning', {
                     templateUrl: 'partials/planning.html',
