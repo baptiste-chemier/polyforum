@@ -79,7 +79,7 @@ services.factory('UsersRest', ['$http', 'Config',
 
         function updateUser(user, id) {
             var url = Config.urlServer + Config.urlUtilisateur + Config.urlUpdateUser + '/' + id;
-            return $http.put(url, user); //Attention
+            return $http.put(url, user);
         }
 
         function addUser(user) {

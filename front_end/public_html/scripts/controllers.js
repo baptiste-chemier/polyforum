@@ -476,9 +476,6 @@ controllers.controller('MonCompteCtrl', ['$rootScope','$scope','$http', 'UsersRe
                 // On rÃ©cupÃ¨re l'objet employee dans le scope de la vue
                 var user = monCompteCtrl.user;
 
-                user.dateDebutDispo = userCtrl.time.getTime();
-                user.dateFinDispo = userCtrl.timefin.getTime();
-
                 // si on a un id => c'est une modification
                 if (id) {
                     // Demande de mise Ã  jour de l'employÃ©
@@ -486,7 +483,7 @@ controllers.controller('MonCompteCtrl', ['$rootScope','$scope','$http', 'UsersRe
                         // Si c'est OK on consulte la nouvelle liste des employÃ©s
                         // Sinon on affiche l'erreur
                         if (status === 200) {
-                            $location.path('/users');
+                            $location.path('/accueil');
                         }
                     }).error(function (data) {
                         monCompteCtrl.error = data;
